@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.AudioStreamComponent",
+        "audioResource": {
+          "class": "com.neo.game.GameApplication",
+          "resource": "MUS_dev_Title.wav"
+        },
+        "autoplay": true
+      }
+    ]
+  }
+]
