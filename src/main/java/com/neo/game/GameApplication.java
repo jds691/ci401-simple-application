@@ -34,8 +34,8 @@ public class GameApplication {
     private static GraphicsConfig generateGraphicsConfig() {
         GraphicsConfig graphics = new GraphicsConfig();
 
-        graphics.height = 480;
-        graphics.width = 640;
+        graphics.height = 640;
+        graphics.width = 480;
 
         return graphics;
     }
