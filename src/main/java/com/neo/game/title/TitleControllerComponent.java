@@ -6,8 +6,10 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class TitleControllerComponent extends FXComponent {
     @Override
@@ -29,11 +31,15 @@ public class TitleControllerComponent extends FXComponent {
         Button quitButton = new Button("Quit");
         quitButton.setOnAction(this::onQuitButtonAction);
 
+        Label gameVersion = new Label("Version: " + Engine.getConfig().appConfig().version);
+        gameVersion.setTextFill(Color.WHITE);
+
         buttonContainer.getChildren().add(playButton);
         buttonContainer.getChildren().add(settingsButton);
         //TODO: Fix quit code
         //buttonContainer.getChildren().add(quitButton);
 
+        bottom.setLeft(gameVersion);
         bottom.setRight(buttonContainer);
         root.setBottom(bottom);
 
