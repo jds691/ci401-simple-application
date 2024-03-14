@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.title.TitleManagerComponent;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
@@ -25,7 +26,7 @@ public class GameApplication {
 
         app.name = "Tetris";
         app.version = "1.0-SNAPSHOT";
-        app.initialScene = GameApplication.class.getResource("title.branch");
+        app.initialScene = TitleManagerComponent.class.getResource("title.branch");
 
         return app;
     }

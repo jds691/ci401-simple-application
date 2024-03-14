@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Manager",
+    "components": [
+      {
+        "type": "com.neo.game.title.TitleManagerComponent"
+      }
+    ]
+  },
+  {
+    "name": "Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.AudioStreamComponent",
+        "audioResource": {
+          "class": "com.neo.game.title.TitleManagerComponent",
+          "resource": "MUS_dev_Title.wav"
+        },
+        "autoplay": true,
+        "loop": true
+      }
+    ]
+  },
+  {
+    "name": "UI",
+    "components": [
+      {
+        "type": "com.neo.game.title.TitleControllerComponent"
+      }
+    ]
+  }
+]
