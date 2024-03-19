@@ -11,11 +11,8 @@
     "name": "Music",
     "components": [
       {
-        "type": "com.neo.game.audio.AudioStreamComponent",
-        "audioResource": {
-          "class": "com.neo.game.title.TitleManagerComponent",
-          "resource": "MUS_dev_Title.wav"
-        },
+        "type": "com.neo.game.audio.MusicComponent",
+        "musicConfigKey": "titleTheme",
         "autoplay": true,
         "loop": true
       }
