@@ -2,7 +2,6 @@ package com.neo.game.title;
 
 import com.neo.twig.Engine;
 import com.neo.twig.ui.FXComponent;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -36,8 +35,8 @@ public class TitleControllerComponent extends FXComponent {
 
         buttonContainer.getChildren().add(playButton);
         buttonContainer.getChildren().add(settingsButton);
-        //TODO: Fix quit code
-        //buttonContainer.getChildren().add(quitButton);
+        //TODO: Ask for confirmation before quitting
+        buttonContainer.getChildren().add(quitButton);
 
         bottom.setLeft(gameVersion);
         bottom.setRight(buttonContainer);
@@ -54,6 +53,5 @@ public class TitleControllerComponent extends FXComponent {
 
     private void onQuitButtonAction(ActionEvent actionEvent) {
         Engine.quit();
-        Platform.exit();
     }
 }
