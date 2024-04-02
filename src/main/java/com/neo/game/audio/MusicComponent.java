@@ -21,9 +21,7 @@ public class MusicComponent extends NodeComponent {
         try {
             player = Engine.getAudioService().createStreamPlayer(SoundConfig.getInstance().getMusicLocation(musicConfigKey).toURI());
 
-            if (loop) {
-                player.setLooping(true);
-            }
+            player.setLooping(loop);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
