@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Board",
+    "components": [
+      {
+        "type": "com.neo.twig.TransformComponent"
+      },
+      {
+        "type": "com.neo.game.BoardDataComponent"
+      },
+      {
+        "type": "com.neo.game.BoardRenderComponent"
+      }
+    ]
+  }
+]

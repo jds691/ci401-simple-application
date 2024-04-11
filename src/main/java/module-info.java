@@ -7,6 +7,7 @@ module com.neo.game {
     opens com.neo.game to javafx.fxml, com.neo.twig;
     opens com.neo.game.audio to com.neo.twig;
     opens com.neo.game.title to com.neo.twig;
+    opens com.neo.game.testing to com.neo.twig;
 
     exports com.neo.game;
 }
