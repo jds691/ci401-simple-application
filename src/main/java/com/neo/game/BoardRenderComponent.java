@@ -47,9 +47,21 @@ public class BoardRenderComponent extends RenderComponent {
         context.setFill(backgroundPattern);
         context.fillRect(0, 0, BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
 
-        context.setFill(Color.WHITE);
         for (int i = 0; i < BoardDataComponent.BOARD_HEIGHT; i++) {
             for (int j = 0; j < BoardDataComponent.BOARD_WIDTH; j++) {
+                Block state = dataComponent.getBoardState(j, i);
+
+                switch (state.color) {
+                    case None -> {
+                        continue;
+                    }
+                    case Red -> context.setFill(Color.RED);
+                    case Orange -> context.setFill(Color.ORANGE);
+                    case Yellow -> context.setFill(Color.YELLOW);
+                    case Blue -> context.setFill(Color.BLUE);
+                    case Cyan -> context.setFill(Color.CYAN);
+                }
+
                 context.fillRect(j * blockSize + j, i * blockSize + i, blockSize, blockSize);
             }
         }

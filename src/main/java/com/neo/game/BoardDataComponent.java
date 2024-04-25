@@ -2,6 +2,8 @@ package com.neo.game;
 
 import com.neo.twig.scene.NodeComponent;
 
+// When checking moving blocks colliding with static ones, update from bottom to top
+
 /**
  * Contains the state for the game board at any given time.
  */
@@ -9,13 +11,23 @@ public class BoardDataComponent extends NodeComponent {
     public static final int BOARD_WIDTH = 10;
     public static final int BOARD_HEIGHT = 20;
 
-    private int[][] boardState;
+    private boolean pauseUpdates;
+
+    private Block[][] boardState;
 
     @Override
     public void start() {
         super.start();
 
-        boardState = new int[BOARD_HEIGHT][BOARD_WIDTH];
+        boardState = new Block[BOARD_HEIGHT][BOARD_WIDTH];
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        if (pauseUpdates)
+            return;
     }
 
     private void checkCollisions() {
@@ -24,7 +36,7 @@ public class BoardDataComponent extends NodeComponent {
 
     public boolean checkLineClear(int y) {
         for (int i = 0; i <= BOARD_WIDTH; i++) {
-            if (getBoardState(i, y) == 0) {
+            if (getBoardState(i, y).color == Block.Color.None) {
                 return false;
             }
         }
@@ -32,7 +44,7 @@ public class BoardDataComponent extends NodeComponent {
         return true;
     }
 
-    public int getBoardState(int x, int y) {
+    public Block getBoardState(int x, int y) {
         return boardState[y][x];
     }
 }
