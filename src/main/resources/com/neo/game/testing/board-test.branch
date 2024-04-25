@@ -9,7 +9,11 @@
         "type": "com.neo.game.BoardDataComponent"
       },
       {
-        "type": "com.neo.game.BoardRenderComponent"
+        "type": "com.neo.game.BoardRenderComponent",
+        "boardBackground": {
+          "class": "com.neo.game.BoardRenderComponent",
+          "resource": "board_background.png"
+        }
       }
     ]
   }
