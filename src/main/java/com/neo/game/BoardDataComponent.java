@@ -1,6 +1,7 @@
 package com.neo.game;
 
 import com.neo.twig.scene.NodeComponent;
+import javafx.scene.paint.Color;
 
 // When checking moving blocks colliding with static ones, update from bottom to top
 
@@ -20,6 +21,12 @@ public class BoardDataComponent extends NodeComponent {
         super.start();
 
         boardState = new Block[BOARD_HEIGHT][BOARD_WIDTH];
+
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                boardState[i][j] = new Block();
+            }
+        }
     }
 
     @Override
