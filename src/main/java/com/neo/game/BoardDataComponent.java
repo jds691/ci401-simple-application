@@ -31,7 +31,7 @@ public class BoardDataComponent extends NodeComponent {
     private SceneService sceneService;
 
     @ForceSerialize
-    private float movementDelay;
+    private double movementDelay;
     private boolean pauseUpdates;
 
     private Block[][] boardState;
