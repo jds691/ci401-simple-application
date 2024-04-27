@@ -65,6 +65,9 @@ public class BoardRenderComponent extends RenderComponent {
                 context.fillRect(j * blockSize + j, i * blockSize + i, blockSize, blockSize);
             }
         }
+
+        // Effects
+        // Gradient overlay: https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/scene/paint/LinearGradient.html
         context.restore();
     }
 }
