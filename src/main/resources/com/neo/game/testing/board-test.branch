@@ -12,7 +12,8 @@
         "loop": true
       },
       {
-        "type": "com.neo.game.BoardDataComponent"
+        "type": "com.neo.game.BoardDataComponent",
+        "movementDelay": 0.5
       },
       {
         "type": "com.neo.game.BoardRenderComponent",

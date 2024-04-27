@@ -1,6 +1,7 @@
 package com.neo.game;
 
 import com.neo.twig.Engine;
+import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.audio.AudioPlayer;
 import com.neo.twig.audio.AudioService;
 import com.neo.twig.input.InputService;
@@ -29,6 +30,8 @@ public class BoardDataComponent extends NodeComponent {
     private InputService inputService;
     private SceneService sceneService;
 
+    @ForceSerialize
+    private float movementDelay;
     private boolean pauseUpdates;
 
     private Block[][] boardState;
