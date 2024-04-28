@@ -1,6 +1,5 @@
 package com.neo.game.audio;
 
-import com.neo.game.title.TitleManagerComponent;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.config.Config;
 import com.neo.twig.config.ConfigManager;
@@ -21,7 +20,7 @@ public class SoundConfig {
     private URL blockPlace;
 
     private SoundConfig() {
-        titleTheme = TitleManagerComponent.class.getResource("MUS_Title.wav");
+        titleTheme = MusicComponent.class.getResource("MUS_Title.wav");
         bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
 
         blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
