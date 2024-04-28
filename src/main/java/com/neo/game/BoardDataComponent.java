@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.audio.SoundConfig;
 import com.neo.game.input.InputAction;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
@@ -8,8 +9,10 @@ import com.neo.twig.audio.AudioService;
 import com.neo.twig.input.InputService;
 import com.neo.twig.scene.NodeComponent;
 import com.neo.twig.scene.SceneService;
+import javafx.scene.input.KeyCode;
 import javafx.util.Pair;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +24,8 @@ public class BoardDataComponent extends NodeComponent {
 
     private AudioService audioService;
 
-    private String lineClearAudioKey;
-    private String blockPlaceAudioKey;
+    private final String lineClearAudioKey = "SFX_lineClear";
+    private final String blockPlaceAudioKey = "SFX_blockPlace";
 
     private AudioPlayer lineClearSfx;
     private AudioPlayer blockPlaceSfx;
@@ -48,6 +51,18 @@ public class BoardDataComponent extends NodeComponent {
         audioService = Engine.getAudioService();
         inputService = Engine.getInputService();
         sceneService = Engine.getSceneService();
+
+        /*try {
+            lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
+        } catch (URISyntaxException e) {
+            lineClearSfx = null;
+        }*/
+
+        try {
+            blockPlaceSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockPlaceAudioKey).toURI());
+        } catch (URISyntaxException e) {
+            blockPlaceSfx = null;
+        }
 
         boardState = new Block[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
@@ -82,6 +97,13 @@ public class BoardDataComponent extends NodeComponent {
         if (pauseUpdates)
             return;
 
+        if (Engine.getInputService().wasKeyPressed(KeyCode.P)) {
+            Block block = new Block();
+            block.color = Block.Color.Purple;
+            block.isMoving = true;
+            boardState[0][0] = block;
+        }
+
         /*
          * Tasks:
          * - Run input updates
@@ -93,8 +115,20 @@ public class BoardDataComponent extends NodeComponent {
          * - If checkLineClear for y = 0 is true, end game
          */
 
-        boolean blocksNeedMoved;
-        boolean isMovingRight;
+        boolean blocksNeedRotated = false;
+        boolean needsRotatedRight = false;
+        if (InputAction.ROTATE_LEFT.wasActivatedThisFrame()) {
+            blocksNeedRotated = true;
+        } else if (InputAction.ROTATE_RIGHT.wasActivatedThisFrame()) {
+            blocksNeedRotated = true;
+            needsRotatedRight = true;
+        }
+
+        // Filter to blocks where isMoving = true. Rotate in place based on overall shape
+        // Could be done by temporarily cloning the board state?
+
+        boolean blocksNeedMoved = false;
+        boolean isMovingRight = false;
         if (InputAction.MOVE_LEFT.isActivationHeld()) {
             blocksNeedMoved = true;
         } else if (InputAction.MOVE_RIGHT.isActivationHeld()) {
@@ -162,6 +196,7 @@ public class BoardDataComponent extends NodeComponent {
                 boardState[y][x].isMoving = false;
             }
         } else {
+            blockPlaceSfx.play();
             for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
                 for (int j = 0; j < BOARD_WIDTH; j++) {
                     boardState[i][j].isMoving = false;

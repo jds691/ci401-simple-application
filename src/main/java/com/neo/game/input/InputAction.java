@@ -9,6 +9,10 @@ public class InputAction {
     public static final InputAction MOVE_LEFT = new InputAction(CompareMode.Or, KeyCode.A, KeyCode.LEFT);
     public static final InputAction MOVE_RIGHT = new InputAction(CompareMode.Or, KeyCode.D, KeyCode.RIGHT);
     public static final InputAction MOVE_DOWN = new InputAction(CompareMode.Or, KeyCode.S, KeyCode.DOWN);
+
+    public static final InputAction ROTATE_LEFT = new InputAction(CompareMode.Or, KeyCode.Q);
+    public static final InputAction ROTATE_RIGHT = new InputAction(CompareMode.Or, KeyCode.E);
+
     private static InputService inputService;
     private final CompareMode mode;
     private final KeyCode[] keys;
