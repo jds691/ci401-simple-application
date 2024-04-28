@@ -7,7 +7,7 @@
       },
       {
         "type": "com.neo.game.BoardDataComponent",
-        "movementDelay": 500
+        "movementDelay": 1000
       },
       {
         "type": "com.neo.game.BoardRenderComponent",
