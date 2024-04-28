@@ -35,6 +35,8 @@ public class BoardDataComponent extends NodeComponent {
     private double currentMovementDelay;
     private boolean pauseUpdates;
 
+    private ArrayList<Pair<Integer, Integer>> queuedMovement;
+
     private Block[][] boardState;
 
     @Override
@@ -77,10 +79,6 @@ public class BoardDataComponent extends NodeComponent {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        /*if (inputService.wasKeyPressed(KeyCode.ENTER)) {
-            pauseUpdates = false;
-        }*/
-
         if (pauseUpdates)
             return;
 
@@ -111,11 +109,17 @@ public class BoardDataComponent extends NodeComponent {
             currentMovementDelay = movementDelay;
         }
 
-        boolean didCollisionOccur = false;
-        // Values are added as pairs, first = x second = y
-        ArrayList<Pair<Integer, Integer>> queuedMovement = new ArrayList<>();
+        boolean didCollisionOccur;
+        queuedMovement = new ArrayList<>();
 
-        // Perform updates backwards since moving blocks need to be moved in the correct order
+        didCollisionOccur = checkDownMovementCollision();
+        handleCollisions(didCollisionOccur);
+    }
+
+    // Perform updates backwards since moving blocks need to be moved in the correct order
+    private boolean checkDownMovementCollision() {
+        boolean didCollisionOccur = false;
+
         for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 Block block = boardState[i][j];
@@ -139,7 +143,11 @@ public class BoardDataComponent extends NodeComponent {
                 break;
         }
 
-        // If any of the moving blocks met a collision, prevent any other moving blocks being moved
+        return didCollisionOccur;
+    }
+
+    // If any of the moving blocks met a collision, prevent any other moving blocks being moved
+    private void handleCollisions(boolean didCollisionOccur) {
         if (!didCollisionOccur) {
             // Reverse the loop yet again since movement is queued in reverse in the loop above
             for (Pair<Integer, Integer> coordinatePair : queuedMovement) {
@@ -171,8 +179,6 @@ public class BoardDataComponent extends NodeComponent {
 
             // Request the next block be created
         }
-
-        //pauseUpdates = true;
     }
 
     public boolean checkLineClear(int y) {
