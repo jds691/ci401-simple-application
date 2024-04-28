@@ -142,9 +142,9 @@ public class BoardDataComponent extends NodeComponent {
         // If any of the moving blocks met a collision, prevent any other moving blocks being moved
         if (!didCollisionOccur) {
             // Reverse the loop yet again since movement is queued in reverse in the loop above
-            for (int i = 0; i < queuedMovement.size(); i++) {
-                int x = queuedMovement.get(i).getKey();
-                int y = queuedMovement.get(i).getValue();
+            for (Pair<Integer, Integer> coordinatePair : queuedMovement) {
+                int x = coordinatePair.getKey();
+                int y = coordinatePair.getValue();
 
                 boardState[y + 1][x].color = boardState[y][x].color;
                 boardState[y + 1][x].tone = boardState[y][x].tone;
