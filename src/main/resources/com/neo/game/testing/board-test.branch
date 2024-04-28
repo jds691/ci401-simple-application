@@ -1,21 +1,8 @@
 [
   {
-    "name": "Board",
-    "components": [
-      {
-        "type": "com.neo.twig.TransformComponent"
-      },
-      {
-        "type": "com.neo.game.BoardDataComponent",
-        "movementDelay": 1000
-      },
-      {
-        "type": "com.neo.game.BoardRenderComponent",
-        "boardBackground": {
-          "class": "com.neo.game.BoardRenderComponent",
-          "resource": "board_background.png"
-        }
-      }
-    ]
+    "location": {
+      "class": "com.neo.game.BoardDataComponent",
+      "resource": "board.twig"
+    }
   }
 ]
