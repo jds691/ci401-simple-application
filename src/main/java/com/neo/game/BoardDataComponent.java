@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.input.InputAction;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.audio.AudioPlayer;
@@ -54,22 +55,22 @@ public class BoardDataComponent extends NodeComponent {
         }
 
         boardState[0][0].isMoving = true;
-        boardState[0][0].color = Block.Color.Cyan;
+        boardState[0][0].color = Block.Color.Blue;
 
         boardState[1][1].isMoving = true;
         boardState[1][1].color = Block.Color.Cyan;
 
         boardState[1][0].isMoving = true;
-        boardState[1][0].color = Block.Color.Cyan;
+        boardState[1][0].color = Block.Color.Orange;
 
         boardState[0][1].isMoving = true;
-        boardState[0][1].color = Block.Color.Cyan;
+        boardState[0][1].color = Block.Color.Purple;
 
         boardState[0][2].isMoving = true;
-        boardState[0][2].color = Block.Color.Cyan;
+        boardState[0][2].color = Block.Color.Red;
 
         boardState[5][2].isMoving = false;
-        boardState[5][2].color = Block.Color.Red;
+        boardState[5][2].color = Block.Color.Yellow;
     }
 
     @Override
@@ -93,6 +94,15 @@ public class BoardDataComponent extends NodeComponent {
          *   - Spawn new block shape, repeat
          * - If checkLineClear for y = 0 is true, end game
          */
+
+        boolean blocksNeedMoved;
+        boolean isMovingRight;
+        if (InputAction.MOVE_LEFT.isActivationHeld()) {
+            blocksNeedMoved = true;
+        } else if (InputAction.MOVE_RIGHT.isActivationHeld()) {
+            blocksNeedMoved = true;
+            isMovingRight = true;
+        }
 
         if (currentMovementDelay > 0) {
             currentMovementDelay -= deltaTime;
@@ -137,6 +147,7 @@ public class BoardDataComponent extends NodeComponent {
                 int y = queuedMovement.get(i).getValue();
 
                 boardState[y + 1][x].color = boardState[y][x].color;
+                boardState[y + 1][x].tone = boardState[y][x].tone;
                 boardState[y + 1][x].isMoving = true;
 
                 boardState[y][x].color = Block.Color.None;

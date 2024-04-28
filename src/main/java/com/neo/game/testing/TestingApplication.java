@@ -1,5 +1,6 @@
 package com.neo.game.testing;
 
+import com.neo.game.input.InputAction;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
@@ -16,6 +17,8 @@ public class TestingApplication {
         );
 
         Engine.init(engineConfig);
+
+        InputAction.initialiseActions();
 
         Engine.start();
     }

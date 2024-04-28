@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.input.InputAction;
 import com.neo.game.title.TitleManagerComponent;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
@@ -17,6 +18,8 @@ public class GameApplication {
         );
 
         Engine.init(engineConfig);
+
+        InputAction.initialiseActions();
 
         Engine.start();
     }

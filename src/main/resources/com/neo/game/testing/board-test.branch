@@ -6,12 +6,6 @@
         "type": "com.neo.twig.TransformComponent"
       },
       {
-        "type": "com.neo.game.audio.MusicComponent",
-        "musicConfigKey": "BGM_Game",
-        "autoplay": true,
-        "loop": true
-      },
-      {
         "type": "com.neo.game.BoardDataComponent",
         "movementDelay": 500
       },

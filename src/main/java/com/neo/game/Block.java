@@ -1,5 +1,7 @@
 package com.neo.game;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Block {
     Color color;
     int tone;
@@ -7,16 +9,17 @@ public class Block {
 
     public Block() {
         color = Color.None; //For some reason enums default to null
-        tone = 0;
+        tone = ThreadLocalRandom.current().nextInt(0, 3);
         isMoving = false;
     }
 
     public enum Color {
         None,
-        Red,
-        Orange,
-        Yellow,
         Blue,
-        Cyan
+        Cyan,
+        Orange,
+        Purple,
+        Red,
+        Yellow
     }
 }
