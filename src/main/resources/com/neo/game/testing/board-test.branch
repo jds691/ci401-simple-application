@@ -4,5 +4,24 @@
       "class": "com.neo.game.BoardDataComponent",
       "resource": "board.twig"
     }
+  },
+  {
+    "name": "Game Context",
+    "components": [
+      {
+        "type": "com.neo.game.GameManager"
+      }
+    ]
+  },
+  {
+    "name": "Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "autoplay": false,
+        "loop": true,
+        "musicConfigKey": "BGM_Game"
+      }
+    ]
   }
 ]

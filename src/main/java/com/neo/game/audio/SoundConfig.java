@@ -19,11 +19,15 @@ public class SoundConfig {
     @ForceSerialize
     private URL blockPlace;
 
+    @ForceSerialize
+    private URL lineClear;
+
     private SoundConfig() {
         titleTheme = MusicComponent.class.getResource("MUS_Title.wav");
         bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
 
         blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
+        lineClear = SoundConfig.class.getResource("SFX_line_clear.wav");
     }
 
     public static SoundConfig getInstance() {
@@ -46,6 +50,7 @@ public class SoundConfig {
     public URL getSFXLocation(String key) {
         return switch (key) {
             case "SFX_blockPlace" -> blockPlace;
+            case "SFX_lineClear" -> lineClear;
             default -> null;
         };
     }

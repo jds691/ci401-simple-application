@@ -6,14 +6,13 @@ import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.audio.AudioPlayer;
 import com.neo.twig.audio.AudioService;
-import com.neo.twig.input.InputService;
 import com.neo.twig.scene.NodeComponent;
 import com.neo.twig.scene.SceneService;
-import javafx.scene.input.KeyCode;
 import javafx.util.Pair;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Contains the state for the game board at any given time.
@@ -30,7 +29,8 @@ public class BoardDataComponent extends NodeComponent {
     private AudioPlayer lineClearSfx;
     private AudioPlayer blockPlaceSfx;
 
-    private InputService inputService;
+    private GameManager gameManager;
+
     private SceneService sceneService;
 
     @ForceSerialize
@@ -42,6 +42,9 @@ public class BoardDataComponent extends NodeComponent {
 
     private Block[][] boardState;
 
+    private boolean needsNewBlockSpawn;
+    private BlockFormation pendingBlock;
+
     @Override
     public void start() {
         super.start();
@@ -49,14 +52,17 @@ public class BoardDataComponent extends NodeComponent {
         currentMovementDelay = movementDelay;
 
         audioService = Engine.getAudioService();
-        inputService = Engine.getInputService();
         sceneService = Engine.getSceneService();
 
-        /*try {
+        gameManager = sceneService.getActiveScene()
+                .findRootNode("Game Context")
+                .getComponent(GameManager.class);
+
+        try {
             lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
         } catch (URISyntaxException e) {
             lineClearSfx = null;
-        }*/
+        }
 
         try {
             blockPlaceSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockPlaceAudioKey).toURI());
@@ -71,23 +77,8 @@ public class BoardDataComponent extends NodeComponent {
             }
         }
 
-        boardState[0][0].isMoving = true;
-        boardState[0][0].color = Block.Color.Blue;
-
-        boardState[1][1].isMoving = true;
-        boardState[1][1].color = Block.Color.Cyan;
-
-        boardState[1][0].isMoving = true;
-        boardState[1][0].color = Block.Color.Orange;
-
-        boardState[0][1].isMoving = true;
-        boardState[0][1].color = Block.Color.Purple;
-
-        boardState[0][2].isMoving = true;
-        boardState[0][2].color = Block.Color.Red;
-
-        boardState[5][2].isMoving = false;
-        boardState[5][2].color = Block.Color.Yellow;
+        pendingBlock = gameManager.requestRandomBlockFormation();
+        needsNewBlockSpawn = true;
     }
 
     @Override
@@ -96,13 +87,6 @@ public class BoardDataComponent extends NodeComponent {
 
         if (pauseUpdates)
             return;
-
-        if (Engine.getInputService().wasKeyPressed(KeyCode.P)) {
-            Block block = new Block();
-            block.color = Block.Color.Purple;
-            block.isMoving = true;
-            boardState[0][0] = block;
-        }
 
         /*
          * Tasks:
@@ -114,14 +98,17 @@ public class BoardDataComponent extends NodeComponent {
          *   - Spawn new block shape, repeat
          * - If checkLineClear for y = 0 is true, end game
          */
-
         boolean blocksNeedRotated = false;
-        boolean needsRotatedRight = false;
-        if (InputAction.ROTATE_LEFT.wasActivatedThisFrame()) {
+        boolean isRotatingRight = false;
+        if (InputAction.MOVE_LEFT.wasActivatedThisFrame()) {
             blocksNeedRotated = true;
         } else if (InputAction.ROTATE_RIGHT.wasActivatedThisFrame()) {
             blocksNeedRotated = true;
-            needsRotatedRight = true;
+            isRotatingRight = true;
+        }
+
+        if (blocksNeedRotated) {
+            handleBlockRotation(isRotatingRight);
         }
 
         // Filter to blocks where isMoving = true. Rotate in place based on overall shape
@@ -152,6 +139,76 @@ public class BoardDataComponent extends NodeComponent {
 
         didCollisionOccur = checkDownMovementCollision();
         handleCollisions(didCollisionOccur);
+
+        if (needsNewBlockSpawn) {
+            int midPoint = (BOARD_WIDTH / 2) - 1;
+
+            int maxBlockLength = pendingBlock.pattern[0].length;
+
+            int halfMaxBlockLength = maxBlockLength / 2;
+
+            int startingPoint = midPoint - halfMaxBlockLength;
+
+            for (int i = 0; i < maxBlockLength; i++) {
+                for (int j = 0; j < pendingBlock.pattern.length; j++) {
+                    boolean blockExists = pendingBlock.pattern[j][i];
+                    boardState[j][startingPoint + i].isMoving = blockExists;
+                    boardState[j][startingPoint + i].color = blockExists ? pendingBlock.color : Block.Color.None;
+                    boardState[j][startingPoint + i].tone = ThreadLocalRandom.current().nextInt(0, 3);
+                }
+            }
+
+            needsNewBlockSpawn = false;
+        }
+    }
+
+    //TODO: Redo now that block formations are cached during use
+    private void handleBlockRotation(boolean isRotatingRight) {
+        // Find all moving blocks to calculate dimensions
+        // Store coordinates for later changes
+
+        int blockWidth = 0;
+        int blockHeight = 0;
+        ArrayList<Pair<Integer, Integer>> movingCoordinates = new ArrayList<>();
+
+        boolean blockWidthFound = false;
+        boolean blockHeightFound = false;
+
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            for (int y = 0; y < BOARD_HEIGHT; y++) {
+                Block block = boardState[y][x];
+
+                // Continue until the first moving block is found
+                // Once first one is found, start incrementing block values
+                // - When a non-moving block is found again, store block height and do not change it
+                // - Repeat the loops until the same occurs with the width
+
+                if (blockWidth == 0 && blockHeight == 0 && !block.isMoving)
+                    continue;
+
+                if (block.isMoving) {
+                    movingCoordinates.add(new Pair<>(x, y));
+                    if (!blockHeightFound)
+                        blockHeight++;
+
+                    blockWidth++;
+                } else {
+                    // No longer moving but we have started finding dimensions
+                    if (!blockHeightFound) {
+                        blockHeightFound = true;
+                        continue;
+                    } else {
+                        blockWidthFound = true;
+                    }
+                }
+
+                if (blockHeightFound && blockWidthFound)
+                    break;
+            }
+
+            if (blockHeightFound && blockWidthFound)
+                break;
+        }
     }
 
     private void handleHorizontalMovement(boolean isMovingRight) {
@@ -293,7 +350,6 @@ public class BoardDataComponent extends NodeComponent {
                 boardState[y][x].isMoving = false;
             }
         } else {
-            blockPlaceSfx.play();
             for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
                 for (int j = 0; j < BOARD_WIDTH; j++) {
                     boardState[i][j].isMoving = false;
@@ -306,10 +362,21 @@ public class BoardDataComponent extends NodeComponent {
                     linesCleared.add(i);
             }
 
-            if (!linesCleared.isEmpty())
+            if (!linesCleared.isEmpty()) {
                 lineClearSfx.play();
+                for (int lineY : linesCleared) {
+                    for (int i = 0; i < BOARD_WIDTH; i++) {
+                        boardState[lineY][i].color = Block.Color.None;
+                        boardState[lineY][i].isMoving = false;
+                    }
+                }
+            } else {
+                blockPlaceSfx.play();
+            }
 
             // Request the next block be created
+            pendingBlock = gameManager.requestNextBlockFormationInQueue();
+            needsNewBlockSpawn = true;
         }
     }
 
