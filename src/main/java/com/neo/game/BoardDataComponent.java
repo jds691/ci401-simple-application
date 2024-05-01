@@ -58,6 +58,10 @@ public class BoardDataComponent extends NodeComponent {
                 .findRootNode("Game Context")
                 .getComponent(GameManager.class);
 
+        gameManager.getPauseDidChangeEvent().addHandler((paused) -> {
+            pauseUpdates = paused;
+        });
+
         try {
             lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
         } catch (URISyntaxException e) {

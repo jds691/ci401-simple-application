@@ -13,6 +13,8 @@ public class InputAction {
     public static final InputAction ROTATE_LEFT = new InputAction(CompareMode.Or, KeyCode.Q);
     public static final InputAction ROTATE_RIGHT = new InputAction(CompareMode.Or, KeyCode.E);
 
+    public static final InputAction PAUSE = new InputAction(CompareMode.Or, KeyCode.ESCAPE);
+
     private static InputService inputService;
     private final CompareMode mode;
     private final KeyCode[] keys;

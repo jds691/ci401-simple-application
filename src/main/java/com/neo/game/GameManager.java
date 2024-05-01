@@ -1,5 +1,7 @@
 package com.neo.game;
 
+import com.neo.game.input.InputAction;
+import com.neo.twig.events.Event;
 import com.neo.twig.scene.NodeComponent;
 
 import java.util.ArrayDeque;
@@ -11,6 +13,9 @@ public class GameManager extends NodeComponent {
     private int currentScore;
     private BlockFormation storedBlock;
 
+    private final Event<Boolean> pauseDidChange = new Event<>();
+    private boolean isPaused;
+
     @Override
     public void start() {
         super.start();
@@ -18,6 +23,21 @@ public class GameManager extends NodeComponent {
         for (int i = 0; i < BLOCKS_TO_QUEUE; i++) {
             blockQueue.add(requestRandomBlockFormation());
         }
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        if (InputAction.PAUSE.wasActivatedThisFrame()) {
+            // Invoke pause event
+            isPaused = !isPaused;
+            pauseDidChange.emit(isPaused);
+        }
+    }
+
+    public Event<Boolean> getPauseDidChangeEvent() {
+        return pauseDidChange;
     }
 
     public BlockFormation requestNextBlockFormationInQueue() {
