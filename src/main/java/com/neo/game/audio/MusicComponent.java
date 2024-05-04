@@ -35,4 +35,12 @@ public class MusicComponent extends NodeComponent {
     public void destroy() {
         player.release();
     }
+
+    public void stop() {
+        player.stop();
+    }
+
+    public void resume() {
+        player.play();
+    }
 }

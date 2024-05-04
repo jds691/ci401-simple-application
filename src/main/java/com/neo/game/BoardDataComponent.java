@@ -43,6 +43,7 @@ public class BoardDataComponent extends NodeComponent {
     private Block[][] boardState;
 
     private boolean needsNewBlockSpawn;
+    private RotationState currentRotationState;
     private BlockFormation pendingBlock;
 
     @Override
@@ -78,6 +79,12 @@ public class BoardDataComponent extends NodeComponent {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 boardState[i][j] = new Block();
+            }
+        }
+
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                boardState[i][j].color = Block.Color.Red;
             }
         }
 
@@ -153,16 +160,29 @@ public class BoardDataComponent extends NodeComponent {
 
             int startingPoint = midPoint - halfMaxBlockLength;
 
+            boolean boardFull = false;
+
             for (int i = 0; i < maxBlockLength; i++) {
                 for (int j = 0; j < pendingBlock.pattern.length; j++) {
                     boolean blockExists = pendingBlock.pattern[j][i];
-                    boardState[j][startingPoint + i].isMoving = blockExists;
+
+                    // Block is occupied
+                    if (boardState[j][startingPoint + 1].color != Block.Color.None) {
+                        boardFull = true;
+                        break;
+                    }
+
+                    boardState[j][startingPoint + i].isMoving = true;
                     boardState[j][startingPoint + i].color = blockExists ? pendingBlock.color : Block.Color.None;
                     boardState[j][startingPoint + i].tone = ThreadLocalRandom.current().nextInt(0, 3);
                 }
             }
 
             needsNewBlockSpawn = false;
+
+            if (boardFull) {
+                gameManager.signalGameEnd();
+            }
         }
     }
 
@@ -212,6 +232,26 @@ public class BoardDataComponent extends NodeComponent {
 
             if (blockHeightFound && blockWidthFound)
                 break;
+        }
+
+        for (Pair<Integer, Integer> movingCoordinate : movingCoordinates) {
+            int x = movingCoordinate.getKey();
+            int y = movingCoordinate.getValue();
+
+            /*
+             * Take a 3 x 2 block
+             * |
+             * | _ _
+             *
+             * The transformations involved for rotating right are:
+             *
+             * (0,0) = (1, 0) = (+1, 0)
+             * (0,1) = (0, 0) = (0, +1)
+             * (1,1) = (0, 1) = (-1, 0)
+             * (2,1) = (0, 2) = (-2, +1)
+             */
+
+            TransformationManager.requestCoordinateTransformations(pendingBlock, isRotatingRight, currentRotationState);
         }
     }
 

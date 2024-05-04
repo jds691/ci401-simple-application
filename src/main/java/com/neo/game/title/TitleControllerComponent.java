@@ -1,8 +1,11 @@
 package com.neo.game.title;
 
+import com.neo.game.GameFonts;
+import com.neo.game.GameStyles;
 import com.neo.twig.Engine;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,15 +26,30 @@ public class TitleControllerComponent extends FXComponent {
 
         Button playButton = new Button("Play");
         playButton.setOnAction(this::onPlayButtonAction);
+        playButton.setFont(GameFonts.SIDE_ORDER_BODY);
+        playButton.setTextFill(Color.WHITE);
+        playButton.setPadding(new Insets(15));
+        playButton.setStyle(GameStyles.BUTTON);
+        playButton.setMaxWidth(150);
 
         Button settingsButton = new Button("Settings");
         settingsButton.setOnAction(this::onSettingsButtonAction);
+        settingsButton.setFont(GameFonts.SIDE_ORDER_BODY);
+        settingsButton.setTextFill(Color.WHITE);
+        settingsButton.setPadding(new Insets(15));
+        settingsButton.setStyle(GameStyles.BUTTON);
+        settingsButton.setMaxWidth(150);
 
         Button quitButton = new Button("Quit");
         quitButton.setOnAction(this::onQuitButtonAction);
+        quitButton.setFont(GameFonts.SIDE_ORDER_BODY);
+        quitButton.setTextFill(Color.WHITE);
+        quitButton.setPadding(new Insets(15));
+        quitButton.setStyle(GameStyles.BUTTON);
+        quitButton.setMaxWidth(150);
 
         Label gameVersion = new Label("Version: " + Engine.getConfig().appConfig().version);
-        gameVersion.setTextFill(Color.WHITE);
+        gameVersion.setFont(GameFonts.SIDE_ORDER_BODY);
 
         buttonContainer.getChildren().add(playButton);
         buttonContainer.getChildren().add(settingsButton);
@@ -40,6 +58,7 @@ public class TitleControllerComponent extends FXComponent {
 
         bottom.setLeft(gameVersion);
         bottom.setRight(buttonContainer);
+        bottom.setPadding(new Insets(16));
         root.setBottom(bottom);
 
         return root;

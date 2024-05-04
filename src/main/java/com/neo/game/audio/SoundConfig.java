@@ -17,6 +17,9 @@ public class SoundConfig {
     private URL bgmGame;
 
     @ForceSerialize
+    private URL bgmGameOver;
+
+    @ForceSerialize
     private URL blockPlace;
 
     @ForceSerialize
@@ -25,6 +28,7 @@ public class SoundConfig {
     private SoundConfig() {
         titleTheme = MusicComponent.class.getResource("MUS_Title.wav");
         bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
+        bgmGameOver = MusicComponent.class.getResource("MUS_Game_Over.mp3");
 
         blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
         lineClear = SoundConfig.class.getResource("SFX_line_clear.wav");
@@ -43,6 +47,7 @@ public class SoundConfig {
         return switch (key) {
             case "titleTheme" -> titleTheme;
             case "BGM_Game" -> bgmGame;
+            case "BGM_Game_Over" -> bgmGameOver;
             default -> null;
         };
     }

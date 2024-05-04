@@ -14,13 +14,40 @@
     ]
   },
   {
-    "name": "Music",
+    "name": "Game Music",
     "components": [
       {
         "type": "com.neo.game.audio.MusicComponent",
         "autoplay": false,
         "loop": true,
         "musicConfigKey": "BGM_Game"
+      }
+    ]
+  },
+  {
+    "name": "Game Over Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "autoplay": false,
+        "loop": true,
+        "musicConfigKey": "BGM_Game_Over"
+      }
+    ]
+  },
+  {
+    "name": "Game Over Screen",
+    "components": [
+      {
+        "type": "com.neo.game.ui.GameOverUIComponent",
+        "titleScene": {
+          "class": "com.neo.game.title.TitleControllerComponent",
+          "resource": "title.branch"
+        },
+        "gameScene": {
+          "class": "com.neo.game.testing.TestingApplication",
+          "resource": "board-test.branch"
+        }
       }
     ]
   }
