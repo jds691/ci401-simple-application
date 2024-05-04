@@ -79,6 +79,8 @@ public class BoardDataComponent extends NodeComponent {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 boardState[i][j] = new Block();
+                // Uncomment to force a game over on start
+                boardState[i][j].color = Block.Color.Red;
             }
         }
 

@@ -3,6 +3,8 @@ package com.neo.game.title;
 import com.neo.game.GameFonts;
 import com.neo.game.GameStyles;
 import com.neo.twig.Engine;
+import com.neo.twig.annotations.ForceSerialize;
+import com.neo.twig.resources.URLResource;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -14,6 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class TitleControllerComponent extends FXComponent {
+    @ForceSerialize
+    private URLResource gameScene;
+
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
@@ -66,6 +71,7 @@ public class TitleControllerComponent extends FXComponent {
     }
 
     private void onPlayButtonAction(ActionEvent actionEvent) {
+        Engine.getSceneService().setScene(gameScene.get());
     }
 
     private void onSettingsButtonAction(ActionEvent actionEvent) {

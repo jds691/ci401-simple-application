@@ -45,8 +45,8 @@
           "resource": "title.branch"
         },
         "gameScene": {
-          "class": "com.neo.game.testing.TestingApplication",
-          "resource": "board-test.branch"
+          "class": "com.neo.game.BoardDataComponent",
+          "resource": "main.branch"
         }
       }
     ]
