@@ -57,7 +57,7 @@ public class TitleControllerComponent extends FXComponent {
         gameVersion.setFont(GameFonts.SIDE_ORDER_BODY);
 
         buttonContainer.getChildren().add(playButton);
-        buttonContainer.getChildren().add(settingsButton);
+        //buttonContainer.getChildren().add(settingsButton);
         //TODO: Ask for confirmation before quitting
         buttonContainer.getChildren().add(quitButton);
         buttonContainer.setSpacing(8);
