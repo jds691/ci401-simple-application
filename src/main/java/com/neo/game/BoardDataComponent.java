@@ -43,7 +43,7 @@ public class BoardDataComponent extends NodeComponent {
     private Block[][] boardState;
 
     private boolean needsNewBlockSpawn;
-    private RotationState currentRotationState;
+    private RotationState currentRotationState = RotationState.ZERO;
     private BlockFormation pendingBlock;
 
     @Override
@@ -79,12 +79,6 @@ public class BoardDataComponent extends NodeComponent {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 boardState[i][j] = new Block();
-            }
-        }
-
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
-            for (int j = 0; j < BOARD_WIDTH; j++) {
-                boardState[i][j].color = Block.Color.Red;
             }
         }
 
@@ -167,7 +161,7 @@ public class BoardDataComponent extends NodeComponent {
                     boolean blockExists = pendingBlock.pattern[j][i];
 
                     // Block is occupied
-                    if (boardState[j][startingPoint + 1].color != Block.Color.None) {
+                    if (boardState[j][startingPoint + i].color != Block.Color.None) {
                         boardFull = true;
                         break;
                     }
