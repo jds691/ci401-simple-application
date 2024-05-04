@@ -55,6 +55,7 @@ public class TitleControllerComponent extends FXComponent {
         buttonContainer.getChildren().add(settingsButton);
         //TODO: Ask for confirmation before quitting
         buttonContainer.getChildren().add(quitButton);
+        buttonContainer.setSpacing(8);
 
         bottom.setLeft(gameVersion);
         bottom.setRight(buttonContainer);
