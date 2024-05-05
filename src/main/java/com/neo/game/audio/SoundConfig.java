@@ -25,6 +25,15 @@ public class SoundConfig {
     @ForceSerialize
     private URL lineClear;
 
+    @ForceSerialize
+    private URL pauseOpen;
+    @ForceSerialize
+    private URL pauseClose;
+    @ForceSerialize
+    private URL resume;
+    @ForceSerialize
+    private URL quit;
+
     private SoundConfig() {
         titleTheme = MusicComponent.class.getResource("MUS_Title.mp3");
         bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
@@ -32,6 +41,11 @@ public class SoundConfig {
 
         blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
         lineClear = SoundConfig.class.getResource("SFX_line_clear.wav");
+
+        pauseOpen = SoundConfig.class.getResource("SFX_Pause_Open.wav");
+        pauseClose = SoundConfig.class.getResource("SFX_Pause_Close.wav");
+        resume = SoundConfig.class.getResource("SFX_Resume.wav");
+        quit = SoundConfig.class.getResource("SFX_Quit_Fade.wav");
     }
 
     public static SoundConfig getInstance() {
@@ -56,6 +70,10 @@ public class SoundConfig {
         return switch (key) {
             case "SFX_blockPlace" -> blockPlace;
             case "SFX_lineClear" -> lineClear;
+            case "SFX_Pause_Open" -> pauseOpen;
+            case "SFX_Pause_Close" -> pauseClose;
+            case "SFX_Resume" -> resume;
+            case "SFX_Quit" -> quit;
             default -> null;
         };
     }

@@ -16,6 +16,7 @@ public class GameManager extends NodeComponent {
     private int currentScore;
     private BlockFormation storedBlock;
 
+    private boolean gameIsOver;
     private final Event<Object> gameDidEnd = new Event<>();
 
     private final Event<Boolean> pauseDidChange = new Event<>();
@@ -47,15 +48,19 @@ public class GameManager extends NodeComponent {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (InputAction.PAUSE.wasActivatedThisFrame()) {
+        if (!gameIsOver && InputAction.PAUSE.wasActivatedThisFrame()) {
             // Invoke pause event
-            isPaused = !isPaused;
-            pauseDidChange.emit(isPaused);
+            setIsPaused(!isPaused);
         }
     }
 
     public Event<Boolean> getPauseDidChangeEvent() {
         return pauseDidChange;
+    }
+
+    public void setIsPaused(boolean paused) {
+        isPaused = paused;
+        pauseDidChange.emit(isPaused);
     }
 
     public Event<Object> getGameDidEndEvent() {
@@ -77,6 +82,7 @@ public class GameManager extends NodeComponent {
     }
 
     public void signalGameEnd() {
+        gameIsOver = true;
         gameMusic.stop();
         gameOverMusic.resume();
 

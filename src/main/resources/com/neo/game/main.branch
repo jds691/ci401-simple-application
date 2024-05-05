@@ -50,5 +50,17 @@
         }
       }
     ]
+  },
+  {
+    "name": "Pause Menu",
+    "components": [
+      {
+        "type": "com.neo.game.ui.PauseMenuUIComponent",
+        "titleScene": {
+          "class": "com.neo.game.title.TitleControllerComponent",
+          "resource": "title.branch"
+        }
+      }
+    ]
   }
 ]
