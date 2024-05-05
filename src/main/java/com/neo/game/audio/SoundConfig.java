@@ -26,7 +26,7 @@ public class SoundConfig {
     private URL lineClear;
 
     private SoundConfig() {
-        titleTheme = MusicComponent.class.getResource("MUS_Title.wav");
+        titleTheme = MusicComponent.class.getResource("MUS_Title.mp3");
         bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
         bgmGameOver = MusicComponent.class.getResource("MUS_Game_Over.mp3");
 
