@@ -8,6 +8,7 @@ import com.neo.twig.resources.URLResource;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -55,6 +56,7 @@ public class TitleControllerComponent extends FXComponent {
 
         Label gameVersion = new Label("Version: " + Engine.getConfig().appConfig().version);
         gameVersion.setFont(GameFonts.SIDE_ORDER_BODY);
+        BorderPane.setAlignment(gameVersion, Pos.BOTTOM_LEFT);
 
         buttonContainer.getChildren().add(playButton);
         //buttonContainer.getChildren().add(settingsButton);
