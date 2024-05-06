@@ -80,12 +80,21 @@ public class BoardDataComponent extends NodeComponent {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 boardState[i][j] = new Block();
                 // Uncomment to force a game over on start
-                boardState[i][j].color = Block.Color.values()[ThreadLocalRandom.current().nextInt(1, Block.Color.values().length)];
+                //boardState[i][j].color = Block.Color.values()[ThreadLocalRandom.current().nextInt(1, Block.Color.values().length)];
             }
         }
 
+        for (int j = 0; j < BOARD_WIDTH - 1; j++) {
+            boardState[19][j].color = Block.Color.Red;
+        }
+        boardState[18][BOARD_WIDTH - 1].color = Block.Color.Cyan;
+        boardState[18][BOARD_WIDTH - 1].isMoving = true;
+        boardState[17][BOARD_WIDTH - 1].color = Block.Color.Cyan;
+        boardState[17][BOARD_WIDTH - 1].isMoving = true;
+
+
         pendingBlock = gameManager.requestRandomBlockFormation();
-        needsNewBlockSpawn = true;
+        needsNewBlockSpawn = false;
     }
 
     @Override
@@ -410,6 +419,39 @@ public class BoardDataComponent extends NodeComponent {
                         boardState[lineY][i].isMoving = false;
                     }
                 }
+
+                boolean boardShiftRequired = true;
+                while (boardShiftRequired) {
+                    for (int y = BOARD_HEIGHT - 1; y > 0; y--) {
+                        boolean lineIsEmpty = true;
+                        for (int x = 0; x < BOARD_WIDTH; x++) {
+                            if (boardState[y][x].color != Block.Color.None) {
+                                lineIsEmpty = false;
+                                break;
+                            }
+                        }
+
+                        if (lineIsEmpty) {
+                            boolean restOfBoardEmpty = true;
+                            for (int y2 = y; y2 > 0; y2--) {
+                                for (int x = 0; x < BOARD_WIDTH; x++) {
+                                    if (boardState[y2][x].color != Block.Color.None) {
+                                        restOfBoardEmpty = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!restOfBoardEmpty) {
+                                shiftBoard(y);
+                                // Research the whole board again
+                                y = BOARD_HEIGHT;
+                            }
+                        }
+                    }
+
+                    boardShiftRequired = false;
+                }
             } else {
                 blockPlaceSfx.play();
             }
@@ -417,6 +459,20 @@ public class BoardDataComponent extends NodeComponent {
             // Request the next block be created
             pendingBlock = gameManager.requestNextBlockFormationInQueue();
             needsNewBlockSpawn = true;
+        }
+    }
+
+    /**
+     * Shifts the board downwards
+     *
+     * @param y The line to shift downward from (this line should be clear)
+     */
+    private void shiftBoard(int y) {
+        for (int i = y - 1; i > 0; i--) {
+            for (int x = 0; x < BOARD_WIDTH; x++) {
+                boardState[i + 1][x].color = boardState[i][x].color;
+                boardState[i][x].color = Block.Color.None;
+            }
         }
     }
 
