@@ -84,17 +84,18 @@ public class BoardDataComponent extends NodeComponent {
             }
         }
 
-        for (int j = 0; j < BOARD_WIDTH - 1; j++) {
+        // Forces a line clear on game start
+        /*for (int j = 0; j < BOARD_WIDTH - 1; j++) {
             boardState[19][j].color = Block.Color.Red;
         }
         boardState[18][BOARD_WIDTH - 1].color = Block.Color.Cyan;
         boardState[18][BOARD_WIDTH - 1].isMoving = true;
         boardState[17][BOARD_WIDTH - 1].color = Block.Color.Cyan;
-        boardState[17][BOARD_WIDTH - 1].isMoving = true;
+        boardState[17][BOARD_WIDTH - 1].isMoving = true;*/
 
 
         pendingBlock = gameManager.requestRandomBlockFormation();
-        needsNewBlockSpawn = false;
+        needsNewBlockSpawn = true;
     }
 
     @Override
