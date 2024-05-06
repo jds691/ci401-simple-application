@@ -27,6 +27,10 @@ public class PauseMenuUIComponent extends FXComponent {
     private final SFXPlayer quitSfx = new SFXPlayer("SFX_Quit");
     private GameManager gameManager;
     private boolean isStarting = true;
+
+    @ForceSerialize
+    private URLResource gameScene;
+
     @ForceSerialize
     private URLResource titleScene;
 
@@ -61,9 +65,9 @@ public class PauseMenuUIComponent extends FXComponent {
         BorderPane.setAlignment(root, Pos.CENTER);
         root.setCenter(verticalContainer);
 
-        Label gameOverLabel = new Label("paused");
-        gameOverLabel.setFont(GameFonts.SIDE_ORDER_TITLE);
-        gameOverLabel.setTextFill(Color.WHITE);
+        Label pauseLabel = new Label("paused");
+        pauseLabel.setFont(GameFonts.SIDE_ORDER_TITLE);
+        pauseLabel.setTextFill(Color.WHITE);
 
         Button resumeButton = new Button("Resume");
         resumeButton.setFont(GameFonts.SIDE_ORDER_BODY);
@@ -73,6 +77,14 @@ public class PauseMenuUIComponent extends FXComponent {
         resumeButton.setMaxWidth(Double.MAX_VALUE);
         resumeButton.setOnAction(this::onResumeButton);
 
+        Button restartButton = new Button("Restart");
+        restartButton.setFont(GameFonts.SIDE_ORDER_BODY);
+        restartButton.setTextFill(Color.WHITE);
+        restartButton.setPadding(new Insets(15));
+        restartButton.setStyle(GameStyles.BUTTON);
+        restartButton.setMaxWidth(Double.MAX_VALUE);
+        restartButton.setOnAction(this::onRestartButton);
+
         Button quitToTitleButton = new Button("Quit to Title Screen");
         quitToTitleButton.setFont(GameFonts.SIDE_ORDER_BODY);
         quitToTitleButton.setTextFill(Color.WHITE);
@@ -81,8 +93,9 @@ public class PauseMenuUIComponent extends FXComponent {
         quitToTitleButton.setMaxWidth(Double.MAX_VALUE);
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
 
-        verticalContainer.getChildren().add(gameOverLabel);
+        verticalContainer.getChildren().add(pauseLabel);
         verticalContainer.getChildren().add(resumeButton);
+        verticalContainer.getChildren().add(restartButton);
         verticalContainer.getChildren().add(quitToTitleButton);
 
         verticalContainer.setPadding(new Insets(50));
@@ -94,6 +107,10 @@ public class PauseMenuUIComponent extends FXComponent {
     private void onResumeButton(ActionEvent actionEvent) {
         gameManager.setIsPaused(false);
         resumeSfx.play();
+    }
+
+    private void onRestartButton(ActionEvent actionEvent) {
+        Engine.getSceneService().setScene(gameScene.get());
     }
 
     private void onQuitToTitleButton(ActionEvent actionEvent) {

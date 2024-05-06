@@ -59,6 +59,10 @@
         "titleScene": {
           "class": "com.neo.game.title.TitleControllerComponent",
           "resource": "title.branch"
+        },
+        "gameScene": {
+          "class": "com.neo.game.BoardDataComponent",
+          "resource": "main.branch"
         }
       }
     ]
