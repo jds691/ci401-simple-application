@@ -70,7 +70,7 @@ public class GameOverUIComponent extends FXComponent {
         gameOverLabel.setFont(GameFonts.SIDE_ORDER_TITLE);
         gameOverLabel.setTextFill(Color.WHITE);
 
-        Label scoreLabel = new Label();
+        scoreLabel = new Label();
         scoreLabel.setFont(GameFonts.SIDE_ORDER_BODY);
         scoreLabel.setTextFill(Color.WHITE);
 
