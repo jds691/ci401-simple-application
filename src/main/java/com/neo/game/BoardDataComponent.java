@@ -145,7 +145,11 @@ public class BoardDataComponent extends NodeComponent {
         }
 
         if (currentMovementDelay > 0) {
-            currentMovementDelay -= deltaTime;
+            if (InputAction.MOVE_DOWN.isActivationHeld())
+                currentMovementDelay -= deltaTime * 2;
+            else
+                currentMovementDelay -= deltaTime;
+
             return;
         } else {
             currentMovementDelay = movementDelay;
