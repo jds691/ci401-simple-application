@@ -7,6 +7,7 @@ import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
 import com.neo.twig.audio.AudioConfig;
 import com.neo.twig.graphics.GraphicsConfig;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class GameApplication {
@@ -31,6 +32,7 @@ public class GameApplication {
         app.name = "Tetris";
         app.version = "1.0-SNAPSHOT";
         app.initialScene = TitleManagerComponent.class.getResource("title.branch");
+        app.icon = new Image(GameApplication.class.getResourceAsStream("icon.png"));
 
         return app;
     }
