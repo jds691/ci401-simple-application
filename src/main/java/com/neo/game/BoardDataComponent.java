@@ -62,6 +62,9 @@ public class BoardDataComponent extends NodeComponent {
         gameManager.getPauseDidChangeEvent().addHandler((paused) -> {
             pauseUpdates = paused;
         });
+        gameManager.getGameDidEndEvent().addHandler((ignored) -> {
+            pauseUpdates = true;
+        });
 
         try {
             lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
