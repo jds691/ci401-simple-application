@@ -21,11 +21,15 @@ import javafx.scene.paint.Color;
 public class GameOverUIComponent extends FXComponent {
     private GameManager gameManager;
 
+    private int currentScore;
+
     @ForceSerialize
     private URLResource gameScene;
 
     @ForceSerialize
     private URLResource titleScene;
+
+    private Label scoreLabel;
 
     @Override
     public void start() {
@@ -38,6 +42,10 @@ public class GameOverUIComponent extends FXComponent {
                 .findRootNode("Game Context")
                 .getComponent(GameManager.class);
 
+        gameManager.getCurrentScoreDidChangeEvent().addHandler((deltaScore) -> {
+            currentScore += deltaScore;
+            scoreLabel.setText(String.format("Final Score: %10d", currentScore));
+        });
         gameManager.getGameDidEndEvent().addHandler((ignored) -> {
             setVisible(true);
         });
@@ -62,7 +70,7 @@ public class GameOverUIComponent extends FXComponent {
         gameOverLabel.setFont(GameFonts.SIDE_ORDER_TITLE);
         gameOverLabel.setTextFill(Color.WHITE);
 
-        Label scoreLabel = new Label("Final Score: 0000000000");
+        Label scoreLabel = new Label();
         scoreLabel.setFont(GameFonts.SIDE_ORDER_BODY);
         scoreLabel.setTextFill(Color.WHITE);
 

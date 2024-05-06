@@ -14,6 +14,8 @@ public class GameManager extends NodeComponent {
     private static final int BLOCKS_TO_QUEUE = 5;
     private final ArrayDeque<BlockFormation> blockQueue = new ArrayDeque<>();
     private int currentScore;
+    private final Event<Integer> currentScoreDidChange = new Event<>();
+
     private BlockFormation storedBlock;
 
     private boolean gameIsOver;
@@ -67,6 +69,10 @@ public class GameManager extends NodeComponent {
         return gameDidEnd;
     }
 
+    public Event<Integer> getCurrentScoreDidChangeEvent() {
+        return currentScoreDidChange;
+    }
+
     public BlockFormation requestNextBlockFormationInQueue() {
         BlockFormation form = blockQueue.pop();
 
@@ -87,5 +93,10 @@ public class GameManager extends NodeComponent {
         gameOverMusic.resume();
 
         gameDidEnd.emit(null);
+    }
+
+    public void addScore(int score) {
+        currentScore += score;
+        currentScoreDidChange.emit(score);
     }
 }
