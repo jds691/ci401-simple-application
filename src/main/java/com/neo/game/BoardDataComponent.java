@@ -38,6 +38,9 @@ public class BoardDataComponent extends NodeComponent {
     private double currentMovementDelay;
     private boolean pauseUpdates;
 
+    @ForceSerialize
+    private double speedUpFactor;
+
     private ArrayList<Pair<Integer, Integer>> queuedMovement;
 
     private Block[][] boardState;
@@ -149,7 +152,7 @@ public class BoardDataComponent extends NodeComponent {
 
         if (currentMovementDelay > 0) {
             if (InputAction.MOVE_DOWN.isActivationHeld())
-                currentMovementDelay -= deltaTime * 2;
+                currentMovementDelay -= deltaTime * speedUpFactor;
             else
                 currentMovementDelay -= deltaTime;
 
