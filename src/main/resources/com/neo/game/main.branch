@@ -36,6 +36,24 @@
     ]
   },
   {
+    "name": "Game UI",
+    "components": [
+      {
+        "type": "com.neo.game.ui.InGameUIComponent",
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-in-game.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "name": "Game Over Screen",
     "components": [
       {
