@@ -51,7 +51,7 @@ public class PauseMenuUIComponent extends FXComponent {
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
-        root.setId("root");
+        root.setId("pause-root");
 
         VBox verticalContainer = new VBox();
         verticalContainer.setAlignment(Pos.CENTER);

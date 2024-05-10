@@ -2,7 +2,7 @@
     -fx-max-width: 1000000000000;
 }
 
-#root {
+#game-over-root {
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 
