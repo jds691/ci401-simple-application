@@ -1,0 +1,12 @@
+.game-over-button {
+    -fx-max-width: 1000000000000;
+}
+
+#root {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+
+#vertical-container {
+    -fx-padding: 50;
+    -fx-spacing: 16;
+}

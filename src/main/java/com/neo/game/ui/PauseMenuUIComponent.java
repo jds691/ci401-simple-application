@@ -1,8 +1,6 @@
 package com.neo.game.ui;
 
-import com.neo.game.GameFonts;
 import com.neo.game.GameManager;
-import com.neo.game.GameStyles;
 import com.neo.game.audio.SFXPlayer;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
@@ -53,11 +51,7 @@ public class PauseMenuUIComponent extends FXComponent {
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
-        root.setStyle(
-                """
-                        -fx-background-color: rgba(0, 0, 0, 0.4);
-                        """
-        );
+        root.setId("root");
 
         VBox verticalContainer = new VBox();
         verticalContainer.setAlignment(Pos.CENTER);
@@ -66,31 +60,18 @@ public class PauseMenuUIComponent extends FXComponent {
         root.setCenter(verticalContainer);
 
         Label pauseLabel = new Label("paused");
-        pauseLabel.setFont(GameFonts.SIDE_ORDER_TITLE);
-        pauseLabel.setTextFill(Color.WHITE);
+        pauseLabel.getStyleClass().add("title-label");
 
         Button resumeButton = new Button("Resume");
-        resumeButton.setFont(GameFonts.SIDE_ORDER_BODY);
-        resumeButton.setTextFill(Color.WHITE);
-        resumeButton.setPadding(new Insets(15));
-        resumeButton.setStyle(GameStyles.BUTTON);
-        resumeButton.setMaxWidth(Double.MAX_VALUE);
+        resumeButton.getStyleClass().addAll("button", "pause-button");
         resumeButton.setOnAction(this::onResumeButton);
 
         Button restartButton = new Button("Restart");
-        restartButton.setFont(GameFonts.SIDE_ORDER_BODY);
-        restartButton.setTextFill(Color.WHITE);
-        restartButton.setPadding(new Insets(15));
-        restartButton.setStyle(GameStyles.BUTTON);
-        restartButton.setMaxWidth(Double.MAX_VALUE);
+        restartButton.getStyleClass().addAll("button", "pause-button");
         restartButton.setOnAction(this::onRestartButton);
 
         Button quitToTitleButton = new Button("Quit to Title Screen");
-        quitToTitleButton.setFont(GameFonts.SIDE_ORDER_BODY);
-        quitToTitleButton.setTextFill(Color.WHITE);
-        quitToTitleButton.setPadding(new Insets(15));
-        quitToTitleButton.setStyle(GameStyles.BUTTON);
-        quitToTitleButton.setMaxWidth(Double.MAX_VALUE);
+        quitToTitleButton.getStyleClass().addAll("button", "pause-button");
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
 
         verticalContainer.getChildren().add(pauseLabel);
@@ -98,8 +79,7 @@ public class PauseMenuUIComponent extends FXComponent {
         verticalContainer.getChildren().add(restartButton);
         verticalContainer.getChildren().add(quitToTitleButton);
 
-        verticalContainer.setPadding(new Insets(50));
-        verticalContainer.setSpacing(16);
+        verticalContainer.setId("vertical-container");
 
         return root;
     }

@@ -7,6 +7,7 @@ import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
 import com.neo.twig.audio.AudioConfig;
 import com.neo.twig.graphics.GraphicsConfig;
+import com.neo.twig.logger.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -22,6 +23,8 @@ public class GameApplication {
         Engine.init(engineConfig);
 
         InputAction.initialiseActions();
+        // Force all fonts to be smoothed out engine wide
+        System.setProperty("prism.lcdtext", "false");
 
         Engine.start();
     }

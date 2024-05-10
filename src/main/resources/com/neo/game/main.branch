@@ -47,7 +47,17 @@
         "gameScene": {
           "class": "com.neo.game.BoardDataComponent",
           "resource": "main.branch"
-        }
+        },
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-game-over.css"
+          }
+        ]
       }
     ]
   },
@@ -63,7 +73,17 @@
         "gameScene": {
           "class": "com.neo.game.BoardDataComponent",
           "resource": "main.branch"
-        }
+        },
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-pause.css"
+          }
+        ]
       }
     ]
   }

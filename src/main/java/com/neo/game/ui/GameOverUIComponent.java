@@ -1,8 +1,6 @@
 package com.neo.game.ui;
 
-import com.neo.game.GameFonts;
 import com.neo.game.GameManager;
-import com.neo.game.GameStyles;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.URLResource;
@@ -16,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class GameOverUIComponent extends FXComponent {
     private GameManager gameManager;
@@ -54,11 +51,7 @@ public class GameOverUIComponent extends FXComponent {
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
-        root.setStyle(
-                """
-                        -fx-background-color: rgba(0, 0, 0, 0.4);
-                        """
-        );
+        root.setId("root");
 
         VBox verticalContainer = new VBox();
         verticalContainer.setAlignment(Pos.CENTER);
@@ -67,36 +60,24 @@ public class GameOverUIComponent extends FXComponent {
         root.setCenter(verticalContainer);
 
         Label gameOverLabel = new Label("game over");
-        gameOverLabel.setFont(GameFonts.SIDE_ORDER_TITLE);
-        gameOverLabel.setTextFill(Color.WHITE);
+        gameOverLabel.getStyleClass().add("title-label");
 
-        scoreLabel = new Label();
-        scoreLabel.setFont(GameFonts.SIDE_ORDER_BODY);
-        scoreLabel.setTextFill(Color.WHITE);
+        scoreLabel = new Label("Final Score: 0000000000");
+        scoreLabel.getStyleClass().add("label");
+
+        gameOverLabel.getStyleClass().add("label");
 
         Button restartButton = new Button("Restart");
-        restartButton.setFont(GameFonts.SIDE_ORDER_BODY);
-        restartButton.setTextFill(Color.WHITE);
-        restartButton.setPadding(new Insets(15));
         restartButton.setOnAction(this::onRestartButton);
-        restartButton.setStyle(GameStyles.BUTTON);
-        restartButton.setMaxWidth(Double.MAX_VALUE);
+        restartButton.getStyleClass().addAll("button", "game-over-button");
 
         Button quitToTitleButton = new Button("Quit to Title Screen");
-        quitToTitleButton.setFont(GameFonts.SIDE_ORDER_BODY);
-        quitToTitleButton.setTextFill(Color.WHITE);
-        quitToTitleButton.setPadding(new Insets(15));
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
-        quitToTitleButton.setStyle(GameStyles.BUTTON);
-        quitToTitleButton.setMaxWidth(Double.MAX_VALUE);
+        quitToTitleButton.getStyleClass().addAll("button", "game-over-button");
 
         Button quitGameButton = new Button("Quit to Desktop");
-        quitGameButton.setFont(GameFonts.SIDE_ORDER_BODY);
-        quitGameButton.setTextFill(Color.WHITE);
-        quitGameButton.setPadding(new Insets(15));
         quitGameButton.setOnAction(this::onQuitGameButton);
-        quitGameButton.setStyle(GameStyles.BUTTON);
-        quitGameButton.setMaxWidth(Double.MAX_VALUE);
+        quitGameButton.getStyleClass().addAll("button", "game-over-button");
 
         verticalContainer.getChildren().add(gameOverLabel);
         verticalContainer.getChildren().add(scoreLabel);
@@ -104,8 +85,7 @@ public class GameOverUIComponent extends FXComponent {
         verticalContainer.getChildren().add(quitToTitleButton);
         verticalContainer.getChildren().add(quitGameButton);
 
-        verticalContainer.setPadding(new Insets(50));
-        verticalContainer.setSpacing(16);
+        verticalContainer.setId("vertical-container");
 
         return root;
     }

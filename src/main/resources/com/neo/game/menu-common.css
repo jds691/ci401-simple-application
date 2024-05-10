@@ -1,0 +1,31 @@
+@font-face {
+    src: url('fonts/FOT-RowdyStd-EB.otf');
+}
+
+@font-face {
+    src: url('fonts/SpAlterna-Regular.otf');
+}
+
+.button {
+    -fx-border-color: #EE7C5B;
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 25px 5px 25px 5px;
+    -fx-border-radius: 25px 5px 25px 5px;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-padding: 15;
+    -fx-font-family: 'FOT-Rowdy Std EB', serif;
+    -fx-font-size: 12px;
+}
+
+.label {
+    -fx-font-family: 'FOT-Rowdy Std EB', serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+
+.title-label {
+    -fx-font-family: 'Sp Alterna', serif;
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+}
