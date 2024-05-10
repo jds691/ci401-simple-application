@@ -22,7 +22,21 @@
     "name": "UI",
     "components": [
       {
-        "type": "com.neo.game.title.TitleControllerComponent"
+        "type": "com.neo.game.title.TitleControllerComponent",
+        "gameScene": {
+          "class": "com.neo.game.BoardDataComponent",
+          "resource": "main.branch"
+        },
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-title.css"
+          }
+        ]
       }
     ]
   }

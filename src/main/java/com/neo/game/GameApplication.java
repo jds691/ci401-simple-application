@@ -1,11 +1,15 @@
 package com.neo.game;
 
+import com.neo.game.input.InputAction;
 import com.neo.game.title.TitleManagerComponent;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
 import com.neo.twig.audio.AudioConfig;
 import com.neo.twig.graphics.GraphicsConfig;
+import com.neo.twig.logger.Logger;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class GameApplication {
     public static void main(String[] args) {
@@ -18,6 +22,10 @@ public class GameApplication {
 
         Engine.init(engineConfig);
 
+        InputAction.initialiseActions();
+        // Force all fonts to be smoothed out engine wide
+        System.setProperty("prism.lcdtext", "false");
+
         Engine.start();
     }
 
@@ -27,6 +35,7 @@ public class GameApplication {
         app.name = "Tetris";
         app.version = "1.0-SNAPSHOT";
         app.initialScene = TitleManagerComponent.class.getResource("title.branch");
+        app.icon = new Image(GameApplication.class.getResourceAsStream("icon.png"));
 
         return app;
     }
@@ -36,6 +45,7 @@ public class GameApplication {
 
         graphics.height = 640;
         graphics.width = 480;
+        graphics.clearColor = new Color((double) 243 / 255, (double) 233 / 255, (double) 229 / 255, 1);
 
         return graphics;
     }

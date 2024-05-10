@@ -1,0 +1,108 @@
+[
+  {
+    "location": {
+      "class": "com.neo.game.BoardDataComponent",
+      "resource": "board.twig"
+    }
+  },
+  {
+    "name": "Game Context",
+    "components": [
+      {
+        "type": "com.neo.game.GameManager"
+      }
+    ]
+  },
+  {
+    "name": "Game Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "autoplay": false,
+        "loop": true,
+        "musicConfigKey": "BGM_Game"
+      }
+    ]
+  },
+  {
+    "name": "Game Over Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "autoplay": false,
+        "loop": true,
+        "musicConfigKey": "BGM_Game_Over"
+      }
+    ]
+  },
+  {
+    "name": "Game UI",
+    "components": [
+      {
+        "type": "com.neo.game.ui.InGameUIComponent",
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-in-game.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Game Over Screen",
+    "components": [
+      {
+        "type": "com.neo.game.ui.GameOverUIComponent",
+        "titleScene": {
+          "class": "com.neo.game.title.TitleControllerComponent",
+          "resource": "title.branch"
+        },
+        "gameScene": {
+          "class": "com.neo.game.BoardDataComponent",
+          "resource": "main.branch"
+        },
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-game-over.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Pause Menu",
+    "components": [
+      {
+        "type": "com.neo.game.ui.PauseMenuUIComponent",
+        "titleScene": {
+          "class": "com.neo.game.title.TitleControllerComponent",
+          "resource": "title.branch"
+        },
+        "gameScene": {
+          "class": "com.neo.game.BoardDataComponent",
+          "resource": "main.branch"
+        },
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-pause.css"
+          }
+        ]
+      }
+    ]
+  }
+]
