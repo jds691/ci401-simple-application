@@ -4,7 +4,7 @@
 
 #block-queue {
     -fx-alignment: top-center;
-    -fx-pref-width: 170;
+    -fx-pref-width: 170px;
     -fx-spacing: 24px;
     -fx-padding: 20px;
 }
