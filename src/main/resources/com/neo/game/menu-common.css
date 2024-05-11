@@ -18,6 +18,10 @@
     -fx-font-size: 12px;
 }
 
+.button:hover {
+    -fx-background-color: rgba(143, 74, 55, 0.9);
+}
+
 .label {
     -fx-font-family: 'FOT-Rowdy Std EB', serif;
     -fx-font-size: 12px;
