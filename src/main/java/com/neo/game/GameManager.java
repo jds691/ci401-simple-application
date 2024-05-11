@@ -100,7 +100,8 @@ public class GameManager extends NodeComponent {
     public BlockFormation requestRandomBlockFormation() {
         int index = ThreadLocalRandom.current().nextInt(0, BlockFormation.ALL.length);
 
-        return BlockFormation.ALL[index];
+        //return BlockFormation.ALL[index];
+        return BlockFormation.L_BLOCK;
     }
 
     public void signalGameEnd() {

@@ -21,6 +21,8 @@ public class SoundConfig {
 
     @ForceSerialize
     private URL blockPlace;
+    @ForceSerialize
+    private URL blockRotate;
 
     @ForceSerialize
     private URL lineClear;
@@ -40,6 +42,7 @@ public class SoundConfig {
         bgmGameOver = MusicComponent.class.getResource("MUS_Game_Over.mp3");
 
         blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
+        blockRotate = SoundConfig.class.getResource("SFX_block_rotate.wav");
         lineClear = SoundConfig.class.getResource("SFX_line_clear.wav");
 
         pauseOpen = SoundConfig.class.getResource("SFX_Pause_Open.wav");
@@ -69,6 +72,7 @@ public class SoundConfig {
     public URL getSFXLocation(String key) {
         return switch (key) {
             case "SFX_blockPlace" -> blockPlace;
+            case "SFX_blockRotate" -> blockRotate;
             case "SFX_lineClear" -> lineClear;
             case "SFX_Pause_Open" -> pauseOpen;
             case "SFX_Pause_Close" -> pauseClose;

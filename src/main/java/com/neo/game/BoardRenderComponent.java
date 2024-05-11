@@ -38,6 +38,9 @@ public class BoardRenderComponent extends RenderComponent {
 
     private boolean gameIsPaused;
 
+    @ForceSerialize
+    private boolean debug_DrawCoords = false;
+
     @Override
     public void start() {
         super.start();
@@ -87,8 +90,21 @@ public class BoardRenderComponent extends RenderComponent {
             for (int j = 0; j < BoardDataComponent.BOARD_WIDTH; j++) {
                 Block state = dataComponent.getBoardState(j, i);
 
-                if (state.color == Block.Color.None)
-                    continue;
+                if (debug_DrawCoords) {
+                    context.setFill(Color.CYAN);
+
+                    if (state.color == Block.Color.None) {
+                        context.fillText("(" + j + ", " + i + ")", transform.x + (j * blockSize + j), transform.y + (i * blockSize + i), blockSize);
+                        continue;
+                    } else {
+                        context.setFill(Color.RED);
+                        context.fillText("(" + j + ", " + i + ")", transform.x + (j * blockSize + j), transform.y + (i * blockSize + i), blockSize);
+                    }
+                } else {
+                    if (state.color == Block.Color.None)
+                        continue;
+                }
+
 
                 int colorIndex = state.color.ordinal();
                 int tone = state.tone;

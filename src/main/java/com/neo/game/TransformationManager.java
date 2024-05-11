@@ -11,14 +11,14 @@ import javafx.util.Pair;
 // To accurately see how I feel: https://www.youtube.com/watch?v=Sv8LHpezbLw
 
 /*
- * Take a 3 x 2 block
+ * Take a 4 x 2 block
  * |
- * |_ _ _
+ * |_ _ _ _
  *
  * The transformations involved for rotating right are:
  *
  * (0,0) = (1, 0) = (+1, 0)
- * (0,1) = (0, 0) = (0, +1)
+ * (0,1) = (0, 0) = (0, -1)
  * (1,1) = (0, 1) = (-1, 0)
  * (2,1) = (0, 2) = (-2, +1)
  * (3,1) = (0, 3) = (-3, +2)
@@ -29,10 +29,11 @@ import javafx.util.Pair;
  * |
  * |
  * |
+ * |
  */
 //The board gets searched top-down, left-right. Therefore we can make this so the array of coordinates aligns to that order
 public class TransformationManager {
-    public static Pair<Integer, Integer>[] requestCoordinateTransformations(BlockFormation block, boolean rotateRight, RotationState currentRotationState) {
+    public static Pair<Integer, Integer>[] requestCoordinateTransformations(BlockFormation block, boolean rotateRight, RotationState targetState) {
         // Behold, the 3D transformation array
         Pair<Integer, Integer>[][] transformationTable = new Pair[0][];
 
@@ -69,13 +70,40 @@ public class TransformationManager {
 
             case Block.Color.Orange: // L_BLOCK
                 transformationTable = new Pair[][]{
+                        /*
+                           |
+                           |
+                           |
+                           |
+                        _ _
+                         */
                         { // 270 -> 0
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0)
                         },
                         { // 0 -> 90
+                                new Pair<>(+1, 0),
+                                new Pair<>(0, -1),
+                                new Pair<>(-1, 0),
+                                new Pair<>(-2, +1),
+                                new Pair<>(-3, +2)
                         },
                         { // 90 -> 180
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0)
                         },
                         { // 180 -> 270
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0)
                         }
                 };
                 break;
@@ -120,10 +148,15 @@ public class TransformationManager {
                 break;
         }
 
-        Pair[] targetTransformation = transformationTable[currentRotationState.ordinal()];
+        Pair<Integer, Integer>[] targetTransformation = transformationTable[targetState.ordinal()];
 
         if (!rotateRight) {
             // The transformations need swizzled to be inverted
+            for (int i = 0; i < targetTransformation.length; i++) {
+                Pair<Integer, Integer> currentTransform = targetTransformation[i];
+
+                targetTransformation[i] = new Pair<>(currentTransform.getKey() * -1, currentTransform.getValue() * -1);
+            }
         }
 
         return targetTransformation;
