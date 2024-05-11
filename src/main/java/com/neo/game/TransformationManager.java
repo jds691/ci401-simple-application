@@ -9,6 +9,27 @@ import javafx.util.Pair;
 
 // My brain is melting working out all of this maths
 // To accurately see how I feel: https://www.youtube.com/watch?v=Sv8LHpezbLw
+
+/*
+ * Take a 3 x 2 block
+ * |
+ * |_ _ _
+ *
+ * The transformations involved for rotating right are:
+ *
+ * (0,0) = (1, 0) = (+1, 0)
+ * (0,1) = (0, 0) = (0, +1)
+ * (1,1) = (0, 1) = (-1, 0)
+ * (2,1) = (0, 2) = (-2, +1)
+ * (3,1) = (0, 3) = (-3, +2)
+ *
+ * Which looks like:
+ *
+ *  _ _
+ * |
+ * |
+ * |
+ */
 public class TransformationManager {
     public static Pair<Integer, Integer>[][] requestCoordinateTransformations(BlockFormation block, boolean rotateRight, RotationState currentRotationState) {
         // Behold, the 3D transformation array

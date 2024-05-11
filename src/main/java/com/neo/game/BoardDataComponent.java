@@ -192,6 +192,7 @@ public class BoardDataComponent extends NodeComponent {
                     boolean blockExists = pendingBlock.pattern[j][i];
 
                     // Block is occupied
+                    //TODO: Check ALL coordinates before placing blocks
                     if (boardState[j][startingPoint + i].color != Block.Color.None) {
                         boardFull = true;
                         break;
@@ -264,19 +265,6 @@ public class BoardDataComponent extends NodeComponent {
         for (Pair<Integer, Integer> movingCoordinate : movingCoordinates) {
             int x = movingCoordinate.getKey();
             int y = movingCoordinate.getValue();
-
-            /*
-             * Take a 3 x 2 block
-             * |
-             * | _ _
-             *
-             * The transformations involved for rotating right are:
-             *
-             * (0,0) = (1, 0) = (+1, 0)
-             * (0,1) = (0, 0) = (0, +1)
-             * (1,1) = (0, 1) = (-1, 0)
-             * (2,1) = (0, 2) = (-2, +1)
-             */
 
             TransformationManager.requestCoordinateTransformations(pendingBlock, isRotatingRight, currentRotationState);
         }
