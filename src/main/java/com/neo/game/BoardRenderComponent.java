@@ -93,8 +93,13 @@ public class BoardRenderComponent extends RenderComponent {
                 int colorIndex = state.color.ordinal();
                 int tone = state.tone;
 
+                if (currentEffect == Effect.FADE_OUT && linesToEffect.contains(i))
+                    context.setGlobalAlpha(effectDeltaTime / effectLength[currentEffect.ordinal()]);
+
                 context.drawImage(chipSprites[colorIndex][tone].get(), transform.x + (j * blockSize + j), transform.y + (i * blockSize + i), blockSize, blockSize);
             }
+
+            context.setGlobalAlpha(1);
         }
 
         // Effects
@@ -128,7 +133,8 @@ public class BoardRenderComponent extends RenderComponent {
 
         if (progress >= 1) {
             dataComponent.setPauseUpdates(false);
-            currentEffect = Effect.NONE;
+            effectDeltaTime = 0;
+            currentEffect = Effect.FADE_OUT;
         }
     }
 
