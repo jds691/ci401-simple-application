@@ -6,6 +6,7 @@
     -fx-alignment: top-center;
     -fx-pref-width: 170;
     -fx-spacing: 24px;
+    -fx-padding: 20px;
 }
 
 #up-next {
