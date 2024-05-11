@@ -4,10 +4,7 @@ import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.graphics.RenderComponent;
 import com.neo.twig.resources.ImageResource;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-
-import java.io.IOException;
 
 /**
  * Responsible for rendering the current blocks in the board.
@@ -25,8 +22,8 @@ public class BoardRenderComponent extends RenderComponent {
     private ImageResource boardBackground;
     private ImagePattern backgroundPattern;
 
-    private String[][] chipSpriteUrls;
-    private Image[][] chipSprites;
+    @ForceSerialize
+    private ImageResource[][] chipSprites;
 
     @Override
     public void start() {
@@ -36,7 +33,7 @@ public class BoardRenderComponent extends RenderComponent {
 
         dataComponent = getNode().getComponent(BoardDataComponent.class);
 
-        initialiseChipSprites();
+        //initialiseChipSprites();
     }
 
     @Override
@@ -64,82 +61,12 @@ public class BoardRenderComponent extends RenderComponent {
                 int colorIndex = state.color.ordinal();
                 int tone = state.tone;
 
-                context.drawImage(chipSprites[colorIndex][tone], j * blockSize + j, i * blockSize + i, blockSize, blockSize);
+                context.drawImage(chipSprites[colorIndex][tone].get(), j * blockSize + j, i * blockSize + i, blockSize, blockSize);
             }
         }
 
         // Effects
         // Gradient overlay: https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/scene/paint/LinearGradient.html
         context.restore();
-    }
-
-    // We are never unfolding this method again. If something breaks I don't care
-    // This is an insane way to load images
-    private void initialiseChipSprites() {
-        chipSprites = new Image[7][3];
-
-        try {
-            chipSprites[1][0] = new Image(
-                    BoardRenderComponent.class.getResource("block_blue_0.png").openStream()
-            );
-            chipSprites[1][1] = new Image(
-                    BoardRenderComponent.class.getResource("block_blue_1.png").openStream()
-            );
-            chipSprites[1][2] = new Image(
-                    BoardRenderComponent.class.getResource("block_blue_2.png").openStream()
-            );
-
-            chipSprites[2][0] = new Image(
-                    BoardRenderComponent.class.getResource("block_cyan_0.png").openStream()
-            );
-            chipSprites[2][1] = new Image(
-                    BoardRenderComponent.class.getResource("block_cyan_1.png").openStream()
-            );
-            chipSprites[2][2] = new Image(
-                    BoardRenderComponent.class.getResource("block_cyan_2.png").openStream()
-            );
-
-            chipSprites[3][0] = new Image(
-                    BoardRenderComponent.class.getResource("block_orange_0.png").openStream()
-            );
-            chipSprites[3][1] = new Image(
-                    BoardRenderComponent.class.getResource("block_orange_1.png").openStream()
-            );
-            chipSprites[3][2] = new Image(
-                    BoardRenderComponent.class.getResource("block_orange_2.png").openStream()
-            );
-
-            chipSprites[4][0] = new Image(
-                    BoardRenderComponent.class.getResource("block_purple_0.png").openStream()
-            );
-            chipSprites[4][1] = new Image(
-                    BoardRenderComponent.class.getResource("block_purple_1.png").openStream()
-            );
-            chipSprites[4][2] = new Image(
-                    BoardRenderComponent.class.getResource("block_purple_2.png").openStream()
-            );
-
-            chipSprites[5][0] = new Image(
-                    BoardRenderComponent.class.getResource("block_red_0.png").openStream()
-            );
-            chipSprites[5][1] = new Image(
-                    BoardRenderComponent.class.getResource("block_red_1.png").openStream()
-            );
-            chipSprites[5][2] = new Image(
-                    BoardRenderComponent.class.getResource("block_red_2.png").openStream()
-            );
-
-            chipSprites[6][0] = new Image(
-                    BoardRenderComponent.class.getResource("block_yellow_0.png").openStream()
-            );
-            chipSprites[6][1] = new Image(
-                    BoardRenderComponent.class.getResource("block_yellow_1.png").openStream()
-            );
-            chipSprites[6][2] = new Image(
-                    BoardRenderComponent.class.getResource("block_yellow_2.png").openStream()
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
