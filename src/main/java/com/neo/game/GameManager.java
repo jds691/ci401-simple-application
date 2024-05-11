@@ -8,6 +8,7 @@ import com.neo.twig.scene.NodeComponent;
 import com.neo.twig.scene.SceneService;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameManager extends NodeComponent {
@@ -22,6 +23,7 @@ public class GameManager extends NodeComponent {
     private final Event<Object> gameDidEnd = new Event<>();
 
     private final Event<Boolean> pauseDidChange = new Event<>();
+    private final Event<ArrayList<Block.Color>> blockQueueDidChange = new Event<>();
     private boolean isPaused;
     private SceneService sceneService;
     private MusicComponent gameMusic;
@@ -73,10 +75,24 @@ public class GameManager extends NodeComponent {
         return currentScoreDidChange;
     }
 
+    public Event<ArrayList<Block.Color>> getBlockQueueDidChangeEvent() {
+        return blockQueueDidChange;
+    }
+
+    public ArrayDeque<BlockFormation> getBlockQueue() {
+        return blockQueue;
+    }
+
     public BlockFormation requestNextBlockFormationInQueue() {
         BlockFormation form = blockQueue.pop();
 
         blockQueue.add(requestRandomBlockFormation());
+
+        ArrayList<Block.Color> blockQueueColors = new ArrayList<>(BLOCKS_TO_QUEUE);
+        for (BlockFormation formation : blockQueue) {
+            blockQueueColors.add(formation.color);
+        }
+        blockQueueDidChange.emit(blockQueueColors);
 
         return form;
     }

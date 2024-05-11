@@ -64,4 +64,12 @@ public class BlockFormation {
         this.pattern = pattern;
         this.color = color;
     }
+
+    public boolean[][] getPattern() {
+        return pattern;
+    }
+
+    public Block.Color getColor() {
+        return color;
+    }
 }

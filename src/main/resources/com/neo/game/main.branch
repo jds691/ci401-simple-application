@@ -49,6 +49,36 @@
             "class": "com.neo.game.GameApplication",
             "resource": "menu-in-game.css"
           }
+        ],
+        "blockThumbnails": [
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          },
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          },
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          },
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          },
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          },
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          },
+          {
+            "class": "com.neo.game.BoardRenderComponent",
+            "resource": "invalid.png"
+          }
         ]
       }
     ]
