@@ -1,4 +1,4 @@
-#pause-root {
+#root {
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -7,6 +7,6 @@
     -fx-spacing: 16;
 }
 
-.pause-button {
+.button {
     -fx-max-width: 1000000000000;
 }

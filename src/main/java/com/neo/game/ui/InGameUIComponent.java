@@ -44,7 +44,7 @@ public class InGameUIComponent extends FXComponent {
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
-        root.setId("in-game-root");
+        root.setId("root");
 
         blockQueue = new VBox();
         blockQueue.setId("block-queue");

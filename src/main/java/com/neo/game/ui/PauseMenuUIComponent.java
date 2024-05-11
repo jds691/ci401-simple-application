@@ -8,14 +8,12 @@ import com.neo.twig.resources.URLResource;
 import com.neo.twig.scene.SceneService;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class PauseMenuUIComponent extends FXComponent {
     private final SFXPlayer pauseOpenSfx = new SFXPlayer("SFX_Pause_Open");
@@ -51,7 +49,7 @@ public class PauseMenuUIComponent extends FXComponent {
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
-        root.setId("pause-root");
+        root.setId("root");
 
         VBox verticalContainer = new VBox();
         verticalContainer.setAlignment(Pos.CENTER);
@@ -63,15 +61,15 @@ public class PauseMenuUIComponent extends FXComponent {
         pauseLabel.getStyleClass().add("title-label");
 
         Button resumeButton = new Button("Resume");
-        resumeButton.getStyleClass().addAll("button", "pause-button");
+        resumeButton.getStyleClass().addAll("button");
         resumeButton.setOnAction(this::onResumeButton);
 
         Button restartButton = new Button("Restart");
-        restartButton.getStyleClass().addAll("button", "pause-button");
+        restartButton.getStyleClass().addAll("button");
         restartButton.setOnAction(this::onRestartButton);
 
         Button quitToTitleButton = new Button("Quit to Title Screen");
-        quitToTitleButton.getStyleClass().addAll("button", "pause-button");
+        quitToTitleButton.getStyleClass().addAll("button");
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
 
         verticalContainer.getChildren().add(pauseLabel);

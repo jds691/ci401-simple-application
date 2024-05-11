@@ -1,8 +1,8 @@
-.game-over-button {
+.button {
     -fx-max-width: 1000000000000;
 }
 
-#game-over-root {
+#root {
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 

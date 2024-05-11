@@ -7,7 +7,6 @@ import com.neo.twig.resources.URLResource;
 import com.neo.twig.scene.SceneService;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -51,7 +50,7 @@ public class GameOverUIComponent extends FXComponent {
     @Override
     public Parent generateFXScene() {
         BorderPane root = new BorderPane();
-        root.setId("game-over-root");
+        root.setId("root");
 
         VBox verticalContainer = new VBox();
         verticalContainer.setAlignment(Pos.CENTER);
@@ -69,15 +68,15 @@ public class GameOverUIComponent extends FXComponent {
 
         Button restartButton = new Button("Restart");
         restartButton.setOnAction(this::onRestartButton);
-        restartButton.getStyleClass().addAll("button", "game-over-button");
+        restartButton.getStyleClass().add("button");
 
         Button quitToTitleButton = new Button("Quit to Title Screen");
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
-        quitToTitleButton.getStyleClass().addAll("button", "game-over-button");
+        quitToTitleButton.getStyleClass().add("button");
 
         Button quitGameButton = new Button("Quit to Desktop");
         quitGameButton.setOnAction(this::onQuitGameButton);
-        quitGameButton.getStyleClass().addAll("button", "game-over-button");
+        quitGameButton.getStyleClass().add("button");
 
         verticalContainer.getChildren().add(gameOverLabel);
         verticalContainer.getChildren().add(scoreLabel);
