@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.twig.TransformComponent;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.graphics.RenderComponent;
 import com.neo.twig.resources.ImageResource;
@@ -15,6 +16,7 @@ import javafx.scene.paint.ImagePattern;
  * </p>
  */
 public class BoardRenderComponent extends RenderComponent {
+    private TransformComponent transform;
     private BoardDataComponent dataComponent;
 
     public float blockSize = 30;
@@ -29,11 +31,10 @@ public class BoardRenderComponent extends RenderComponent {
     public void start() {
         super.start();
 
-        backgroundPattern = new ImagePattern(boardBackground.get(), 0, 0, 30, 30, false);
-
+        transform = getNode().getComponent(TransformComponent.class);
         dataComponent = getNode().getComponent(BoardDataComponent.class);
 
-        //initialiseChipSprites();
+        backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class BoardRenderComponent extends RenderComponent {
 
         context.save();
         context.setFill(backgroundPattern);
-        context.fillRect(0, 0, BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
+        context.fillRect(transform.x, transform.y, BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
 
         for (int i = 0; i < BoardDataComponent.BOARD_HEIGHT; i++) {
             for (int j = 0; j < BoardDataComponent.BOARD_WIDTH; j++) {
@@ -61,7 +62,7 @@ public class BoardRenderComponent extends RenderComponent {
                 int colorIndex = state.color.ordinal();
                 int tone = state.tone;
 
-                context.drawImage(chipSprites[colorIndex][tone].get(), j * blockSize + j, i * blockSize + i, blockSize, blockSize);
+                context.drawImage(chipSprites[colorIndex][tone].get(), transform.x + (j * blockSize + j), transform.y + (i * blockSize + i), blockSize, blockSize);
             }
         }
 
