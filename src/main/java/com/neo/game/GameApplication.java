@@ -1,13 +1,15 @@
 package com.neo.game;
 
 import com.neo.game.input.InputAction;
+import com.neo.game.settings.KeyBindSettings;
 import com.neo.game.title.TitleManagerComponent;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
 import com.neo.twig.audio.AudioConfig;
+import com.neo.twig.config.ConfigManager;
+import com.neo.twig.config.ConfigScope;
 import com.neo.twig.graphics.GraphicsConfig;
-import com.neo.twig.logger.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -23,6 +25,8 @@ public class GameApplication {
         Engine.init(engineConfig);
 
         InputAction.initialiseActions();
+        ConfigManager.saveConfig(KeyBindSettings.getInstance(), ConfigScope.Engine);
+        ConfigManager.loadConfig(KeyBindSettings.getInstance());
         // Force all fonts to be smoothed out engine wide
         System.setProperty("prism.lcdtext", "false");
 

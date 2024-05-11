@@ -1,6 +1,7 @@
 package com.neo.game;
 
 import com.neo.game.audio.MusicComponent;
+import com.neo.game.input.Input;
 import com.neo.game.input.InputAction;
 import com.neo.twig.Engine;
 import com.neo.twig.events.Event;
@@ -52,7 +53,7 @@ public class GameManager extends NodeComponent {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (!gameIsOver && InputAction.PAUSE.wasActivatedThisFrame()) {
+        if (!gameIsOver && InputAction.get(Input.PAUSE).wasActivatedThisFrame()) {
             // Invoke pause event
             setIsPaused(!isPaused);
         }

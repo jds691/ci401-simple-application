@@ -1,6 +1,7 @@
 package com.neo.game;
 
 import com.neo.game.audio.SoundConfig;
+import com.neo.game.input.Input;
 import com.neo.game.input.InputAction;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
@@ -151,9 +152,9 @@ public class BoardDataComponent extends NodeComponent {
          */
         boolean blocksNeedRotated = false;
         boolean isRotatingRight = false;
-        if (InputAction.ROTATE_LEFT.wasActivatedThisFrame()) {
+        if (InputAction.get(Input.ROTATE_LEFT).wasActivatedThisFrame()) {
             blocksNeedRotated = true;
-        } else if (InputAction.ROTATE_RIGHT.wasActivatedThisFrame()) {
+        } else if (InputAction.get(Input.ROTATE_RIGHT).wasActivatedThisFrame()) {
             blocksNeedRotated = true;
             isRotatingRight = true;
         }
@@ -167,9 +168,9 @@ public class BoardDataComponent extends NodeComponent {
 
         boolean blocksNeedMoved = false;
         boolean isMovingRight = false;
-        if (InputAction.MOVE_LEFT.wasActivatedThisFrame()) {
+        if (InputAction.get(Input.MOVE_LEFT).wasActivatedThisFrame()) {
             blocksNeedMoved = true;
-        } else if (InputAction.MOVE_RIGHT.wasActivatedThisFrame()) {
+        } else if (InputAction.get(Input.MOVE_RIGHT).wasActivatedThisFrame()) {
             blocksNeedMoved = true;
             isMovingRight = true;
         }
@@ -179,7 +180,7 @@ public class BoardDataComponent extends NodeComponent {
         }
 
         if (currentMovementDelay > 0) {
-            if (InputAction.MOVE_DOWN.isActivationHeld())
+            if (InputAction.get(Input.MOVE_DOWN).isActivationHeld())
                 currentMovementDelay -= deltaTime * speedUpFactor;
             else
                 currentMovementDelay -= deltaTime;

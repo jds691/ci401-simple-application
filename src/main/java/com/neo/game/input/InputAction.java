@@ -1,27 +1,31 @@
 package com.neo.game.input;
 
+import com.neo.game.settings.KeyBindSettings;
 import com.neo.twig.Engine;
 import com.neo.twig.input.InputService;
 import javafx.scene.input.KeyCode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InputAction {
-    // Taking a page out of Minecraft source code
-    public static final InputAction MOVE_LEFT = new InputAction(CompareMode.Or, KeyCode.A, KeyCode.LEFT);
-    public static final InputAction MOVE_RIGHT = new InputAction(CompareMode.Or, KeyCode.D, KeyCode.RIGHT);
-    public static final InputAction MOVE_DOWN = new InputAction(CompareMode.Or, KeyCode.S, KeyCode.DOWN);
-
-    public static final InputAction ROTATE_LEFT = new InputAction(CompareMode.Or, KeyCode.K);
-    public static final InputAction ROTATE_RIGHT = new InputAction(CompareMode.Or, KeyCode.L);
-
-    public static final InputAction PAUSE = new InputAction(CompareMode.Or, KeyCode.ESCAPE);
+    private static final Map<Input, InputAction> actionCache = new HashMap<>();
 
     private static InputService inputService;
-    private final CompareMode mode;
     private final KeyCode[] keys;
 
-    private InputAction(CompareMode mode, KeyCode... keys) {
-        this.mode = mode;
+    private InputAction(KeyCode... keys) {
         this.keys = keys;
+    }
+
+    public static InputAction get(Input input) {
+        if (actionCache.containsKey(input))
+            return actionCache.get(input);
+
+        InputAction action = new InputAction(KeyBindSettings.getInstance().getKeysForInput(input));
+        actionCache.put(input, action);
+
+        return action;
     }
 
     public static void initialiseActions() {
@@ -29,85 +33,29 @@ public class InputAction {
     }
 
     public boolean wasActivatedThisFrame() {
-        switch (mode) {
-            case Or -> {
-                for (KeyCode keyCode : keys) {
-                    if (inputService.wasKeyPressed(keyCode))
-                        return true;
-                }
-
-                return false;
-            }
-
-            case And -> {
-                for (KeyCode keyCode : keys) {
-                    if (!inputService.wasKeyPressed(keyCode))
-                        return false;
-                }
-
+        for (KeyCode keyCode : keys) {
+            if (inputService.wasKeyPressed(keyCode))
                 return true;
-            }
-
-            default -> {
-                return false;
-            }
         }
+
+        return false;
     }
 
     public boolean wasDeactivatedThisFrame() {
-        switch (mode) {
-            case Or -> {
-                for (KeyCode keyCode : keys) {
-                    if (inputService.wasKeyReleased(keyCode))
-                        return true;
-                }
-
-                return false;
-            }
-
-            case And -> {
-                for (KeyCode keyCode : keys) {
-                    if (!inputService.wasKeyReleased(keyCode))
-                        return false;
-                }
-
+        for (KeyCode keyCode : keys) {
+            if (inputService.wasKeyReleased(keyCode))
                 return true;
-            }
-
-            default -> {
-                return false;
-            }
         }
+
+        return false;
     }
 
     public boolean isActivationHeld() {
-        switch (mode) {
-            case Or -> {
-                for (KeyCode keyCode : keys) {
-                    if (inputService.isKeyHeld(keyCode))
-                        return true;
-                }
-
-                return false;
-            }
-
-            case And -> {
-                for (KeyCode keyCode : keys) {
-                    if (!inputService.isKeyHeld(keyCode))
-                        return false;
-                }
-
+        for (KeyCode keyCode : keys) {
+            if (inputService.isKeyHeld(keyCode))
                 return true;
-            }
-
-            default -> {
-                return false;
-            }
         }
-    }
 
-    public enum CompareMode {
-        Or,
-        And
+        return false;
     }
 }
