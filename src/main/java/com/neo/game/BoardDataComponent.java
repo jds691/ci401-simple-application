@@ -61,6 +61,9 @@ public class BoardDataComponent extends NodeComponent {
     private boolean pausedByPauseEvent = false;
     private ArrayList<Integer> clearedLines = new ArrayList<>(BOARD_HEIGHT);
 
+    @ForceSerialize
+    private boolean debug_NonUniformColours = false;
+
     @Override
     public void start() {
         super.start();
@@ -207,6 +210,7 @@ public class BoardDataComponent extends NodeComponent {
 
             boolean boardFull = false;
 
+            Block.Color startColour = Block.Color.Blue;
             for (int i = 0; i < maxBlockLength; i++) {
                 for (int j = 0; j < pendingBlock.pattern.length; j++) {
                     boolean blockExists = pendingBlock.pattern[j][i];
@@ -219,7 +223,24 @@ public class BoardDataComponent extends NodeComponent {
                     }
 
                     boardState[j][startingPoint + i].isMoving = blockExists;
-                    boardState[j][startingPoint + i].color = blockExists ? pendingBlock.color : Block.Color.None;
+
+                    if (debug_NonUniformColours) {
+                        boardState[j][startingPoint + i].color = blockExists ? startColour : Block.Color.None;
+
+                        if (!blockExists)
+                            continue;
+
+                        int currentColorOrdinal = startColour.ordinal();
+                        currentColorOrdinal++;
+
+                        if (currentColorOrdinal > Block.Color.values().length)
+                            currentColorOrdinal = 0;
+
+                        startColour = Block.Color.values()[currentColorOrdinal];
+                    } else {
+                        boardState[j][startingPoint + i].color = blockExists ? pendingBlock.color : Block.Color.None;
+                    }
+
                     boardState[j][startingPoint + i].tone = ThreadLocalRandom.current().nextInt(0, 3);
                 }
             }
@@ -362,7 +383,7 @@ public class BoardDataComponent extends NodeComponent {
             }
         }
 
-        blockRotateSfx.play();
+        //blockRotateSfx.play();
     }
 
     private void handleHorizontalMovement(boolean isMovingRight) {

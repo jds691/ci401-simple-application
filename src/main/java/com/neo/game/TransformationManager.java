@@ -84,6 +84,10 @@ public class TransformationManager {
                                 new Pair<>(0, 0),
                                 new Pair<>(0, 0)
                         },
+                        /*
+                         |
+                         |_ _ _ _
+                         */
                         { // 0 -> 90
                                 new Pair<>(+1, 0),
                                 new Pair<>(0, -1),
@@ -91,6 +95,13 @@ public class TransformationManager {
                                 new Pair<>(-2, +1),
                                 new Pair<>(-3, +2)
                         },
+                        /*
+                         _ _
+                        |
+                        |
+                        |
+                        |
+                         */
                         { // 90 -> 180
                                 new Pair<>(0, 0),
                                 new Pair<>(0, 0),
@@ -98,6 +109,11 @@ public class TransformationManager {
                                 new Pair<>(0, 0),
                                 new Pair<>(0, 0)
                         },
+                        /*
+                        _ _ _ _
+                               |
+                               |
+                         */
                         { // 180 -> 270
                                 new Pair<>(0, 0),
                                 new Pair<>(0, 0),
