@@ -9,14 +9,14 @@ public class BlockFormation {
     );
     public static final BlockFormation J_BLOCK = new BlockFormation(
             new boolean[][]{
-                    {true, false, false, false},
+                    {false, false, false, true},
                     {true, true, true, true}
             },
             Block.Color.Blue
     );
     public static final BlockFormation L_BLOCK = new BlockFormation(
             new boolean[][]{
-                    {false, false, false, true},
+                    {true, false, false, false},
                     {true, true, true, true}
             },
             Block.Color.Orange
