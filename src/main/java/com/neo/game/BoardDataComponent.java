@@ -153,7 +153,7 @@ public class BoardDataComponent extends NodeComponent {
         boolean isRotatingRight = false;
         if (InputAction.ROTATE_LEFT.wasActivatedThisFrame()) {
             blocksNeedRotated = true;
-        } else if (InputAction.MOVE_DOWN.wasActivatedThisFrame()) {
+        } else if (InputAction.ROTATE_RIGHT.wasActivatedThisFrame()) {
             blocksNeedRotated = true;
             isRotatingRight = true;
         }
@@ -179,12 +179,10 @@ public class BoardDataComponent extends NodeComponent {
         }
 
         if (currentMovementDelay > 0) {
-            /*if (InputAction.MOVE_DOWN.isActivationHeld())
+            if (InputAction.MOVE_DOWN.isActivationHeld())
                 currentMovementDelay -= deltaTime * speedUpFactor;
             else
-                currentMovementDelay -= deltaTime;*/
-
-            currentMovementDelay -= deltaTime;
+                currentMovementDelay -= deltaTime;
 
             return;
         } else {

@@ -10,8 +10,8 @@ public class InputAction {
     public static final InputAction MOVE_RIGHT = new InputAction(CompareMode.Or, KeyCode.D, KeyCode.RIGHT);
     public static final InputAction MOVE_DOWN = new InputAction(CompareMode.Or, KeyCode.S, KeyCode.DOWN);
 
-    public static final InputAction ROTATE_LEFT = new InputAction(CompareMode.Or, KeyCode.Q);
-    public static final InputAction ROTATE_RIGHT = new InputAction(CompareMode.Or, KeyCode.E);
+    public static final InputAction ROTATE_LEFT = new InputAction(CompareMode.Or, KeyCode.K);
+    public static final InputAction ROTATE_RIGHT = new InputAction(CompareMode.Or, KeyCode.L);
 
     public static final InputAction PAUSE = new InputAction(CompareMode.Or, KeyCode.ESCAPE);
 
