@@ -30,21 +30,20 @@ import javafx.util.Pair;
  * |
  * |
  */
+//The board gets searched top-down, left-right. Therefore we can make this so the array of coordinates aligns to that order
 public class TransformationManager {
-    public static Pair<Integer, Integer>[][] requestCoordinateTransformations(BlockFormation block, boolean rotateRight, RotationState currentRotationState) {
+    public static Pair<Integer, Integer>[] requestCoordinateTransformations(BlockFormation block, boolean rotateRight, RotationState currentRotationState) {
         // Behold, the 3D transformation array
-        Pair<Integer, Integer>[][][] transformationTable = new Pair[0][][];
+        Pair<Integer, Integer>[][] transformationTable = new Pair[0][];
 
         switch (block.color) {
             case Block.Color.Cyan: // I_BLOCK
-                transformationTable = new Pair[][][]{
+                transformationTable = new Pair[][]{
                         { // 270 -> 0
-                                {
-                                        new Pair<>(0, 0),
-                                        new Pair<>(0, 0),
-                                        new Pair<>(0, 0),
-                                        new Pair<>(0, 0)
-                                }
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0),
+                                new Pair<>(0, 0)
                         },
                         { // 0 -> 90
                         },
@@ -56,7 +55,7 @@ public class TransformationManager {
                 break;
 
             case Block.Color.Blue: // J_BLOCK
-                transformationTable = new Pair[][][]{
+                transformationTable = new Pair[][]{
                         { // 270 -> 0
                         },
                         { // 0 -> 90
@@ -69,7 +68,7 @@ public class TransformationManager {
                 break;
 
             case Block.Color.Orange: // L_BLOCK
-                transformationTable = new Pair[][][]{
+                transformationTable = new Pair[][]{
                         { // 270 -> 0
                         },
                         { // 0 -> 90
@@ -82,7 +81,7 @@ public class TransformationManager {
                 break;
 
             case Block.Color.Yellow: // S_BLOCK
-                transformationTable = new Pair[][][]{
+                transformationTable = new Pair[][]{
                         { // 270 -> 0
                         },
                         { // 0 -> 90
@@ -95,7 +94,7 @@ public class TransformationManager {
                 break;
 
             case Block.Color.Purple: // T_BLOCK
-                transformationTable = new Pair[][][]{
+                transformationTable = new Pair[][]{
                         { // 270 -> 0
                         },
                         { // 0 -> 90
@@ -108,7 +107,7 @@ public class TransformationManager {
                 break;
 
             case Block.Color.Red: // Z_BLOCK
-                transformationTable = new Pair[][][]{
+                transformationTable = new Pair[][]{
                         { // 270 -> 0
                         },
                         { // 0 -> 90
@@ -121,7 +120,7 @@ public class TransformationManager {
                 break;
         }
 
-        Pair[][] targetTransformation = transformationTable[currentRotationState.ordinal()];
+        Pair[] targetTransformation = transformationTable[currentRotationState.ordinal()];
 
         if (!rotateRight) {
             // The transformations need swizzled to be inverted
