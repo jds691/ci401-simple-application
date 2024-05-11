@@ -6,6 +6,7 @@ import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.audio.AudioPlayer;
 import com.neo.twig.audio.AudioService;
+import com.neo.twig.events.Event;
 import com.neo.twig.scene.NodeComponent;
 import com.neo.twig.scene.SceneService;
 import javafx.util.Pair;
@@ -38,6 +39,8 @@ public class BoardDataComponent extends NodeComponent {
     private double currentMovementDelay;
     private boolean pauseUpdates;
 
+    public Event<ArrayList<Integer>> linesDidClearEvent = new Event<>();
+
     @ForceSerialize
     private double speedUpFactor;
 
@@ -48,6 +51,8 @@ public class BoardDataComponent extends NodeComponent {
     private boolean needsNewBlockSpawn;
     private RotationState currentRotationState = RotationState.ZERO;
     private BlockFormation pendingBlock;
+    private boolean pausedByPauseEvent = false;
+    private ArrayList<Integer> clearedLines = new ArrayList<>(BOARD_HEIGHT);
 
     @Override
     public void start() {
@@ -63,6 +68,10 @@ public class BoardDataComponent extends NodeComponent {
                 .getComponent(GameManager.class);
 
         gameManager.getPauseDidChangeEvent().addHandler((paused) -> {
+            if (!pausedByPauseEvent && pauseUpdates)
+                return;
+
+            pausedByPauseEvent = true;
             pauseUpdates = paused;
         });
         gameManager.getGameDidEndEvent().addHandler((ignored) -> {
@@ -91,19 +100,20 @@ public class BoardDataComponent extends NodeComponent {
         }
 
         // Forces a line clear on game start
-        /*for (int j = 0; j < BOARD_WIDTH - 1; j++) {
+        for (int j = 0; j < BOARD_WIDTH - 1; j++) {
             boardState[19][j].color = Block.Color.Red;
         }
         boardState[18][BOARD_WIDTH - 1].color = Block.Color.Cyan;
         boardState[18][BOARD_WIDTH - 1].isMoving = true;
         boardState[17][BOARD_WIDTH - 1].color = Block.Color.Cyan;
-        boardState[17][BOARD_WIDTH - 1].isMoving = true;*/
+        boardState[17][BOARD_WIDTH - 1].isMoving = true;
 
 
         pendingBlock = gameManager.requestRandomBlockFormation();
-        needsNewBlockSpawn = true;
+        needsNewBlockSpawn = false;
     }
 
+    //TODO: Be able to clear lines without the movement delay
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -161,11 +171,10 @@ public class BoardDataComponent extends NodeComponent {
             currentMovementDelay = movementDelay;
         }
 
-        boolean didCollisionOccur;
         queuedMovement = new ArrayList<>();
 
-        didCollisionOccur = checkDownMovementCollision();
-        handleCollisions(didCollisionOccur);
+        if (!clearedLines.isEmpty())
+            handleClearedLines();
 
         if (needsNewBlockSpawn) {
             int midPoint = (BOARD_WIDTH / 2) - 1;
@@ -200,6 +209,8 @@ public class BoardDataComponent extends NodeComponent {
                 gameManager.signalGameEnd();
             }
         }
+
+        handleCollisions(checkDownMovementCollision());
     }
 
     //TODO: Redo now that block formations are cached during use
@@ -397,6 +408,7 @@ public class BoardDataComponent extends NodeComponent {
     // If any of the moving blocks met a collision, prevent any other moving blocks being moved
     private void handleCollisions(boolean didCollisionOccur) {
         if (!didCollisionOccur) {
+            clearedLines.clear();
             // Reverse the loop yet again since movement is queued in reverse in the loop above
             for (Pair<Integer, Integer> coordinatePair : queuedMovement) {
                 int x = coordinatePair.getKey();
@@ -416,53 +428,14 @@ public class BoardDataComponent extends NodeComponent {
                 }
             }
 
-            ArrayList<Integer> linesCleared = new ArrayList<>(BOARD_HEIGHT);
             for (int i = 0; i < BOARD_HEIGHT; i++) {
                 if (checkLineClear(i))
-                    linesCleared.add(i);
+                    clearedLines.add(i);
             }
 
-            if (!linesCleared.isEmpty()) {
+            if (!clearedLines.isEmpty()) {
+                linesDidClearEvent.emit(clearedLines);
                 lineClearSfx.play();
-                for (int lineY : linesCleared) {
-                    for (int i = 0; i < BOARD_WIDTH; i++) {
-                        boardState[lineY][i].color = Block.Color.None;
-                        boardState[lineY][i].isMoving = false;
-                    }
-                }
-
-                boolean boardShiftRequired = true;
-                while (boardShiftRequired) {
-                    for (int y = BOARD_HEIGHT - 1; y > 0; y--) {
-                        boolean lineIsEmpty = true;
-                        for (int x = 0; x < BOARD_WIDTH; x++) {
-                            if (boardState[y][x].color != Block.Color.None) {
-                                lineIsEmpty = false;
-                                break;
-                            }
-                        }
-
-                        if (lineIsEmpty) {
-                            boolean restOfBoardEmpty = true;
-                            for (int y2 = y; y2 > 0; y2--) {
-                                for (int x = 0; x < BOARD_WIDTH; x++) {
-                                    if (boardState[y2][x].color != Block.Color.None) {
-                                        restOfBoardEmpty = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!restOfBoardEmpty) {
-                                shiftBoard(y);
-                                // Research the whole board again
-                                y = BOARD_HEIGHT;
-                            }
-                        }
-                    }
-
-                    boardShiftRequired = false;
-                }
             } else {
                 blockPlaceSfx.play();
             }
@@ -487,6 +460,48 @@ public class BoardDataComponent extends NodeComponent {
         }
     }
 
+    private void handleClearedLines() {
+        for (int lineY : clearedLines) {
+            for (int i = 0; i < BOARD_WIDTH; i++) {
+                boardState[lineY][i].color = Block.Color.None;
+                boardState[lineY][i].isMoving = false;
+            }
+        }
+
+        boolean boardShiftRequired = true;
+        while (boardShiftRequired) {
+            for (int y = BOARD_HEIGHT - 1; y > 0; y--) {
+                boolean lineIsEmpty = true;
+                for (int x = 0; x < BOARD_WIDTH; x++) {
+                    if (boardState[y][x].color != Block.Color.None) {
+                        lineIsEmpty = false;
+                        break;
+                    }
+                }
+
+                if (lineIsEmpty) {
+                    boolean restOfBoardEmpty = true;
+                    for (int y2 = y; y2 > 0; y2--) {
+                        for (int x = 0; x < BOARD_WIDTH; x++) {
+                            if (boardState[y2][x].color != Block.Color.None) {
+                                restOfBoardEmpty = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!restOfBoardEmpty) {
+                        shiftBoard(y);
+                        // Research the whole board again
+                        y = BOARD_HEIGHT;
+                    }
+                }
+            }
+
+            boardShiftRequired = false;
+        }
+    }
+
     public boolean checkLineClear(int y) {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             if (getBoardState(i, y).color == Block.Color.None) {
@@ -499,5 +514,14 @@ public class BoardDataComponent extends NodeComponent {
 
     public Block getBoardState(int x, int y) {
         return boardState[y][x];
+    }
+
+    public void setPauseUpdates(boolean pause) {
+        pausedByPauseEvent = false;
+        pauseUpdates = pause;
+    }
+
+    public Event<ArrayList<Integer>> getLinesDidClearEvent() {
+        return linesDidClearEvent;
     }
 }
