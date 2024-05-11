@@ -1,14 +1,24 @@
 #root {
     -fx-background-color: transparent;
+    -fx-padding: 16px;
 }
 
 #ui-bottom {
     -fx-background-color: transparent;
-    -fx-padding: 16;
 }
 
 #button-container {
-    -fx-spacing: 8;
+    -fx-spacing: 8px;
+}
+
+#content-center {
+    -fx-spacing: 24px;
+    -fx-alignment: center;
+}
+
+.title-label {
+    -fx-font-size: 48px;
+    -fx-text-fill: black;
 }
 
 .version-label {
@@ -16,5 +26,5 @@
 }
 
 .button {
-    -fx-max-width: 150;
+    -fx-max-width: 150px;
 }

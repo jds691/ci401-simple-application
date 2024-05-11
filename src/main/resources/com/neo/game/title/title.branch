@@ -27,6 +27,11 @@
           "class": "com.neo.game.BoardDataComponent",
           "resource": "main.branch"
         },
+        "gameIcon": {
+          "class": "com.neo.game.GameApplication",
+          "resource": "icon.png"
+        },
+        "iconSize": 200,
         "stylesheets": [
           {
             "class": "com.neo.game.GameApplication",
