@@ -130,6 +130,7 @@ public class BoardDataComponent extends NodeComponent {
         boardState[17][BOARD_WIDTH - 1].color = Block.Color.Cyan;
         boardState[17][BOARD_WIDTH - 1].isMoving = true;*/
 
+        //boardState[8][6].color = Block.Color.Red;
 
         pendingBlock = gameManager.requestRandomBlockFormation();
         needsNewBlockSpawn = true;
@@ -222,7 +223,7 @@ public class BoardDataComponent extends NodeComponent {
                         break;
                     }
 
-                    boardState[j][startingPoint + i].isMoving = blockExists;
+                    boardState[j][startingPoint + i].isMoving = true;
 
                     if (debug_NonUniformColours) {
                         boardState[j][startingPoint + i].color = blockExists ? startColour : Block.Color.None;
@@ -261,67 +262,100 @@ public class BoardDataComponent extends NodeComponent {
         // Store coordinates for later changes
         ArrayList<Pair<Integer, Integer>> movingCoordinates = new ArrayList<>();
 
+        Block[][] blockMatrix;
+        Block[][] blockTransposedMatrix;
+
+        int length;
+        int height;
+
+        if (isCurrentRotationVertical()) {
+            length = pendingBlock.getPattern().length;
+            height = pendingBlock.getPattern()[0].length;
+        } else {
+            length = pendingBlock.getPattern()[0].length;
+            height = pendingBlock.getPattern().length;
+        }
+
+        blockMatrix = new Block[length][height];
+        blockTransposedMatrix = new Block[height][length];
+
+        int startX = -1;
+        int startY = -1;
+
         for (int x = 0; x < BOARD_WIDTH; x++) {
             for (int y = 0; y < BOARD_HEIGHT; y++) {
                 Block block = boardState[y][x];
 
-                if (block.isMoving)
+                if (block.isMoving) {
+                    if (startX == -1)
+                        startX = x;
+
+                    if (startY == -1)
+                        startY = y;
+
                     movingCoordinates.add(new Pair<>(x, y));
+                    blockMatrix[x - startX][y - startY] = block;
+                }
             }
         }
 
-        RotationState targetState;
+        for (int x = 0; x < blockMatrix.length; x++) {
+            for (int y = 0; y < blockMatrix[x].length; y++) {
+                if (blockMatrix[x][y] == null)
+                    blockMatrix[x][y] = new Block();
+            }
+        }
+
+        // Matrix Transposition
+        for (int x = 0; x < length; x++) {
+            for (int y = 0; y < height; y++) {
+                blockTransposedMatrix[y][x] = blockMatrix[x][y];
+            }
+        }
 
         if (isRotatingRight) {
-            int currentOrdinal = currentRotationState.ordinal();
-            currentOrdinal++;
-
-            if (currentOrdinal == RotationState.values().length)
-                currentOrdinal = 0;
-
-            targetState = RotationState.values()[currentOrdinal];
+            // Reverse order of columns on transposed
+            for (int x = 0; x < blockTransposedMatrix.length / 2; x++) {
+                Block[] temp = blockTransposedMatrix[x];
+                blockTransposedMatrix[x] = blockTransposedMatrix[blockTransposedMatrix.length - x - 1];
+                blockTransposedMatrix[blockTransposedMatrix.length - x - 1] = temp;
+            }
         } else {
-            int currentOrdinal = currentRotationState.ordinal();
-            currentOrdinal--;
-
-            if (currentOrdinal == -1)
-                currentOrdinal = RotationState.values().length - 1;
-
-            targetState = RotationState.values()[currentOrdinal];
+            // Reverse order of rows on transposed
+            for (int x = 0; x < blockTransposedMatrix.length; x++) {
+                for (int y = 0; y < blockTransposedMatrix[x].length / 2; y++) {
+                    Block temp = blockTransposedMatrix[x][y];
+                    blockTransposedMatrix[x][y] = blockTransposedMatrix[x][blockTransposedMatrix[x].length - y - 1];
+                    blockTransposedMatrix[x][blockTransposedMatrix[x].length - y - 1] = temp;
+                }
+            }
         }
 
-        Pair<Integer, Integer>[] transformations = TransformationManager.requestCoordinateTransformations(pendingBlock, isRotatingRight, targetState);
         boolean rotationValid = true;
-        ArrayList<Pair<Integer, Integer>> newCoordinates = new ArrayList<>();
-        for (int i = 0; i < movingCoordinates.size(); i++) {
-            Pair<Integer, Integer> movingCoordinate = movingCoordinates.get(i);
-            int x = movingCoordinate.getKey();
-            int y = movingCoordinate.getValue();
-            Pair<Integer, Integer> transformation = transformations[i];
+        for (int x = 0; x < blockTransposedMatrix.length; x++) {
+            for (int y = 0; y < blockTransposedMatrix[x].length; y++) {
+                int newX = x + startX;
+                int newY = y + startY;
 
-            int newX = x + transformation.getKey();
-            int newY = y + transformation.getValue();
+                // Off screen checks
+                if (
+                        newX > BOARD_WIDTH - 1 ||
+                                newX < 0 ||
+                                newY > BOARD_HEIGHT - 1 ||
+                                newY < 0
+                ) {
+                    // The rotation is invalid and should be ignored
+                    rotationValid = false;
+                    break;
+                }
 
-            // Off screen checks
-            if (
-                    newX > BOARD_WIDTH - 1 ||
-                            newX < 0 ||
-                            newY > BOARD_HEIGHT - 1 ||
-                            newY < 0
-            ) {
-                // The rotation is invalid and should be ignored
-                rotationValid = false;
-                break;
+                // Occupancy checks
+                if (boardState[newY][newX].color != Block.Color.None && !boardState[newY][newX].isMoving) {
+                    // The rotation is invalid and should be ignored
+                    rotationValid = false;
+                    break;
+                }
             }
-
-            // Occupancy checks
-            if (boardState[newY][newX].color != Block.Color.None && !boardState[newY][newX].isMoving) {
-                // The rotation is invalid and should be ignored
-                rotationValid = false;
-                break;
-            }
-
-            newCoordinates.add(new Pair<>(newX, newY));
         }
 
         if (!rotationValid) {
@@ -329,6 +363,16 @@ public class BoardDataComponent extends NodeComponent {
             return;
         }
 
+        Block[][] boardStateBackup = new Block[BOARD_HEIGHT][BOARD_WIDTH];
+        for (int y = 0; y < BOARD_HEIGHT; y++) {
+            for (int x = 0; x < BOARD_WIDTH; x++) {
+                boardStateBackup[y][x] = new Block();
+                boardStateBackup[y][x].color = boardState[y][x].color;
+                boardStateBackup[y][x].tone = boardState[y][x].tone;
+                boardStateBackup[y][x].isMoving = boardState[y][x].isMoving;
+            }
+        }
+
         if (isRotatingRight) {
             int currentOrdinal = currentRotationState.ordinal();
             currentOrdinal++;
@@ -337,24 +381,6 @@ public class BoardDataComponent extends NodeComponent {
                 currentOrdinal = 0;
 
             currentRotationState = RotationState.values()[currentOrdinal];
-
-            for (int i = 0; i < newCoordinates.size(); i++) {
-                Pair<Integer, Integer> currentCoordinate = movingCoordinates.get(i);
-                Pair<Integer, Integer> newCoordinate = newCoordinates.get(i);
-
-                int x = currentCoordinate.getKey();
-                int y = currentCoordinate.getValue();
-
-                int newX = newCoordinate.getKey();
-                int newY = newCoordinate.getValue();
-
-                boardState[newY][newX].color = boardState[y][x].color;
-                boardState[newY][newX].tone = boardState[y][x].tone;
-                boardState[newY][newX].isMoving = true;
-
-                boardState[y][x].color = Block.Color.None;
-                boardState[y][x].isMoving = false;
-            }
         } else {
             int currentOrdinal = currentRotationState.ordinal();
             currentOrdinal--;
@@ -363,19 +389,22 @@ public class BoardDataComponent extends NodeComponent {
                 currentOrdinal = RotationState.values().length - 1;
 
             currentRotationState = RotationState.values()[currentOrdinal];
+        }
 
-            for (int i = newCoordinates.size() - 1; i >= 0; i--) {
-                Pair<Integer, Integer> currentCoordinate = movingCoordinates.get(i);
-                Pair<Integer, Integer> newCoordinate = newCoordinates.get(i);
+        for (Pair<Integer, Integer> coord : movingCoordinates) {
+            int y = coord.getValue();
+            int x = coord.getKey();
 
-                int x = currentCoordinate.getKey();
-                int y = currentCoordinate.getValue();
+            boardState[y][x] = new Block();
+        }
 
-                int newX = newCoordinate.getKey();
-                int newY = newCoordinate.getValue();
+        for (int x = 0; x < blockTransposedMatrix.length; x++) {
+            for (int y = 0; y < blockTransposedMatrix[x].length; y++) {
+                int newX = x + startX;
+                int newY = y + startY;
 
-                boardState[newY][newX].color = boardState[y][x].color;
-                boardState[newY][newX].tone = boardState[y][x].tone;
+                boardState[newY][newX].color = blockTransposedMatrix[x][y].color;
+                boardState[newY][newX].tone = blockTransposedMatrix[x][y].tone;
                 boardState[newY][newX].isMoving = true;
 
                 boardState[y][x].color = Block.Color.None;
@@ -487,11 +516,11 @@ public class BoardDataComponent extends NodeComponent {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 Block block = boardState[i][j];
 
-                if (block.color == Block.Color.None)
-                    continue;
+                //if (block.color == Block.Color.None)
+                //    continue;
 
                 // Has a collision already happened or if the current block is moving, is the one below it stationary and occupied
-                if (block.isMoving && (i == BOARD_HEIGHT - 1 || boardState[i + 1][j].color != Block.Color.None && !boardState[i + 1][j].isMoving)) {
+                if (block.color != Block.Color.None && block.isMoving && (i == BOARD_HEIGHT - 1 || boardState[i + 1][j].color != Block.Color.None && !boardState[i + 1][j].isMoving)) {
                     didCollisionOccur = true;
                     break;
                 }
@@ -627,5 +656,9 @@ public class BoardDataComponent extends NodeComponent {
 
     public Event<ArrayList<Integer>> getLinesDidClearEvent() {
         return linesDidClearEvent;
+    }
+
+    private boolean isCurrentRotationVertical() {
+        return currentRotationState == RotationState.NINETY || currentRotationState == RotationState.TWO_HUNDRED_SEVENTY;
     }
 }
