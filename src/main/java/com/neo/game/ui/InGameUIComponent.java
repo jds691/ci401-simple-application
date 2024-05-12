@@ -23,6 +23,9 @@ public class InGameUIComponent extends FXComponent {
     private VBox blockQueue;
 
     @ForceSerialize
+    private double thumbnailSize;
+
+    @ForceSerialize
     private ImageResource[] blockThumbnails;
 
     @Override
@@ -67,6 +70,10 @@ public class InGameUIComponent extends FXComponent {
         for (Block.Color color : colors) {
             ImageView image = new ImageView();
             image.setImage(blockThumbnails[color.ordinal()].get());
+            image.setPreserveRatio(true);
+            image.setFitWidth(thumbnailSize); // Can't adjust these values via CSS unfortunately
+            image.maxWidth(thumbnailSize);
+            image.getStyleClass().add("block-thumbnail");
 
             blockQueue.getChildren().add(image);
         }

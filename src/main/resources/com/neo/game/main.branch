@@ -50,34 +50,35 @@
             "resource": "menu-in-game.css"
           }
         ],
+        "thumbnailSize": 50,
         "blockThumbnails": [
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_bug_block.png"
           },
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_j_block.png"
           },
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_i_block.png"
           },
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_l_block.png"
           },
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_t_block.png"
           },
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_z_block.png"
           },
           {
             "class": "com.neo.game.BoardRenderComponent",
-            "resource": "invalid.png"
+            "resource": "thumb_s_block.png"
           }
         ]
       }
