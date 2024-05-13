@@ -400,7 +400,7 @@ public class BoardDataComponent extends NodeComponent {
             }
         }
 
-        //blockRotateSfx.play();
+        blockRotateSfx.play();
     }
 
     private void handleHorizontalMovement(boolean isMovingRight) {
