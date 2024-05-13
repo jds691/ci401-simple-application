@@ -7,6 +7,7 @@ import com.neo.game.title.TitleControllerComponent;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
+import com.neo.twig.audio.AudioBus;
 import com.neo.twig.audio.AudioConfig;
 import com.neo.twig.config.ConfigManager;
 import com.neo.twig.config.ConfigScope;
@@ -60,6 +61,18 @@ public class GameApplication {
 
     private static AudioConfig generateAudioConfig() {
         AudioConfig audio = new AudioConfig();
+
+        AudioBus master = new AudioBus("Master");
+
+        AudioBus music = new AudioBus("Music");
+        AudioBus sfx = new AudioBus("SFX");
+        AudioBus ui = new AudioBus("UI");
+
+        master.addChildBus(music);
+        master.addChildBus(sfx);
+        master.addChildBus(ui);
+
+        audio.mixerTree.addChildBus(master);
 
         return audio;
     }
