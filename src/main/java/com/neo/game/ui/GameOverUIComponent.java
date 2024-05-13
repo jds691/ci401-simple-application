@@ -14,10 +14,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+import java.text.DecimalFormat;
+
 public class GameOverUIComponent extends FXComponent {
     private GameManager gameManager;
 
     private int currentScore;
+    DecimalFormat scoreFormat = new DecimalFormat("0000000000");
 
     @ForceSerialize
     private URLResource gameScene;
@@ -40,7 +43,7 @@ public class GameOverUIComponent extends FXComponent {
 
         gameManager.getCurrentScoreDidChangeEvent().addHandler((deltaScore) -> {
             currentScore += deltaScore;
-            scoreLabel.setText(String.format("Final Score: %10d", currentScore));
+            scoreLabel.setText("Final Score: " + scoreFormat.format(currentScore));
         });
         gameManager.getGameDidEndEvent().addHandler((ignored) -> {
             setVisible(true);

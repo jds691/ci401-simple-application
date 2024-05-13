@@ -519,6 +519,10 @@ public class BoardDataComponent extends NodeComponent {
                 //if (block.color == Block.Color.None)
                 //    continue;
 
+                //TODO: Now that some clear blocks can move this code breaks at some points
+                // Examples:
+                // - Erasing parts of the current block (Usually leads to out of bounds errors)
+
                 // Has a collision already happened or if the current block is moving, is the one below it stationary and occupied
                 if (block.color != Block.Color.None && block.isMoving && (i == BOARD_HEIGHT - 1 || boardState[i + 1][j].color != Block.Color.None && !boardState[i + 1][j].isMoving)) {
                     didCollisionOccur = true;
@@ -569,6 +573,32 @@ public class BoardDataComponent extends NodeComponent {
             if (!clearedLines.isEmpty()) {
                 linesDidClearEvent.emit(clearedLines);
                 lineClearSfx.play();
+
+                // There is a lot more involved in the scoring system which I would like to add in the future
+                // You can see this here: https://tetris.wiki/Scoring
+                // Due to time constraints, I am adding a very simple scoring system
+                // This also means this edition of Tetris doesn't conform to the official standards which I would like to do in the future
+                // But oh well
+
+                // This edition of Tetris also uses a fixed gravity speed (I didn't know it could change)
+
+                int awardedScore;
+
+                switch (clearedLines.size()) {
+                    case 1:
+                        awardedScore = 100;
+                        break;
+                    case 2:
+                        awardedScore = 300;
+                        break;
+                    case 3:
+                        awardedScore = 500;
+                        break;
+                    default:
+                        awardedScore = 800;
+                }
+
+                gameManager.addScore(awardedScore);
             } else {
                 blockPlaceSfx.play();
             }
