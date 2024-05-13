@@ -7,11 +7,15 @@ import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.ImageResource;
 import com.neo.twig.ui.FXComponent;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.text.DecimalFormat;
 import java.util.ArrayDeque;
@@ -33,6 +37,9 @@ public class InGameUIComponent extends FXComponent {
 
     @ForceSerialize
     private ImageResource[] blockThumbnails;
+
+    private Timeline deltaFadeInAnimation;
+    private Timeline deltaFadeOutAnimation;
 
     @Override
     public void start() {
@@ -66,17 +73,42 @@ public class InGameUIComponent extends FXComponent {
 
         root.setRight(blockQueue);
 
+        BorderPane scoreInfoAlignment = new BorderPane();
         VBox scoreInfo = new VBox();
+        scoreInfo.setId("score-info");
 
         totalScoreLabel = new Label("Score: 0000000000");
         totalScoreLabel.getStyleClass().add("label");
         deltaScoreLabel = new Label("+000");
         deltaScoreLabel.getStyleClass().add("label");
+        deltaScoreLabel.setId("delta-score-label");
+
+        deltaFadeInAnimation = new Timeline();
+        deltaFadeInAnimation.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(deltaScoreLabel.translateYProperty(), -100)
+                ),
+                new KeyFrame(new Duration(500),
+                        new KeyValue(deltaScoreLabel.translateYProperty(), 0)
+                )
+        );
+        deltaScoreLabel.translateYProperty().set(-100);
+
+        deltaFadeOutAnimation = new Timeline();
+        deltaFadeOutAnimation.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(deltaScoreLabel.translateYProperty(), 0)
+                ),
+                new KeyFrame(new Duration(500),
+                        new KeyValue(deltaScoreLabel.translateYProperty(), -100)
+                )
+        );
 
         scoreInfo.getChildren().add(totalScoreLabel);
         scoreInfo.getChildren().add(deltaScoreLabel);
 
-        root.setTop(scoreInfo);
+        scoreInfoAlignment.setTop(scoreInfo);
+        root.setLeft(scoreInfoAlignment);
 
         return root;
     }
@@ -85,6 +117,7 @@ public class InGameUIComponent extends FXComponent {
         currentScore += deltaScore;
         totalScoreLabel.setText("Score: " + scoreFormat.format(currentScore));
         deltaScoreLabel.setText("+" + deltaScore);
+        deltaFadeInAnimation.play();
     }
 
     private void handleBlockQueueChange(ArrayList<Block.Color> colors) {

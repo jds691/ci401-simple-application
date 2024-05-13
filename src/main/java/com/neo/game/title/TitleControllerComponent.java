@@ -2,15 +2,14 @@ package com.neo.game.title;
 
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
-import com.neo.twig.resources.ImageResource;
 import com.neo.twig.resources.URLResource;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -18,8 +17,6 @@ public class TitleControllerComponent extends FXComponent {
     @ForceSerialize
     private URLResource gameScene;
 
-    @ForceSerialize
-    private ImageResource gameIcon;
     @ForceSerialize
     private double iconSize;
 
@@ -60,14 +57,9 @@ public class TitleControllerComponent extends FXComponent {
 
         Label titleLabel = new Label("tetris");
         titleLabel.getStyleClass().add("title-label");
+        titleLabel.setPadding(new Insets(0, 0, iconSize, 0));
 
-        ImageView icon = new ImageView();
-        icon.setImage(gameIcon.get());
-        icon.setFitWidth(iconSize);
-        icon.setPreserveRatio(true);
-        icon.setSmooth(true);
-
-        titleCenter.getChildren().addAll(titleLabel, icon);
+        titleCenter.getChildren().add(titleLabel);
 
         bottom.setLeft(gameVersion);
         bottom.setRight(buttonContainer);

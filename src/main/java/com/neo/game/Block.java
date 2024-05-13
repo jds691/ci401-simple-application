@@ -13,6 +13,11 @@ public class Block {
         isMoving = false;
     }
 
+    public Block(Color color, int tone) {
+        this.color = color;
+        this.tone = tone;
+    }
+
     public enum Color {
         None,
         Blue,
@@ -21,5 +26,29 @@ public class Block {
         Purple,
         Red,
         Yellow
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getTone() {
+        return tone;
+    }
+
+    public void setTone(int tone) {
+        this.tone = tone;
+    }
+
+    public boolean getIsMoving() {
+        return isMoving;
+    }
+
+    public void setIsMoving(boolean moving) {
+        isMoving = moving;
     }
 }

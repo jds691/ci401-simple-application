@@ -15,6 +15,19 @@
     -fx-text-fill: white;
 }
 
+.label {
+    -fx-text-fill: black;
+}
+
+#score-info {
+    -fx-alignment: center-right;
+    -fx-spacing: 8px;
+}
+
+#delta-score-label {
+    -fx-text-fill: rgb(87, 230, 185);
+}
+
 .faded-background {
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
