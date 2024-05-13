@@ -403,6 +403,7 @@ public class BoardDataComponent extends NodeComponent {
         //blockRotateSfx.play();
     }
 
+    // TODO: Moving blocks horizontally causes blocks to get erased if a moving but invisble block hits another
     private void handleHorizontalMovement(boolean isMovingRight) {
         boolean canMove = true;
         boolean reachedMovingBlock = false;
@@ -412,7 +413,7 @@ public class BoardDataComponent extends NodeComponent {
                 for (int y = 0; y < BOARD_HEIGHT; y++) {
                     Block block = boardState[y][x];
 
-                    if (block.color == Block.Color.None || !block.isMoving)
+                    if (!block.isMoving)
                         continue;
 
                     reachedMovingBlock = true;
@@ -422,7 +423,7 @@ public class BoardDataComponent extends NodeComponent {
                         canMove = false;
                         // Blocks are already at rightmost edge
                         break;
-                    } else if (boardState[y][x + 1].color != Block.Color.None) {
+                    } else if (boardState[y][x].color != Block.Color.None && boardState[y][x + 1].color != Block.Color.None) {
                         // Once a moving block is reached, no columns past the current one will be checked
                         canMove = false;
                         break;
@@ -442,9 +443,13 @@ public class BoardDataComponent extends NodeComponent {
                     if (!boardState[y][x].isMoving)
                         continue;
 
-                    boardState[y][x + 1].color = boardState[y][x].color;
-                    boardState[y][x + 1].tone = boardState[y][x].tone;
-                    boardState[y][x + 1].isMoving = true;
+                    if (boardState[y][x].color != Block.Color.None) {
+                        boardState[y][x + 1].color = boardState[y][x].color;
+                        boardState[y][x + 1].tone = boardState[y][x].tone;
+                        boardState[y][x + 1].isMoving = true;
+                    } else if (boardState[y][x].color == Block.Color.None && boardState[y][x + 1].color == Block.Color.None) {
+                        boardState[y][x + 1].isMoving = true;
+                    }
 
                     boardState[y][x].color = Block.Color.None;
                     boardState[y][x].isMoving = false;
@@ -455,7 +460,7 @@ public class BoardDataComponent extends NodeComponent {
                 for (int y = 0; y < BOARD_HEIGHT; y++) {
                     Block block = boardState[y][x];
 
-                    if (block.color == Block.Color.None || !block.isMoving)
+                    if (!block.isMoving)
                         continue;
 
                     reachedMovingBlock = true;
@@ -465,7 +470,7 @@ public class BoardDataComponent extends NodeComponent {
                         canMove = false;
                         // Blocks are already at rightmost edge
                         break;
-                    } else if (boardState[y][x - 1].color != Block.Color.None) {
+                    } else if (boardState[y][x].color != Block.Color.None && boardState[y][x - 1].color != Block.Color.None) {
                         // Once a moving block is reached, no columns past the current one will be checked
                         canMove = false;
                         break;
@@ -485,9 +490,13 @@ public class BoardDataComponent extends NodeComponent {
                     if (!boardState[y][x].isMoving)
                         continue;
 
-                    boardState[y][x - 1].color = boardState[y][x].color;
-                    boardState[y][x - 1].tone = boardState[y][x].tone;
-                    boardState[y][x - 1].isMoving = true;
+                    if (boardState[y][x].color != Block.Color.None) {
+                        boardState[y][x - 1].color = boardState[y][x].color;
+                        boardState[y][x - 1].tone = boardState[y][x].tone;
+                        boardState[y][x - 1].isMoving = true;
+                    } else if (boardState[y][x].color == Block.Color.None && boardState[y][x - 1].color == Block.Color.None) {
+                        boardState[y][x - 1].isMoving = true;
+                    }
 
                     boardState[y][x].color = Block.Color.None;
                     boardState[y][x].isMoving = false;
