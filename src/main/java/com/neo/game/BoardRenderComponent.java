@@ -94,6 +94,9 @@ public class BoardRenderComponent extends RenderComponent {
                     context.setFill(Color.CYAN);
 
                     if (state.color == Block.Color.None) {
+                        if (state.isMoving)
+                            context.setFill(Color.GREEN);
+
                         context.fillText("(" + j + ", " + i + ")", transform.x + (j * blockSize + j), transform.y + (i * blockSize + i), blockSize);
                         continue;
                     } else {
