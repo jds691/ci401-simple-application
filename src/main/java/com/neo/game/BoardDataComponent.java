@@ -563,9 +563,10 @@ public class BoardDataComponent extends NodeComponent {
                 if (boardState[y][x].color != Block.Color.None) {
                     boardState[y + 1][x].color = boardState[y][x].color;
                     boardState[y + 1][x].tone = boardState[y][x].tone;
+                    boardState[y + 1][x].isMoving = true;
+                } else if (boardState[y][x].color == Block.Color.None && boardState[y + 1][x].color == Block.Color.None) {
+                    boardState[y + 1][x].isMoving = true;
                 }
-
-                boardState[y + 1][x].isMoving = true;
 
                 boardState[y][x].color = Block.Color.None;
                 boardState[y][x].isMoving = false;
