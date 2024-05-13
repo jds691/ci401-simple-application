@@ -41,11 +41,8 @@ public class GameOverUIComponent extends FXComponent {
                 .findRootNode("Game Context")
                 .getComponent(GameManager.class);
 
-        gameManager.getCurrentScoreDidChangeEvent().addHandler((deltaScore) -> {
-            currentScore += deltaScore;
-            scoreLabel.setText("Final Score: " + scoreFormat.format(currentScore));
-        });
         gameManager.getGameDidEndEvent().addHandler((ignored) -> {
+            scoreLabel.setText("Final Score: " + scoreFormat.format(gameManager.getCurrentScore()));
             setVisible(true);
         });
     }

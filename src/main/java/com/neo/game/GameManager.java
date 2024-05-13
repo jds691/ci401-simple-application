@@ -163,4 +163,13 @@ public class GameManager extends NodeComponent {
         currentScore += score;
         currentScoreDidChange.emit(score);
     }
+
+    /**
+     * Gets the current score of this game session
+     *
+     * @return Current score
+     */
+    public int getCurrentScore() {
+        return currentScore;
+    }
 }
