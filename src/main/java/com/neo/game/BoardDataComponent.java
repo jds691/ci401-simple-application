@@ -403,39 +403,27 @@ public class BoardDataComponent extends NodeComponent {
         //blockRotateSfx.play();
     }
 
-    // TODO: Moving blocks horizontally causes blocks to get erased if a moving but invisble block hits another
     private void handleHorizontalMovement(boolean isMovingRight) {
         boolean canMove = true;
         boolean reachedMovingBlock = false;
 
-        if (isMovingRight) {
-            for (int x = BOARD_WIDTH - 1; x >= 0; x--) {
-                for (int y = 0; y < BOARD_HEIGHT; y++) {
-                    Block block = boardState[y][x];
+        ArrayList<Pair<Integer, Integer>> movingCoordinates = new ArrayList<>();
 
-                    if (!block.isMoving)
-                        continue;
-
-                    reachedMovingBlock = true;
-
-                    // If a moving block is at the rightmost edge
-                    if (x == BOARD_WIDTH - 1) {
-                        canMove = false;
-                        // Blocks are already at rightmost edge
-                        break;
-                    } else if (boardState[y][x].color != Block.Color.None && boardState[y][x + 1].color != Block.Color.None) {
-                        // Once a moving block is reached, no columns past the current one will be checked
-                        canMove = false;
-                        break;
-                    }
-                }
-
-                if (reachedMovingBlock)
-                    break;
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            for (int y = 0; y < BOARD_HEIGHT; y++) {
+                if (boardState[y][x].isMoving)
+                    movingCoordinates.add(new Pair<>(x, y));
             }
+        }
 
-            if (!canMove)
-                return;
+        if (isMovingRight) {
+            for (Pair<Integer, Integer> coords : movingCoordinates) {
+                int x = coords.getKey();
+                int y = coords.getValue();
+
+                if (!checkCanMoveOnBlock(x, y, +1, BOARD_WIDTH - 1, movingCoordinates))
+                    return;
+            }
 
             // -2 because if a block were at the right most edge this wouldn't be running anyway
             for (int x = BOARD_WIDTH - 2; x >= 0; x--) {
@@ -456,33 +444,13 @@ public class BoardDataComponent extends NodeComponent {
                 }
             }
         } else {
-            for (int x = 0; x < BOARD_WIDTH; x++) {
-                for (int y = 0; y < BOARD_HEIGHT; y++) {
-                    Block block = boardState[y][x];
+            for (Pair<Integer, Integer> coords : movingCoordinates) {
+                int x = coords.getKey();
+                int y = coords.getValue();
 
-                    if (!block.isMoving)
-                        continue;
-
-                    reachedMovingBlock = true;
-
-                    // If a moving block is at the rightmost edge
-                    if (x == 0) {
-                        canMove = false;
-                        // Blocks are already at rightmost edge
-                        break;
-                    } else if (boardState[y][x].color != Block.Color.None && boardState[y][x - 1].color != Block.Color.None) {
-                        // Once a moving block is reached, no columns past the current one will be checked
-                        canMove = false;
-                        break;
-                    }
-                }
-
-                if (reachedMovingBlock)
-                    break;
+                if (!checkCanMoveOnBlock(x, y, -1, 0, movingCoordinates))
+                    return;
             }
-
-            if (!canMove)
-                return;
 
             // -2 because if a block were at the right most edge this wouldn't be running anyway
             for (int x = 1; x < BOARD_WIDTH; x++) {
@@ -503,6 +471,26 @@ public class BoardDataComponent extends NodeComponent {
                 }
             }
         }
+    }
+
+    private boolean checkCanMoveOnBlock(int x, int y, int offset, int maxEdge, ArrayList<Pair<Integer, Integer>> movingCoordinates) {
+        int nextX = x + offset;
+
+        // If a moving block is at the rightmost edge
+        if (x == maxEdge) {
+            // Blocks are already at rightmost edge
+            return false;
+        } else if ( // One block is moving, one isn't. And the one that isn't, is visible
+                boardState[y][x].isMoving &&
+                        !boardState[y][nextX].isMoving &&
+                        boardState[y][nextX].color != Block.Color.None &&
+                        boardState[y][x].color != Block.Color.None
+        ) {
+            // Once a moving block is reached, no columns past the current one will be checked
+            return false;
+        }
+
+        return true;
     }
 
     // Perform updates backwards since moving blocks need to be moved in the correct order
