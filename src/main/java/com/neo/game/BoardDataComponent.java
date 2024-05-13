@@ -421,7 +421,7 @@ public class BoardDataComponent extends NodeComponent {
                 int x = coords.getKey();
                 int y = coords.getValue();
 
-                if (!checkCanMoveOnBlock(x, y, +1, BOARD_WIDTH - 1, movingCoordinates))
+                if (!checkCanMoveOnBlock(x, y, +1, BOARD_WIDTH - 1))
                     return;
             }
 
@@ -448,7 +448,7 @@ public class BoardDataComponent extends NodeComponent {
                 int x = coords.getKey();
                 int y = coords.getValue();
 
-                if (!checkCanMoveOnBlock(x, y, -1, 0, movingCoordinates))
+                if (!checkCanMoveOnBlock(x, y, -1, 0))
                     return;
             }
 
@@ -473,7 +473,7 @@ public class BoardDataComponent extends NodeComponent {
         }
     }
 
-    private boolean checkCanMoveOnBlock(int x, int y, int offset, int maxEdge, ArrayList<Pair<Integer, Integer>> movingCoordinates) {
+    private boolean checkCanMoveOnBlock(int x, int y, int offset, int maxEdge) {
         int nextX = x + offset;
 
         // If a moving block is at the rightmost edge
