@@ -51,6 +51,7 @@
           }
         ],
         "thumbnailSize": 50,
+        "textCountDuration": 1000,
         "blockThumbnails": [
           {
             "class": "com.neo.game.BoardRenderComponent",

@@ -7,9 +7,11 @@ import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.ImageResource;
 import com.neo.twig.ui.FXComponent;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -26,6 +28,11 @@ public class InGameUIComponent extends FXComponent {
 
     DecimalFormat scoreFormat = new DecimalFormat("0000000000");
     private int currentScore;
+    private int currentScoreFinal;
+    private int currentDeltaScore;
+
+    private int currentScoreAnimated;
+    private int currentDeltaScoreAnimated;
 
     private Label upNextLabel;
     private Label totalScoreLabel;
@@ -37,6 +44,12 @@ public class InGameUIComponent extends FXComponent {
 
     @ForceSerialize
     private ImageResource[] blockThumbnails;
+
+    @ForceSerialize
+    private double textCountDuration;
+    private float currentTextCounter;
+
+    private boolean shouldAdjustDeltaLabel;
 
     private Timeline deltaFadeInAnimation;
     private Timeline deltaFadeOutAnimation;
@@ -95,6 +108,7 @@ public class InGameUIComponent extends FXComponent {
                         new KeyValue(deltaScoreLabel.scaleYProperty(), 1)
                 )
         );
+        deltaFadeInAnimation.setOnFinished(this::handleFadeInFinish);
         deltaScoreLabel.setScaleX(0);
         deltaScoreLabel.setScaleY(0);
 
@@ -119,8 +133,57 @@ public class InGameUIComponent extends FXComponent {
         return root;
     }
 
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        if (shouldAdjustDeltaLabel) {
+
+            int start = currentScore;
+            float progress = (float) (currentTextCounter / textCountDuration);
+
+            currentTextCounter += deltaTime;
+
+            currentScoreAnimated = Interpolator.LINEAR.interpolate(start, currentScoreFinal, progress);
+            totalScoreLabel.setText("Score: " + scoreFormat.format(currentScoreAnimated));
+
+
+            start = currentDeltaScore;
+            currentDeltaScoreAnimated = Interpolator.LINEAR.interpolate(start, 0, progress);
+            deltaScoreLabel.setText("+" + currentDeltaScoreAnimated);
+
+            if (progress >= 1) {
+                shouldAdjustDeltaLabel = false;
+
+                currentTextCounter = 0;
+
+                totalScoreLabel.setText("Score: " + scoreFormat.format(currentScoreFinal));
+                deltaScoreLabel.setText("+" + 0);
+
+                currentScore = currentScoreFinal;
+
+                currentScore += currentDeltaScore;
+                deltaFadeOutAnimation.play();
+            }
+        }
+    }
+
     private void handleScoreChange(int deltaScore) {
-        currentScore += deltaScore;
+        if (currentDeltaScoreAnimated != 0) {
+            shouldAdjustDeltaLabel = false;
+
+            totalScoreLabel.setText("Score: " + scoreFormat.format(currentScore));
+            currentScore = currentScoreFinal;
+
+            currentTextCounter = 0;
+
+            deltaScoreLabel.setTranslateY(0);
+            deltaScoreLabel.setScaleX(0);
+            deltaScoreLabel.setScaleY(0);
+        }
+
+        currentDeltaScore = deltaScore;
+        currentScoreFinal = currentScore + deltaScore;
         totalScoreLabel.setText("Score: " + scoreFormat.format(currentScore));
         deltaScoreLabel.setText("+" + deltaScore);
         deltaFadeInAnimation.play();
@@ -141,5 +204,9 @@ public class InGameUIComponent extends FXComponent {
 
             blockQueue.getChildren().add(image);
         }
+    }
+
+    private void handleFadeInFinish(ActionEvent event) {
+        shouldAdjustDeltaLabel = true;
     }
 }
