@@ -86,21 +86,27 @@ public class InGameUIComponent extends FXComponent {
         deltaFadeInAnimation = new Timeline();
         deltaFadeInAnimation.getKeyFrames().addAll(
                 new KeyFrame(Duration.ZERO,
-                        new KeyValue(deltaScoreLabel.translateYProperty(), -100)
+                        new KeyValue(deltaScoreLabel.scaleXProperty(), 0),
+                        new KeyValue(deltaScoreLabel.scaleYProperty(), 0),
+                        new KeyValue(deltaScoreLabel.opacityProperty(), 1)
                 ),
-                new KeyFrame(new Duration(500),
-                        new KeyValue(deltaScoreLabel.translateYProperty(), 0)
+                new KeyFrame(new Duration(100),
+                        new KeyValue(deltaScoreLabel.scaleXProperty(), 1),
+                        new KeyValue(deltaScoreLabel.scaleYProperty(), 1)
                 )
         );
-        deltaScoreLabel.translateYProperty().set(-100);
+        deltaScoreLabel.setScaleX(0);
+        deltaScoreLabel.setScaleY(0);
 
         deltaFadeOutAnimation = new Timeline();
         deltaFadeOutAnimation.getKeyFrames().addAll(
                 new KeyFrame(Duration.ZERO,
-                        new KeyValue(deltaScoreLabel.translateYProperty(), 0)
+                        new KeyValue(deltaScoreLabel.opacityProperty(), 1)
                 ),
                 new KeyFrame(new Duration(500),
-                        new KeyValue(deltaScoreLabel.translateYProperty(), -100)
+                        new KeyValue(deltaScoreLabel.translateYProperty(), 0),
+                        new KeyValue(deltaScoreLabel.scaleXProperty(), 0),
+                        new KeyValue(deltaScoreLabel.scaleYProperty(), 0)
                 )
         );
 
