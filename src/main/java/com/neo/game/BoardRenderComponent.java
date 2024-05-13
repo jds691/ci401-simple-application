@@ -66,6 +66,8 @@ public class BoardRenderComponent extends RenderComponent {
                 });
 
         backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
+        //if (Engine.getResourceService().getUseHotReload())
+        //    boardBackground.getHotReloadRequestedEvent().addHandler(this::handleBackgroundReload);
     }
 
     @Override
@@ -182,6 +184,10 @@ public class BoardRenderComponent extends RenderComponent {
         if (progress >= 1) {
             currentEffect = Effect.NONE;
         }
+    }
+
+    private void handleBackgroundReload(Object ignored) {
+        backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
     }
 
     enum Effect {
