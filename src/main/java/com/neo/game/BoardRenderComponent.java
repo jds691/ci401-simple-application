@@ -34,6 +34,7 @@ public class BoardRenderComponent extends RenderComponent {
     private ImageResource[][] chipSprites;
 
     private ArrayList<Integer> linesToEffect;
+    private Effect lastEffectDraw = Effect.NONE;
     private Effect currentEffect = Effect.NONE;
     private float effectDeltaTime;
     @ForceSerialize
@@ -55,7 +56,6 @@ public class BoardRenderComponent extends RenderComponent {
 
             linesToEffect = clearedLines;
             currentEffect = Effect.LINE_FILL;
-            effectDeltaTime = 0;
         });
         Engine.getSceneService().getActiveScene()
                 .findRootNode("Game Context")
@@ -116,7 +116,7 @@ public class BoardRenderComponent extends RenderComponent {
                 int tone = state.tone;
 
                 if (currentEffect == Effect.FADE_OUT && linesToEffect.contains(i))
-                    context.setGlobalAlpha(effectDeltaTime / effectLength[currentEffect.ordinal()]);
+                    context.setGlobalAlpha(Math.clamp(effectDeltaTime / effectLength[currentEffect.ordinal()], 0, 1));
 
                 context.drawImage(chipSprites[colorIndex][tone].get(), transform.x + (j * blockSize + j), transform.y + (i * blockSize + i), blockSize, blockSize);
             }
@@ -127,10 +127,15 @@ public class BoardRenderComponent extends RenderComponent {
         // Effects
         // Gradient overlay: https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/scene/paint/LinearGradient.html
         try {
+            if (currentEffect != lastEffectDraw)
+                effectDeltaTime = 0;
+
             switch (currentEffect) {
                 case LINE_FILL -> drawLineFillEffect(context);
                 case FADE_OUT -> drawFadeOutEffect(context);
             }
+
+            lastEffectDraw = currentEffect;
         } catch (Exception e) {
             logger.logError(String.format("A problem occurred rendering the '%s' effect. Stopping current effect...", currentEffect.toString()));
             currentEffect = Effect.NONE;
@@ -161,7 +166,6 @@ public class BoardRenderComponent extends RenderComponent {
 
         if (progress >= 1) {
             dataComponent.setPauseUpdates(false);
-            effectDeltaTime = 0;
             currentEffect = Effect.FADE_OUT;
         }
     }
@@ -176,7 +180,6 @@ public class BoardRenderComponent extends RenderComponent {
         }
 
         if (progress >= 1) {
-            effectDeltaTime = 0;
             currentEffect = Effect.NONE;
         }
     }
