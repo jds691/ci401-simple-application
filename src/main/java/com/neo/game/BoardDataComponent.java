@@ -154,44 +154,46 @@ public class BoardDataComponent extends NodeComponent {
          *   - Spawn new block shape, repeat
          * - If checkLineClear for y = 0 is true, end game
          */
-        boolean blocksNeedRotated = false;
-        boolean isRotatingRight = false;
-        if (InputAction.get(Input.ROTATE_LEFT).wasActivatedThisFrame()) {
-            blocksNeedRotated = true;
-        } else if (InputAction.get(Input.ROTATE_RIGHT).wasActivatedThisFrame()) {
-            blocksNeedRotated = true;
-            isRotatingRight = true;
-        }
+        if (!needsNewBlockSpawn) {
+            boolean blocksNeedRotated = false;
+            boolean isRotatingRight = false;
+            if (InputAction.get(Input.ROTATE_LEFT).wasActivatedThisFrame()) {
+                blocksNeedRotated = true;
+            } else if (InputAction.get(Input.ROTATE_RIGHT).wasActivatedThisFrame()) {
+                blocksNeedRotated = true;
+                isRotatingRight = true;
+            }
 
-        if (blocksNeedRotated) {
-            handleBlockRotation(isRotatingRight);
-        }
+            if (blocksNeedRotated) {
+                handleBlockRotation(isRotatingRight);
+            }
 
-        // Filter to blocks where isMoving = true. Rotate in place based on overall shape
-        // Could be done by temporarily cloning the board state?
+            // Filter to blocks where isMoving = true. Rotate in place based on overall shape
+            // Could be done by temporarily cloning the board state?
 
-        boolean blocksNeedMoved = false;
-        boolean isMovingRight = false;
-        if (InputAction.get(Input.MOVE_LEFT).wasActivatedThisFrame()) {
-            blocksNeedMoved = true;
-        } else if (InputAction.get(Input.MOVE_RIGHT).wasActivatedThisFrame()) {
-            blocksNeedMoved = true;
-            isMovingRight = true;
-        }
+            boolean blocksNeedMoved = false;
+            boolean isMovingRight = false;
+            if (InputAction.get(Input.MOVE_LEFT).wasActivatedThisFrame()) {
+                blocksNeedMoved = true;
+            } else if (InputAction.get(Input.MOVE_RIGHT).wasActivatedThisFrame()) {
+                blocksNeedMoved = true;
+                isMovingRight = true;
+            }
 
-        if (blocksNeedMoved) {
-            handleHorizontalMovement(isMovingRight);
-        }
+            if (blocksNeedMoved) {
+                handleHorizontalMovement(isMovingRight);
+            }
 
-        if (currentMovementDelay > 0) {
-            if (InputAction.get(Input.MOVE_DOWN).isActivationHeld())
-                currentMovementDelay -= deltaTime * speedUpFactor;
-            else
-                currentMovementDelay -= deltaTime;
+            if (currentMovementDelay > 0) {
+                if (InputAction.get(Input.MOVE_DOWN).isActivationHeld())
+                    currentMovementDelay -= deltaTime * speedUpFactor;
+                else
+                    currentMovementDelay -= deltaTime;
 
-            return;
-        } else {
-            currentMovementDelay = movementDelay;
+                return;
+            } else {
+                currentMovementDelay = movementDelay;
+            }
         }
 
         queuedMovement = new ArrayList<>();
@@ -218,7 +220,7 @@ public class BoardDataComponent extends NodeComponent {
 
                     // Block is occupied
                     //TODO: Check ALL coordinates before placing blocks
-                    if (boardState[j][startingPoint + i].color != Block.Color.None) {
+                    if (boardState[j][startingPoint + i].color != Block.Color.None && !boardState[j][startingPoint + i].isMoving) {
                         boardFull = true;
                         break;
                     }
@@ -256,7 +258,6 @@ public class BoardDataComponent extends NodeComponent {
         handleCollisions(checkDownMovementCollision());
     }
 
-    //TODO: Redo now that block formations are cached during use
     private void handleBlockRotation(boolean isRotatingRight) {
         // Find all moving blocks to calculate dimensions
         // Store coordinates for later changes
@@ -363,16 +364,6 @@ public class BoardDataComponent extends NodeComponent {
             return;
         }
 
-        Block[][] boardStateBackup = new Block[BOARD_HEIGHT][BOARD_WIDTH];
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            for (int x = 0; x < BOARD_WIDTH; x++) {
-                boardStateBackup[y][x] = new Block();
-                boardStateBackup[y][x].color = boardState[y][x].color;
-                boardStateBackup[y][x].tone = boardState[y][x].tone;
-                boardStateBackup[y][x].isMoving = boardState[y][x].isMoving;
-            }
-        }
-
         if (isRotatingRight) {
             int currentOrdinal = currentRotationState.ordinal();
             currentOrdinal++;
@@ -406,9 +397,6 @@ public class BoardDataComponent extends NodeComponent {
                 boardState[newY][newX].color = blockTransposedMatrix[x][y].color;
                 boardState[newY][newX].tone = blockTransposedMatrix[x][y].tone;
                 boardState[newY][newX].isMoving = true;
-
-                boardState[y][x].color = Block.Color.None;
-                boardState[y][x].isMoving = false;
             }
         }
 
@@ -512,18 +500,17 @@ public class BoardDataComponent extends NodeComponent {
     private boolean checkDownMovementCollision() {
         boolean didCollisionOccur = false;
 
-        for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
+        /*for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
                 Block block = boardState[i][j];
 
                 //if (block.color == Block.Color.None)
                 //    continue;
 
-                //TODO: Now that some clear blocks can move this code breaks at some points
                 // Examples:
                 // - Erasing parts of the current block (Usually leads to out of bounds errors)
 
-                // Has a collision already happened or if the current block is moving, is the one below it stationary and occupied
+                // If the current block is moving, is the one below it stationary and occupied
                 if (block.color != Block.Color.None && block.isMoving && (i == BOARD_HEIGHT - 1 || boardState[i + 1][j].color != Block.Color.None && !boardState[i + 1][j].isMoving)) {
                     didCollisionOccur = true;
                     break;
@@ -533,10 +520,32 @@ public class BoardDataComponent extends NodeComponent {
                 if (block.isMoving && (boardState[i + 1][j].color == Block.Color.None || boardState[i + 1][j].isMoving)) {
                     queuedMovement.add(new Pair<>(j, i));
                 }
+            }*/
+
+        for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                Block block = boardState[i][j];
+
+                if (block.isMoving)
+                    queuedMovement.add(new Pair<>(j, i));
+            }
+        }
+
+        // These coordinates start from bottom right, moving left. Then up a row
+        for (Pair<Integer, Integer> movingCoordinates : queuedMovement) {
+            int x = movingCoordinates.getKey();
+            int y = movingCoordinates.getValue();
+
+            if (y == BOARD_HEIGHT - 1) {
+                didCollisionOccur = true;
+                break;
             }
 
-            if (didCollisionOccur)
+            // If block below isn't moving and visible, collision
+            if (!boardState[y + 1][x].isMoving && boardState[y + 1][x].color != Block.Color.None) {
+                didCollisionOccur = true;
                 break;
+            }
         }
 
         return didCollisionOccur;
@@ -551,8 +560,11 @@ public class BoardDataComponent extends NodeComponent {
                 int x = coordinatePair.getKey();
                 int y = coordinatePair.getValue();
 
-                boardState[y + 1][x].color = boardState[y][x].color;
-                boardState[y + 1][x].tone = boardState[y][x].tone;
+                if (boardState[y][x].color != Block.Color.None) {
+                    boardState[y + 1][x].color = boardState[y][x].color;
+                    boardState[y + 1][x].tone = boardState[y][x].tone;
+                }
+
                 boardState[y + 1][x].isMoving = true;
 
                 boardState[y][x].color = Block.Color.None;
