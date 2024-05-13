@@ -2,7 +2,7 @@ package com.neo.game;
 
 import com.neo.game.input.InputAction;
 import com.neo.game.settings.KeyBindSettings;
-import com.neo.game.title.TitleManagerComponent;
+import com.neo.game.title.TitleControllerComponent;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
 import com.neo.twig.EngineConfig;
@@ -38,7 +38,7 @@ public class GameApplication {
 
         app.name = "Tetris";
         app.version = "1.0-SNAPSHOT";
-        app.initialScene = TitleManagerComponent.class.getResource("title.branch");
+        app.initialScene = TitleControllerComponent.class.getResource("title.branch");
         app.icon = new Image(GameApplication.class.getResourceAsStream("icon.png"));
 
         return app;

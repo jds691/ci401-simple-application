@@ -1,13 +1,5 @@
 [
   {
-    "name": "Manager",
-    "components": [
-      {
-        "type": "com.neo.game.title.TitleManagerComponent"
-      }
-    ]
-  },
-  {
     "name": "Music",
     "components": [
       {
