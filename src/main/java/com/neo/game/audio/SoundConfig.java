@@ -2,7 +2,7 @@ package com.neo.game.audio;
 
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.config.Config;
-import com.neo.twig.config.ConfigManager;
+import com.neo.twig.config.ConfigProperty;
 
 import java.net.URL;
 
@@ -11,29 +11,39 @@ public class SoundConfig {
     private static SoundConfig instance;
 
     @ForceSerialize
+    @ConfigProperty(section = "Music")
     private URL titleTheme;
 
     @ForceSerialize
+    @ConfigProperty(section = "Music")
     private URL bgmGame;
 
     @ForceSerialize
+    @ConfigProperty(section = "Music")
     private URL bgmGameOver;
 
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL blockPlace;
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL blockRotate;
 
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL lineClear;
 
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL pauseOpen;
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL pauseClose;
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL resume;
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
     private URL quit;
 
     private SoundConfig() {
@@ -54,7 +64,6 @@ public class SoundConfig {
     public static SoundConfig getInstance() {
         if (instance == null) {
             instance = new SoundConfig();
-            ConfigManager.loadConfig(instance);
         }
 
         return instance;

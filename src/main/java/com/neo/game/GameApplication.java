@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.audio.SoundConfig;
 import com.neo.game.input.InputAction;
 import com.neo.game.settings.KeyBindSettings;
 import com.neo.game.title.TitleControllerComponent;
@@ -27,6 +28,9 @@ public class GameApplication {
         InputAction.initialiseActions();
         ConfigManager.saveConfig(KeyBindSettings.getInstance(), ConfigScope.Engine);
         ConfigManager.loadConfig(KeyBindSettings.getInstance());
+
+        ConfigManager.saveConfig(SoundConfig.getInstance(), ConfigScope.Engine);
+        ConfigManager.loadConfig(SoundConfig.getInstance());
         // Force all fonts to be smoothed out engine wide
         System.setProperty("prism.lcdtext", "false");
 
