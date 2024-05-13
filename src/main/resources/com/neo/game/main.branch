@@ -50,7 +50,7 @@
             "resource": "menu-in-game.css"
           }
         ],
-        "thumbnailSize": 50,
+        "thumbnailSize": 75,
         "textCountDuration": 1000,
         "blockThumbnails": [
           {

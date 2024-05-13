@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameManager extends NodeComponent {
-    private static final int BLOCKS_TO_QUEUE = 5;
+    private static final int BLOCKS_TO_QUEUE = 6;
     private final ArrayDeque<BlockFormation> blockQueue = new ArrayDeque<>();
     private int currentScore;
     private final Event<Integer> currentScoreDidChange = new Event<>();
