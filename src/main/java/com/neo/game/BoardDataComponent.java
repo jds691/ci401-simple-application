@@ -351,7 +351,7 @@ public class BoardDataComponent extends NodeComponent {
                 }
 
                 // Occupancy checks
-                if (boardState[newY][newX].color != Block.Color.None && !boardState[newY][newX].isMoving) {
+                if (boardState[newY][newX].color != Block.Color.None && !movingCoordinates.contains(new Pair<>(newX, newY))) {
                     // The rotation is invalid and should be ignored
                     rotationValid = false;
                     break;
@@ -542,7 +542,8 @@ public class BoardDataComponent extends NodeComponent {
             }
 
             // If block below isn't moving and visible, collision
-            if (!boardState[y + 1][x].isMoving && boardState[y + 1][x].color != Block.Color.None) {
+            // Only if a visible block will collide with it
+            if (!boardState[y + 1][x].isMoving && boardState[y + 1][x].color != Block.Color.None && boardState[y][x].color != Block.Color.None) {
                 didCollisionOccur = true;
                 break;
             }
@@ -555,7 +556,6 @@ public class BoardDataComponent extends NodeComponent {
     private void handleCollisions(boolean didCollisionOccur) {
         if (!didCollisionOccur) {
             clearedLines.clear();
-            // Reverse the loop yet again since movement is queued in reverse in the loop above
             for (Pair<Integer, Integer> coordinatePair : queuedMovement) {
                 int x = coordinatePair.getKey();
                 int y = coordinatePair.getValue();
