@@ -102,6 +102,7 @@ public class PauseMenuUIComponent extends FXComponent {
         if (isStarting)
             return;
 
+        // Used to automatically handle SFX playback
         if (visible) {
             pauseOpenSfx.play();
         } else {

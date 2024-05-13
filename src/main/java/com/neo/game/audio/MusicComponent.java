@@ -7,6 +7,9 @@ import com.neo.twig.scene.NodeComponent;
 
 import java.net.URISyntaxException;
 
+/**
+ * Handles music playback, looping and file retrieval based on SoundConfig.
+ */
 public class MusicComponent extends NodeComponent {
     @ForceSerialize
     private String musicConfigKey;

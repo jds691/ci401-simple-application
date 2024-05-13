@@ -1,12 +1,22 @@
 package com.neo.game;
 
+/**
+ * Represents the formation of an individual Tetromino
+ */
 public class BlockFormation {
+    /**
+     * Represents the formation of the I block Tetromino
+     */
     public static final BlockFormation I_BLOCK = new BlockFormation(
             new boolean[][]{
                     {true, true, true, true}
             },
             Block.Color.Cyan
     );
+
+    /**
+     * Represents the formation of the J block Tetromino
+     */
     public static final BlockFormation J_BLOCK = new BlockFormation(
             new boolean[][]{
                     {false, false, false, true},
@@ -14,6 +24,10 @@ public class BlockFormation {
             },
             Block.Color.Blue
     );
+
+    /**
+     * Represents the formation of the L block Tetromino
+     */
     public static final BlockFormation L_BLOCK = new BlockFormation(
             new boolean[][]{
                     {true, false, false, false},
@@ -21,6 +35,10 @@ public class BlockFormation {
             },
             Block.Color.Orange
     );
+
+    /**
+     * Represents the formation of the S block Tetromino
+     */
     public static final BlockFormation S_BLOCK = new BlockFormation(
             new boolean[][]{
                     {false, true, true},
@@ -28,6 +46,10 @@ public class BlockFormation {
             },
             Block.Color.Yellow
     );
+
+    /**
+     * Represents the formation of the T block Tetromino
+     */
     public static final BlockFormation T_BLOCK = new BlockFormation(
             new boolean[][]{
                     {false, true, false},
@@ -35,6 +57,10 @@ public class BlockFormation {
             },
             Block.Color.Purple
     );
+
+    /**
+     * Represents the formation of the Z block Tetromino
+     */
     public static final BlockFormation Z_BLOCK = new BlockFormation(
             new boolean[][]{
                     {true, true, false},
@@ -49,6 +75,9 @@ public class BlockFormation {
             },
             Block.Color.Yellow
     );*/
+    /**
+     * Represents all preset Tetromino formations
+     */
     public static final BlockFormation[] ALL = new BlockFormation[]{
             I_BLOCK,
             J_BLOCK,
@@ -60,15 +89,25 @@ public class BlockFormation {
     boolean[][] pattern;
     Block.Color color;
 
-    public BlockFormation(boolean[][] pattern, Block.Color color) {
+    private BlockFormation(boolean[][] pattern, Block.Color color) {
         this.pattern = pattern;
         this.color = color;
     }
 
+    /**
+     * Gets the pattern/shape of this formation
+     *
+     * @return Pattern/shape of formation
+     */
     public boolean[][] getPattern() {
         return pattern;
     }
 
+    /**
+     * Gets the color of this formation
+     *
+     * @return Color of formation
+     */
     public Block.Color getColor() {
         return color;
     }

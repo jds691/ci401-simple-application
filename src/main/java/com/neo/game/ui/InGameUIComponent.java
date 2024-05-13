@@ -168,6 +168,11 @@ public class InGameUIComponent extends FXComponent {
         }
     }
 
+    /**
+     * Sets the label properties and starts the relevant fade in, and number animations
+     *
+     * @param deltaScore The score that the player has been awarded
+     */
     private void handleScoreChange(int deltaScore) {
         if (currentDeltaScoreAnimated != 0) {
             shouldAdjustDeltaLabel = false;
@@ -189,6 +194,11 @@ public class InGameUIComponent extends FXComponent {
         deltaFadeInAnimation.play();
     }
 
+    /**
+     * Updates the block queue on the right of the screen with the latest thumbnails
+     *
+     * @param colors The colors of the current blocks in the queue
+     */
     private void handleBlockQueueChange(ArrayList<Block.Color> colors) {
         blockQueue.getChildren().clear();
 

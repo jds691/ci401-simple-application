@@ -59,6 +59,11 @@ public class GameManager extends NodeComponent {
         }
     }
 
+    /**
+     * Gets an event that can be listened to, to determine the pause state of the game
+     *
+     * @return Event with arg, representing if the game is paused
+     */
     public Event<Boolean> getPauseDidChangeEvent() {
         return pauseDidChange;
     }
@@ -68,22 +73,51 @@ public class GameManager extends NodeComponent {
         pauseDidChange.emit(isPaused);
     }
 
+    /**
+     * Gets an event that can be listened to, to emit when the game ends
+     *
+     * @return Event with no args
+     */
     public Event<Object> getGameDidEndEvent() {
         return gameDidEnd;
     }
 
+    /**
+     * Gets an event that can be listened to, to get the latest delta updates to the score
+     *
+     * @return Event with integer arg, representing the latest score added
+     */
     public Event<Integer> getCurrentScoreDidChangeEvent() {
         return currentScoreDidChange;
     }
 
+    /**
+     * Gets an event that can be listened to, to determine the pause state of the game
+     *
+     * @return Event with list arg, containing the colors of the blocks in the queue
+     */
     public Event<ArrayList<Block.Color>> getBlockQueueDidChangeEvent() {
         return blockQueueDidChange;
     }
 
+    /**
+     * Gets the current queue of the blocks
+     *
+     * @return Queue of blocks
+     */
     public ArrayDeque<BlockFormation> getBlockQueue() {
         return blockQueue;
     }
 
+    /**
+     * Requests a block from the block queue.
+     *
+     * <p>
+     * It is automatically removed from the queue and a new block is generated in it's place
+     * </p>
+     *
+     * @return First block in the current queue
+     */
     public BlockFormation requestNextBlockFormationInQueue() {
         BlockFormation form = blockQueue.pop();
 
@@ -98,13 +132,20 @@ public class GameManager extends NodeComponent {
         return form;
     }
 
+    /**
+     * Requests a random block formation
+     *
+     * @return Random block formation
+     */
     public BlockFormation requestRandomBlockFormation() {
         int index = ThreadLocalRandom.current().nextInt(0, BlockFormation.ALL.length);
 
         return BlockFormation.ALL[index];
-        //return BlockFormation.L_BLOCK;
     }
 
+    /**
+     * Requests the manager to end the game
+     */
     public void signalGameEnd() {
         gameIsOver = true;
         gameMusic.stop();
@@ -113,6 +154,11 @@ public class GameManager extends NodeComponent {
         gameDidEnd.emit(null);
     }
 
+    /**
+     * Adds a score to the game
+     *
+     * @param score Score to add
+     */
     public void addScore(int score) {
         currentScore += score;
         currentScoreDidChange.emit(score);

@@ -6,6 +6,9 @@ import com.neo.twig.config.Config;
 import com.neo.twig.config.ConfigProperty;
 import javafx.scene.input.KeyCode;
 
+/**
+ * A configuration class that is serialized which allows the user to change the keybinds for each {@link com.neo.game.input.InputAction}
+ */
 @Config(name = "keybinds")
 public class KeyBindSettings {
     private static KeyBindSettings instance;
@@ -42,6 +45,11 @@ public class KeyBindSettings {
         pause = KeyCode.ESCAPE;
     }
 
+    /**
+     * Gets (or constructs) the singleton instance of this object.
+     *
+     * @return Singleton instance
+     */
     public static KeyBindSettings getInstance() {
         if (instance == null) {
             instance = new KeyBindSettings();
@@ -50,6 +58,12 @@ public class KeyBindSettings {
         return instance;
     }
 
+    /**
+     * Returns the keybinds the user has register to the input
+     *
+     * @param input The input to find keybinds for
+     * @return The keybinds associated with the input
+     */
     public KeyCode getKeysForInput(Input input) {
         return switch (input) {
             case MOVE_LEFT -> moveLeft;

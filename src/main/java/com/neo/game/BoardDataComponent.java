@@ -19,10 +19,16 @@ import java.util.concurrent.ThreadLocalRandom;
 //TODO: Potentially implement final destination guide, similar to Puyo Puyo?
 
 /**
- * Contains the state for the game board at any given time.
+ * Contains the state for the game board and is responsible for updating it
  */
 public class BoardDataComponent extends NodeComponent {
+    /**
+     * The width of the board in Tetris blocks
+     */
     public static final int BOARD_WIDTH = 10;
+    /**
+     * The height of the board in Tetris blocks
+     */
     public static final int BOARD_HEIGHT = 20;
 
     private AudioService audioService;
@@ -73,6 +79,7 @@ public class BoardDataComponent extends NodeComponent {
         audioService = Engine.getAudioService();
         sceneService = Engine.getSceneService();
 
+        // Initialise events
         gameManager = sceneService.getActiveScene()
                 .findRootNode("Game Context")
                 .getComponent(GameManager.class);
@@ -88,6 +95,7 @@ public class BoardDataComponent extends NodeComponent {
             pauseUpdates = true;
         });
 
+        // Initialise required sounds
         try {
             lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
         } catch (URISyntaxException e) {
@@ -112,6 +120,7 @@ public class BoardDataComponent extends NodeComponent {
             blockRotateInvalidSfx = null;
         }
 
+        // Initialise initial board state
         boardState = new Block[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -144,16 +153,7 @@ public class BoardDataComponent extends NodeComponent {
         if (pauseUpdates)
             return;
 
-        /*
-         * Tasks:
-         * - Run input updates
-         * - If there are moving blocks, move them and check collisions
-         *   - If collision, isMoving = false. Check line clears, play click SFX
-         *       - If line clears, play SFX, trigger render transition, pause updates and await completion
-         *   - Wait for movement time
-         *   - Spawn new block shape, repeat
-         * - If checkLineClear for y = 0 is true, end game
-         */
+        // Handle rotation
         if (!needsNewBlockSpawn) {
             boolean blocksNeedRotated = false;
             boolean isRotatingRight = false;
@@ -168,9 +168,7 @@ public class BoardDataComponent extends NodeComponent {
                 handleBlockRotation(isRotatingRight);
             }
 
-            // Filter to blocks where isMoving = true. Rotate in place based on overall shape
-            // Could be done by temporarily cloning the board state?
-
+            // Handle horizontal movement
             boolean blocksNeedMoved = false;
             boolean isMovingRight = false;
             if (InputAction.get(Input.MOVE_LEFT).wasActivatedThisFrame()) {
@@ -184,6 +182,7 @@ public class BoardDataComponent extends NodeComponent {
                 handleHorizontalMovement(isMovingRight);
             }
 
+            // Await delay before moving blocks down
             if (currentMovementDelay > 0) {
                 if (InputAction.get(Input.MOVE_DOWN).isActivationHeld())
                     currentMovementDelay -= deltaTime * speedUpFactor;
@@ -201,6 +200,7 @@ public class BoardDataComponent extends NodeComponent {
         if (!clearedLines.isEmpty())
             handleClearedLines();
 
+        // Generate a new block at the top mid-point, if needed
         if (needsNewBlockSpawn) {
             currentRotationState = RotationState.ZERO;
             int midPoint = (BOARD_WIDTH / 2) - 1;
@@ -258,6 +258,19 @@ public class BoardDataComponent extends NodeComponent {
         handleCollisions(checkDownMovementCollision());
     }
 
+    /**
+     * Rotates the currently moving blocks.
+     *
+     * <p>
+     * This works by finding all the blocks and generating a matrix. It then transposes this matrix. After which it performs the following:
+     * </p>
+     * <ul>
+     *     <li>If rotating right; Reverse the order of columns of the transposed matrix</li>
+     *     <li>If rotating left; Reverse the order of rows of the transposed matrix</li>
+     * </ul>
+     *
+     * @param isRotatingRight Indicates if the blocks should rotate right
+     */
     private void handleBlockRotation(boolean isRotatingRight) {
         // Find all moving blocks to calculate dimensions
         // Store coordinates for later changes
@@ -403,10 +416,12 @@ public class BoardDataComponent extends NodeComponent {
         blockRotateSfx.play();
     }
 
+    /**
+     * Attempts to move the blocks right, checking for collisions with neighbouring blocks along the way
+     *
+     * @param isMovingRight Indicates if the blocks should move right
+     */
     private void handleHorizontalMovement(boolean isMovingRight) {
-        boolean canMove = true;
-        boolean reachedMovingBlock = false;
-
         ArrayList<Pair<Integer, Integer>> movingCoordinates = new ArrayList<>();
 
         for (int x = 0; x < BOARD_WIDTH; x++) {
@@ -473,6 +488,15 @@ public class BoardDataComponent extends NodeComponent {
         }
     }
 
+    /**
+     * Runs collision checks with the boards barriers and other blocks to determine if a given block should move
+     *
+     * @param x       X index of the current block
+     * @param y       Y index of the current block
+     * @param offset  Direction to offset blocks, should they be allowed to move (1 or -1)
+     * @param maxEdge X index of the edge that needs to be checked (0 or {@link BoardDataComponent#BOARD_WIDTH} - 1)
+     * @return If the block is allowed to move by the offset amount
+     */
     private boolean checkCanMoveOnBlock(int x, int y, int offset, int maxEdge) {
         int nextX = x + offset;
 
@@ -493,31 +517,13 @@ public class BoardDataComponent extends NodeComponent {
         return true;
     }
 
-    // Perform updates backwards since moving blocks need to be moved in the correct order
+    /**
+     * Checks if a downwards collision will occur between the moving blocks, and anything below them
+     *
+     * @return If a collision will occur with another block, if the blocks were to be moved down
+     */
     private boolean checkDownMovementCollision() {
         boolean didCollisionOccur = false;
-
-        /*for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
-            for (int j = 0; j < BOARD_WIDTH; j++) {
-                Block block = boardState[i][j];
-
-                //if (block.color == Block.Color.None)
-                //    continue;
-
-                // Examples:
-                // - Erasing parts of the current block (Usually leads to out of bounds errors)
-
-                // If the current block is moving, is the one below it stationary and occupied
-                if (block.color != Block.Color.None && block.isMoving && (i == BOARD_HEIGHT - 1 || boardState[i + 1][j].color != Block.Color.None && !boardState[i + 1][j].isMoving)) {
-                    didCollisionOccur = true;
-                    break;
-                }
-
-                // Is the current block moving and is the block below empty or moving
-                if (block.isMoving && (boardState[i + 1][j].color == Block.Color.None || boardState[i + 1][j].isMoving)) {
-                    queuedMovement.add(new Pair<>(j, i));
-                }
-            }*/
 
         for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -549,6 +555,19 @@ public class BoardDataComponent extends NodeComponent {
         return didCollisionOccur;
     }
 
+    /**
+     * Handles the boardState after checking for collisions.
+     *
+     * <p>
+     *     Depending if a collision occurred or not, one of 2 things will happen:
+     * </p>
+     * <ul>
+     *     <li>If a collision did occur; Stop all blocks from moving, checked for cleared lines and request a new block be spawned</li>
+     *     <li>If a collision didn't occur; move all the currently moving blocks downward</li>
+     * </ul>
+     *
+     * @param didCollisionOccur Tells the method if a precalculated collision occurred or not
+     */
     // If any of the moving blocks met a collision, prevent any other moving blocks being moved
     private void handleCollisions(boolean didCollisionOccur) {
         if (!didCollisionOccur) {
@@ -592,21 +611,12 @@ public class BoardDataComponent extends NodeComponent {
 
                 // This edition of Tetris also uses a fixed gravity speed (I didn't know it could change)
 
-                int awardedScore;
-
-                switch (clearedLines.size()) {
-                    case 1:
-                        awardedScore = 100;
-                        break;
-                    case 2:
-                        awardedScore = 300;
-                        break;
-                    case 3:
-                        awardedScore = 500;
-                        break;
-                    default:
-                        awardedScore = 800;
-                }
+                int awardedScore = switch (clearedLines.size()) {
+                    case 1 -> 100;
+                    case 2 -> 300;
+                    case 3 -> 500;
+                    default -> 800;
+                };
 
                 gameManager.addScore(awardedScore);
             } else {
@@ -633,6 +643,9 @@ public class BoardDataComponent extends NodeComponent {
         }
     }
 
+    /**
+     * Clear out the empty lines with blank blocks and shift the board until there are no invisible lines
+     */
     private void handleClearedLines() {
         for (int lineY : clearedLines) {
             for (int i = 0; i < BOARD_WIDTH; i++) {
@@ -675,6 +688,12 @@ public class BoardDataComponent extends NodeComponent {
         }
     }
 
+    /**
+     * Checks if a given line on the board is completely full
+     *
+     * @param y Y index of the line
+     * @return Is the line full
+     */
     public boolean checkLineClear(int y) {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             if (getBoardState(i, y).color == Block.Color.None) {
@@ -685,19 +704,45 @@ public class BoardDataComponent extends NodeComponent {
         return true;
     }
 
+    /**
+     * Gets the state of the block at the given coordinate
+     *
+     * @param x X index of block
+     * @param y Y index of block
+     * @return The block data
+     */
     public Block getBoardState(int x, int y) {
         return boardState[y][x];
     }
 
+    /**
+     * Pause the internal logic and updates of the data component.
+     *
+     * <p>
+     *     This does not directly effect other components of the board
+     * </p>
+     *
+     * @param pause If the board should pause
+     */
     public void setPauseUpdates(boolean pause) {
         pausedByPauseEvent = false;
         pauseUpdates = pause;
     }
 
+    /**
+     * Gets an event to listen to for lines being cleared
+     *
+     * @return Event to listen to
+     */
     public Event<ArrayList<Integer>> getLinesDidClearEvent() {
         return linesDidClearEvent;
     }
 
+    /**
+     * Used to determine if the block matrix is currently in a vertical rotation
+     *
+     * @return If the matrix is currently in a vertical rotation
+     */
     private boolean isCurrentRotationVertical() {
         return currentRotationState == RotationState.NINETY || currentRotationState == RotationState.TWO_HUNDRED_SEVENTY;
     }

@@ -73,6 +73,11 @@ public class TitleTetrisBlock extends FXComponent {
         return root;
     }
 
+    /**
+     * Changes the color or tone of the click block on the title screen
+     *
+     * @param event Event associated with click
+     */
     private void handleBlockClick(MouseEvent event) {
         ImageView blockImage = (ImageView) event.getSource();
         Block data = (Block) blockImage.getUserData();

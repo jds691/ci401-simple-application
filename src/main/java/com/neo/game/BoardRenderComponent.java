@@ -147,6 +147,11 @@ public class BoardRenderComponent extends RenderComponent {
         context.restore();
     }
 
+    /**
+     * Draws a line that gradually fills the width of the board for each line
+     *
+     * @param context Graphics context to draw onto
+     */
     private void drawLineFillEffect(GraphicsContext context) {
         double progress = Math.clamp(effectDeltaTime / effectLength[currentEffect.ordinal()], 0, 1);
 
@@ -172,6 +177,11 @@ public class BoardRenderComponent extends RenderComponent {
         }
     }
 
+    /**
+     * Gradually fades out the lines that have been cleared
+     *
+     * @param context Graphics context to draw onto
+     */
     private void drawFadeOutEffect(GraphicsContext context) {
         double progress = Math.clamp(effectDeltaTime / effectLength[currentEffect.ordinal()], 0, 1);
 
@@ -190,6 +200,9 @@ public class BoardRenderComponent extends RenderComponent {
         backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
     }
 
+    /**
+     * A list of overlay effects to draw on top of the board
+     */
     enum Effect {
         NONE,
         LINE_FILL,

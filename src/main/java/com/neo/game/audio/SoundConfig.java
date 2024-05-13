@@ -6,6 +6,9 @@ import com.neo.twig.config.ConfigProperty;
 
 import java.net.URL;
 
+/**
+ * A configuration class that allows all the sounds used in the game to be remapped to other files.
+ */
 @Config(name = "sound")
 public class SoundConfig {
     private static SoundConfig instance;
@@ -61,6 +64,11 @@ public class SoundConfig {
         quit = SoundConfig.class.getResource("SFX_Quit_Fade.wav");
     }
 
+    /**
+     * Gets (or constructs) the singleton instance of this object.
+     *
+     * @return Singleton instance
+     */
     public static SoundConfig getInstance() {
         if (instance == null) {
             instance = new SoundConfig();
@@ -69,6 +77,12 @@ public class SoundConfig {
         return instance;
     }
 
+    /**
+     * Gets the URL of a requested song file based on the input key.
+     *
+     * @param key Unique key given to the song file for lookups
+     * @return URL of requested song or null
+     */
     public URL getMusicLocation(String key) {
         return switch (key) {
             case "titleTheme" -> titleTheme;
@@ -78,6 +92,12 @@ public class SoundConfig {
         };
     }
 
+    /**
+     * Gets the URL of a requested SFX file based on the input key.
+     *
+     * @param key Unique key given to the SFX file for lookups
+     * @return URL of requested SFX or null
+     */
     public URL getSFXLocation(String key) {
         return switch (key) {
             case "SFX_blockPlace" -> blockPlace;

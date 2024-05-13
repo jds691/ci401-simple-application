@@ -1,5 +1,8 @@
 package com.neo.game;
 
+/**
+ * Represents all the possible rotation states
+ */
 public enum RotationState {
     ZERO,
     NINETY,
