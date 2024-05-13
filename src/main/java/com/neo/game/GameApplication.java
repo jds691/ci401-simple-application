@@ -72,7 +72,7 @@ public class GameApplication {
         master.addChildBus(sfx);
         master.addChildBus(ui);
 
-        audio.mixerTree.addChildBus(master);
+        audio.mixerTree = master;
 
         return audio;
     }
