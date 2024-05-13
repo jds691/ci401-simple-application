@@ -141,7 +141,7 @@ public class BoardRenderComponent extends RenderComponent {
     }
 
     private void drawLineFillEffect(GraphicsContext context) {
-        double progress = effectDeltaTime / effectLength[currentEffect.ordinal()];
+        double progress = Math.clamp(effectDeltaTime / effectLength[currentEffect.ordinal()], 0, 1);
 
         Stop[] stops;
 
@@ -167,7 +167,8 @@ public class BoardRenderComponent extends RenderComponent {
     }
 
     private void drawFadeOutEffect(GraphicsContext context) {
-        double progress = effectDeltaTime / effectLength[currentEffect.ordinal()];
+        double progress = Math.clamp(effectDeltaTime / effectLength[currentEffect.ordinal()], 0, 1);
+
 
         context.setFill(new Color(1, 1, 1, 1 - progress));
         for (int clearedLine : linesToEffect) {
