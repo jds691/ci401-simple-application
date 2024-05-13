@@ -4,6 +4,7 @@ import com.neo.twig.Engine;
 import com.neo.twig.TransformComponent;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.graphics.RenderComponent;
+import com.neo.twig.logger.Logger;
 import com.neo.twig.resources.ImageResource;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.*;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 public class BoardRenderComponent extends RenderComponent {
     private TransformComponent transform;
     private BoardDataComponent dataComponent;
+
+    private static final Logger logger = Logger.getFor(BoardRenderComponent.class);
 
     public float blockSize = 30;
     @ForceSerialize
@@ -123,9 +126,15 @@ public class BoardRenderComponent extends RenderComponent {
 
         // Effects
         // Gradient overlay: https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/scene/paint/LinearGradient.html
-        switch (currentEffect) {
-            case LINE_FILL -> drawLineFillEffect(context);
-            case FADE_OUT -> drawFadeOutEffect(context);
+        try {
+            switch (currentEffect) {
+                case LINE_FILL -> drawLineFillEffect(context);
+                case FADE_OUT -> drawFadeOutEffect(context);
+            }
+        } catch (Exception e) {
+            logger.logError(String.format("A problem occurred rendering the '%s' effect. Stopping current effect...", currentEffect.toString()));
+            currentEffect = Effect.NONE;
+            e.printStackTrace();
         }
 
         context.restore();
