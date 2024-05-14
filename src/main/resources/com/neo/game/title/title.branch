@@ -127,5 +127,11 @@
         ]
       }
     ]
+  },
+  {
+    "location": {
+      "class": "com.neo.game.message.MessageServiceComponent",
+      "resource": "message-service.twig"
+    }
   }
 ]

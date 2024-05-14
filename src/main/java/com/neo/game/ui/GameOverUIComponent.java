@@ -1,6 +1,8 @@
 package com.neo.game.ui;
 
 import com.neo.game.GameManager;
+import com.neo.game.message.MessageServiceComponent;
+import com.neo.game.message.SystemMessage;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.URLResource;
@@ -98,6 +100,6 @@ public class GameOverUIComponent extends FXComponent {
     }
 
     private void onQuitGameButton(ActionEvent actionEvent) {
-        Engine.quit();
+        MessageServiceComponent.getInstance().addToQueue(SystemMessage.QUIT_TO_DESKTOP);
     }
 }

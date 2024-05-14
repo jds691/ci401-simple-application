@@ -1,5 +1,11 @@
 package com.neo.game.title;
 
+import com.neo.game.leaderboard.LeaderboardService;
+import com.neo.game.leaderboard.LeaderboardSettings;
+import com.neo.game.message.Message;
+import com.neo.game.message.MessageOption;
+import com.neo.game.message.MessageServiceComponent;
+import com.neo.game.message.SystemMessage;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.URLResource;
@@ -38,6 +44,10 @@ public class TitleControllerComponent extends FXComponent {
         settingsButton.setOnAction(this::onSettingsButtonAction);
         settingsButton.getStyleClass().add("button");
 
+        Button leaderboardButton = new Button("Leaderboard");
+        leaderboardButton.setOnAction(this::onLeaderboardButtonAction);
+        leaderboardButton.getStyleClass().add("button");
+
         Button quitButton = new Button("Quit");
         quitButton.setOnAction(this::onQuitButtonAction);
         quitButton.getStyleClass().add("button");
@@ -47,7 +57,8 @@ public class TitleControllerComponent extends FXComponent {
         BorderPane.setAlignment(gameVersion, Pos.BOTTOM_LEFT);
 
         buttonContainer.getChildren().add(playButton);
-        //buttonContainer.getChildren().add(settingsButton);
+        buttonContainer.getChildren().add(leaderboardButton);
+        buttonContainer.getChildren().add(settingsButton);
         //TODO: Ask for confirmation before quitting
         buttonContainer.getChildren().add(quitButton);
         buttonContainer.setId("button-container");
@@ -74,10 +85,49 @@ public class TitleControllerComponent extends FXComponent {
         Engine.getSceneService().setScene(gameScene.get());
     }
 
+    private void onLeaderboardButtonAction(ActionEvent actionEvent) {
+        if (!LeaderboardService.getInstance().isLeaderboardEnabled()) {
+            MessageServiceComponent.getInstance().addToQueue(
+                    new Message("Notice",
+                            "The leaderboard has not been enabled. Would you like to enable it?",
+                            new MessageOption(
+                                    "Yes",
+                                    this::handleEnableLeaderboard
+                            ),
+                            new MessageOption(
+                                    "No",
+                                    null
+                            )
+                    )
+            );
+        } else {
+            showLeaderboard();
+        }
+    }
+
+    private void handleEnableLeaderboard(ActionEvent event) {
+        LeaderboardService.getInstance().setLeaderboardEnabled(true);
+        LeaderboardService.getInstance().saveSettings();
+
+        MessageServiceComponent.getInstance().addToQueue(
+                new Message("Notice",
+                        "The leaderboard has been enabled.",
+                        new MessageOption(
+                                "OK",
+                                this::onLeaderboardButtonAction
+                        )
+                )
+        );
+    }
+
+    private void showLeaderboard() {
+        Engine.quit();
+    }
+
     private void onSettingsButtonAction(ActionEvent actionEvent) {
     }
 
     private void onQuitButtonAction(ActionEvent actionEvent) {
-        Engine.quit();
+        MessageServiceComponent.getInstance().addToQueue(SystemMessage.QUIT_TO_DESKTOP);
     }
 }

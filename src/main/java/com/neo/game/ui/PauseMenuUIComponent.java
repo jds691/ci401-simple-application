@@ -2,6 +2,9 @@ package com.neo.game.ui;
 
 import com.neo.game.GameManager;
 import com.neo.game.audio.SFXPlayer;
+import com.neo.game.message.Message;
+import com.neo.game.message.MessageOption;
+import com.neo.game.message.MessageServiceComponent;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.URLResource;
@@ -88,11 +91,35 @@ public class PauseMenuUIComponent extends FXComponent {
     }
 
     private void onRestartButton(ActionEvent actionEvent) {
-        Engine.getSceneService().setScene(gameScene.get());
+        MessageServiceComponent.getInstance().addToQueue(
+                new Message("Notice",
+                        "Are you sure you want to restart?",
+                        new MessageOption(
+                                "Yes",
+                                (ignored) -> Engine.getSceneService().setScene(gameScene.get())
+                        ),
+                        new MessageOption(
+                                "No",
+                                null
+                        )
+                )
+        );
     }
 
     private void onQuitToTitleButton(ActionEvent actionEvent) {
-        Engine.getSceneService().setScene(titleScene.get());
+        MessageServiceComponent.getInstance().addToQueue(
+                new Message("Notice",
+                        "Are you sure you want to quit the current game? Your score will not be saved.",
+                        new MessageOption(
+                                "Yes",
+                                (ignored) -> Engine.getSceneService().setScene(titleScene.get())
+                        ),
+                        new MessageOption(
+                                "No",
+                                null
+                        )
+                )
+        );
     }
 
     @Override

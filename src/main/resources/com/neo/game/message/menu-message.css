@@ -1,0 +1,23 @@
+#root {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-padding: 150px 50px;
+}
+
+.button {
+    -fx-max-width: 1000000000000;
+}
+
+#contents {
+    -fx-border-color: #EE7C5B;
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-border-width: 2px;
+    -fx-padding: 20px 20px 20px 20px;
+
+    -fx-spacing: 20px;
+}
+
+#button-container {
+    -fx-spacing: 8px;
+}

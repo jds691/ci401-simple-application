@@ -9,6 +9,8 @@ module com.neo.game {
     opens com.neo.game.audio to com.neo.twig;
     opens com.neo.game.input to com.neo.twig;
     opens com.neo.game.title to com.neo.twig;
+    opens com.neo.game.leaderboard to com.neo.twig;
+    opens com.neo.game.message to com.neo.twig;
     opens com.neo.game.ui to com.neo.twig;
     opens com.neo.game.settings to com.neo.twig;
 
