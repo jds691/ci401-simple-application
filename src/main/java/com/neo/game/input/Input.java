@@ -11,7 +11,5 @@ public enum Input {
     ROTATE_LEFT,
     ROTATE_RIGHT,
 
-    PAUSE,
-
-    MAX
+    PAUSE
 }

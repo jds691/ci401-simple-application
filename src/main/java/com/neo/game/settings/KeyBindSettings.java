@@ -77,8 +77,6 @@ public class KeyBindSettings {
             case ROTATE_RIGHT -> rotateRight;
 
             case PAUSE -> pause;
-
-            case MAX -> KeyCode.ALL_CANDIDATES;
         };
     }
 
@@ -160,8 +158,6 @@ public class KeyBindSettings {
                 case ROTATE_RIGHT -> rotateRight = value;
 
                 case PAUSE -> pause = value;
-
-                case MAX -> throw new InvalidParameterException("Unable to change KeyBind for Input.MAX");
             }
         }
     }
