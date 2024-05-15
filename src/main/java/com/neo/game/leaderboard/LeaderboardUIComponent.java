@@ -32,7 +32,6 @@ public class LeaderboardUIComponent extends FXComponent {
         root.setId("root");
 
         Button backButton = new Button("Back");
-        backButton.getStyleClass().add("button");
         backButton.setOnAction(this::handleBackButton);
 
         Label titleLabel = new Label("leaderboard");
