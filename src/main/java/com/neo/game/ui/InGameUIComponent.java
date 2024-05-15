@@ -155,10 +155,10 @@ public class InGameUIComponent extends FXComponent {
 
                 currentTextCounter = 0;
 
-                totalScoreLabel.setText("Score: " + scoreFormat.format(currentScoreFinal));
+                totalScoreLabel.setText("Score: " + scoreFormat.format(gameManager.getCurrentScore()));
                 deltaScoreLabel.setText("+" + 0);
 
-                currentScore = currentScoreFinal;
+                currentScore = gameManager.getCurrentScore();
 
                 currentScoreAnimated = 0;
                 currentDeltaScoreAnimated = 0;
@@ -178,8 +178,8 @@ public class InGameUIComponent extends FXComponent {
         if (currentDeltaScoreAnimated != 0) {
             shouldAdjustDeltaLabel = false;
 
-            totalScoreLabel.setText("Score: " + scoreFormat.format(currentScore));
-            currentScore = currentScoreFinal;
+            totalScoreLabel.setText("Score: " + scoreFormat.format(gameManager.getCurrentScore()));
+            currentScore = gameManager.getCurrentScore();
 
             currentTextCounter = 0;
 
