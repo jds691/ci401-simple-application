@@ -32,6 +32,7 @@ public class StringSetting extends Setting<String> {
 
         field = new TextField();
         field.setText(value);
+        field.focusedProperty().addListener((observableValue, aBoolean, t1) -> handleFieldUpdate(null));
         field.setOnAction(this::handleFieldUpdate);
 
         content.setAlignment(Pos.CENTER_LEFT);
