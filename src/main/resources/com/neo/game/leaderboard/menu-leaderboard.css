@@ -4,9 +4,35 @@
 }
 
 .label {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 .title-label {
     -fx-text-fill: black;
+}
+
+.table-view {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-border-color: #EE7C5B;}
+
+.table-view .column-header {
+    -fx-background-color: #EE7C5B;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: #EE7C5B;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
+.table-row-cell:even {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.table-view .table-cell {
+    -fx-text-fill: white;
+    -fx-font-family: 'FOT-Rowdy Std EB', serif;
+    -fx-font-size: 12px;
 }
