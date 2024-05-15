@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -87,7 +88,7 @@ public class InGameUIComponent extends FXComponent {
         root.setRight(blockQueue);
 
         BorderPane scoreInfoAlignment = new BorderPane();
-        VBox scoreInfo = new VBox();
+        HBox scoreInfo = new HBox();
         scoreInfo.setId("score-info");
 
         totalScoreLabel = new Label("Score: 0000000000");
