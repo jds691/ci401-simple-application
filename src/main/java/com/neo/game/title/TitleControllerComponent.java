@@ -7,9 +7,11 @@ import com.neo.game.message.Message;
 import com.neo.game.message.MessageOption;
 import com.neo.game.message.MessageServiceComponent;
 import com.neo.game.message.SystemMessage;
+import com.neo.game.settings.SettingsUIComponent;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.resources.URLResource;
+import com.neo.twig.scene.Scene;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -28,12 +30,15 @@ public class TitleControllerComponent extends FXComponent {
     private double iconSize;
 
     private LeaderboardUIComponent leaderboardUI;
+    private SettingsUIComponent settingsUI;
 
     @Override
     public void start() {
         super.start();
 
-        leaderboardUI = Engine.getSceneService().getActiveScene().findRootNode("Leaderboard UI").getComponent(LeaderboardUIComponent.class);
+        Scene activeScene = Engine.getSceneService().getActiveScene();
+        leaderboardUI = activeScene.findRootNode("Leaderboard UI").getComponent(LeaderboardUIComponent.class);
+        settingsUI = activeScene.findRootNode("Settings UI").getComponent(SettingsUIComponent.class);
     }
 
     @Override
@@ -115,7 +120,7 @@ public class TitleControllerComponent extends FXComponent {
 
     private void handleEnableLeaderboard(ActionEvent event) {
         LeaderboardService.getInstance().getSettings().setIsEnabled(true);
-        LeaderboardService.getInstance().saveSettings();
+        LeaderboardService.getInstance().getSettings().save();
 
         MessageServiceComponent.getInstance().addToQueue(
                 new Message("Notice",
@@ -133,6 +138,7 @@ public class TitleControllerComponent extends FXComponent {
     }
 
     private void onSettingsButtonAction(ActionEvent actionEvent) {
+        settingsUI.setVisible(true);
     }
 
     private void onQuitButtonAction(ActionEvent actionEvent) {

@@ -6,6 +6,7 @@ module com.neo.game {
     requires json.simple;
     requires mysql.connector.j;
     requires java.sql;
+    requires jdk.jshell;
 
     opens com.neo.game to javafx.fxml, com.neo.twig;
     opens com.neo.game.audio to com.neo.twig;

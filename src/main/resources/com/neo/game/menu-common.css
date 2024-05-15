@@ -22,6 +22,11 @@
     -fx-background-color: rgba(143, 74, 55, 0.9);
 }
 
+.button:disabled {
+    -fx-border-color: grey;
+    -fx-text-fill: grey;
+}
+
 .label {
     -fx-font-family: 'FOT-Rowdy Std EB', serif;
     -fx-font-size: 12px;
@@ -32,4 +37,51 @@
     -fx-font-family: 'Sp Alterna', serif;
     -fx-font-size: 24px;
     -fx-text-fill: white;
+}
+
+.check-box .box {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-border-color: #EE7C5B;
+    -fx-border-width: 1px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+}
+
+.check-box .mark {
+    -fx-background-color: transparent;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #EE7C5B;
+}
+
+.text-field {
+    -fx-border-color: white;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-text-fill: white;
+}
+
+.text-field:focused {
+    -fx-border-color: #EE7C5B;
+}
+
+.menu-button {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-border-color: #EE7C5B;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-background-color: white;
+}
+
+.menu-item > .right-container {
+    -fx-background-color: transparent;
+}
+
+.menu-item {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
 }

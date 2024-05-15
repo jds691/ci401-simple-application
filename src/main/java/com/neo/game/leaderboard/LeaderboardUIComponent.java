@@ -76,8 +76,10 @@ public class LeaderboardUIComponent extends FXComponent {
     private void updateScores() {
         LeaderboardScore[] fetchedScores = leaderboard.getAllScores();
 
-        scores.clear();
+        if (fetchedScores != null) {
+            scores.clear();
 
-        scores.addAll(Arrays.asList(fetchedScores));
+            scores.addAll(Arrays.asList(fetchedScores));
+        }
     }
 }

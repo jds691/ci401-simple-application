@@ -74,7 +74,6 @@ public class MessageServiceUIComponent extends FXComponent {
             Button button = new Button(option.text());
             button.setUserData(option.action());
             button.setOnAction(this::buttonActionWrapper);
-            button.getStyleClass().add("button");
             VBox.setVgrow(button, Priority.ALWAYS);
 
             messageButtonsBox.getChildren().add(button);

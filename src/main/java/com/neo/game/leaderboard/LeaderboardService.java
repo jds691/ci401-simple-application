@@ -66,6 +66,7 @@ public class LeaderboardService {
         ConfigManager.saveConfig(settings, ConfigScope.Engine);
 
         ConfigManager.loadConfig(settings);
+        settings.setPreviousUsername(settings.getUsername());
     }
 
     public static LeaderboardService getInstance() {
@@ -115,27 +116,27 @@ public class LeaderboardService {
 
         try {
             PreparedStatement statement;
-            String username = System.getProperty("user.name");
-            int lastScore = checkUserEntryExists(username);
+            int lastScore = checkUserEntryExists(settings.getUsername());
             if (lastScore == -1) {
                 String statementText =
                         "INSERT INTO scores " +
-                        "(username, score, versionInfo) " +
-                        "VALUES(?, ?, ?)";
+                        "(username, score, versionInfo, userIdentifier) " +
+                        "VALUES(?, ?, ?, ?)";
                 statement = serverConnection.prepareStatement(statementText);
-                statement.setString(1, username);
+                statement.setString(1, settings.getUsername());
                 statement.setInt(2, score);
                 statement.setString(3, Engine.getConfig().appConfig().version);
+                statement.setString(4, settings.getUserIdentifier());
                 statement.execute();
             } else if (score >= lastScore) {
                 String statementText =
                         "UPDATE scores " +
                         "SET scores.score = ?, scores.versionInfo = ?" +
-                        "WHERE username = ?";
+                        "WHERE userIdentifier = ?";
                 statement = serverConnection.prepareStatement(statementText);
                 statement.setInt(1, score);
                 statement.setString(2, Engine.getConfig().appConfig().version);
-                statement.setString(3, username);
+                statement.setString(3, settings.getUserIdentifier());
                 int recordsAffected = statement.executeUpdate();
 
                 if (recordsAffected > 1)
@@ -159,7 +160,7 @@ public class LeaderboardService {
             return null;
 
         String statementText =
-                "SELECT * FROM scores ORDER BY score";
+                "SELECT (username, score, versionInfo) FROM scores ORDER BY score";
         try {
             PreparedStatement statement = serverConnection.prepareStatement(statementText);
             ResultSet results = statement.executeQuery();
@@ -200,6 +201,38 @@ public class LeaderboardService {
         return score;
     }
 
+    public void updateUsernameIfRequired() {
+        if (!canLoadDriver || !settings.isEnabled())
+            return;
+
+        if (!initialisedConnection)
+            initialiseConnection();
+
+        if (!initialisedConnection)
+            return;
+
+        String userIdentifier = settings.getUserIdentifier();
+
+        PreparedStatement statement;
+
+        try {
+            String statementText =
+                    "UPDATE scores " +
+                            "SET scores.username = ?" +
+                            "WHERE userIdentifier = ?";
+            statement = serverConnection.prepareStatement(statementText);
+            statement.setString(1, settings.getUsername());
+            statement.setString(2, userIdentifier);
+            int recordsAffected = statement.executeUpdate();
+
+            logger.logInfo(String.format("Updated %d score record(s)", recordsAffected));
+
+            settings.setPreviousUsername(settings.getUsername());
+        } catch (SQLException e) {
+
+        }
+    }
+
     private void loadSQLDriver() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
@@ -212,15 +245,11 @@ public class LeaderboardService {
     public void playIntro(boolean isInGame) {
         MessageServiceComponent.getInstance().addToQueue(isInGame ? LEADERBOARD_INTRO_GAME : LEADERBOARD_INTRO);
         settings.setHasSeenInitialMessage(true);
-        saveSettings();
+        settings.save();
     }
 
     public LeaderboardSettings getSettings() {
         return settings;
-    }
-
-    public void saveSettings() {
-        ConfigManager.saveConfig(settings);
     }
 
     public void shutdown() {

@@ -147,6 +147,24 @@
     ]
   },
   {
+    "name": "Settings UI",
+    "components": [
+      {
+        "type": "com.neo.game.settings.SettingsUIComponent",
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.settings.SettingsUIComponent",
+            "resource": "menu-settings.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "location": {
       "class": "com.neo.game.message.MessageServiceComponent",
       "resource": "message-service.twig"
