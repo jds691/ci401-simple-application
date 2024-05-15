@@ -18,7 +18,7 @@
     "components": [
       {
         "type": "com.neo.game.audio.MusicComponent",
-        "autoplay": false,
+        "autoplay": true,
         "loop": true,
         "musicConfigKey": "BGM_Game"
       }
