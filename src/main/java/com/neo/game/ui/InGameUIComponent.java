@@ -91,9 +91,7 @@ public class InGameUIComponent extends FXComponent {
         scoreInfo.setId("score-info");
 
         totalScoreLabel = new Label("Score: 0000000000");
-        totalScoreLabel.getStyleClass().add("label");
         deltaScoreLabel = new Label("+000");
-        deltaScoreLabel.getStyleClass().add("label");
         deltaScoreLabel.setId("delta-score-label");
 
         deltaFadeInAnimation = new Timeline();

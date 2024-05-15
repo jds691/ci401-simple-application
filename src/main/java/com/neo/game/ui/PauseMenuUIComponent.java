@@ -65,15 +65,12 @@ public class PauseMenuUIComponent extends FXComponent {
         pauseLabel.getStyleClass().add("title-label");
 
         Button resumeButton = new Button("Resume");
-        resumeButton.getStyleClass().addAll("button");
         resumeButton.setOnAction(this::onResumeButton);
 
         Button restartButton = new Button("Restart");
-        restartButton.getStyleClass().addAll("button");
         restartButton.setOnAction(this::onRestartButton);
 
         Button quitToTitleButton = new Button("Quit to Title Screen");
-        quitToTitleButton.getStyleClass().addAll("button");
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
 
         verticalContainer.getChildren().add(pauseLabel);

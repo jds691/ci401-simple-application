@@ -64,21 +64,15 @@ public class GameOverUIComponent extends FXComponent {
         gameOverLabel.getStyleClass().add("title-label");
 
         scoreLabel = new Label("Final Score: 0000000000");
-        scoreLabel.getStyleClass().add("label");
-
-        gameOverLabel.getStyleClass().add("label");
 
         Button restartButton = new Button("Restart");
         restartButton.setOnAction(this::onRestartButton);
-        restartButton.getStyleClass().add("button");
 
         Button quitToTitleButton = new Button("Quit to Title Screen");
         quitToTitleButton.setOnAction(this::onQuitToTitleButton);
-        quitToTitleButton.getStyleClass().add("button");
 
         Button quitGameButton = new Button("Quit to Desktop");
         quitGameButton.setOnAction(this::onQuitGameButton);
-        quitGameButton.getStyleClass().add("button");
 
         verticalContainer.getChildren().add(gameOverLabel);
         verticalContainer.getChildren().add(scoreLabel);

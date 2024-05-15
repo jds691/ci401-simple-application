@@ -48,22 +48,18 @@ public class TitleControllerComponent extends FXComponent {
 
         Button playButton = new Button("Play");
         playButton.setOnAction(this::onPlayButtonAction);
-        playButton.getStyleClass().add("button");
 
         Button settingsButton = new Button("Settings");
         settingsButton.setOnAction(this::onSettingsButtonAction);
-        settingsButton.getStyleClass().add("button");
 
         Button leaderboardButton = new Button("Leaderboard");
         leaderboardButton.setOnAction(this::onLeaderboardButtonAction);
-        leaderboardButton.getStyleClass().add("button");
 
         Button quitButton = new Button("Quit");
         quitButton.setOnAction(this::onQuitButtonAction);
-        quitButton.getStyleClass().add("button");
 
         Label gameVersion = new Label("Version: " + Engine.getConfig().appConfig().version);
-        gameVersion.getStyleClass().addAll("label", "version-label");
+        gameVersion.getStyleClass().add("version-label");
         BorderPane.setAlignment(gameVersion, Pos.BOTTOM_LEFT);
 
         buttonContainer.getChildren().add(playButton);
