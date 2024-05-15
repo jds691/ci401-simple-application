@@ -1,5 +1,6 @@
 package com.neo.game.message;
 
+import com.neo.game.audio.SFXPlayer;
 import com.neo.twig.events.Event;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
@@ -19,11 +20,21 @@ public class MessageServiceUIComponent extends FXComponent {
     private VBox messageButtonsBox;
     private Button[] messageButtons;
 
+    private String showSfxKey = "UI_message_show";
+    private String hideSfxKey = "UI_message_hide";
+
+    private SFXPlayer showSfx;
+    private SFXPlayer hideSfx;
+
     @Override
     public void start() {
         super.start();
 
         setVisible(false);
+
+        // Initialise required sounds
+        showSfx = new SFXPlayer(showSfxKey);
+        hideSfx = new SFXPlayer(hideSfxKey);
     }
 
     @Override
@@ -94,5 +105,15 @@ public class MessageServiceUIComponent extends FXComponent {
             EventHandler<ActionEvent> realHandler = (EventHandler<ActionEvent>) userData;
             realHandler.handle(event);
         }
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+
+        if (visible && showSfx != null)
+            showSfx.play();
+        else if (!visible && hideSfx != null)
+            hideSfx.play();
     }
 }

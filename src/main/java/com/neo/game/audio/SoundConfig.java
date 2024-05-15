@@ -37,17 +37,25 @@ public class SoundConfig {
     private URL lineClear;
 
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "UI")
     private URL pauseOpen;
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "UI")
     private URL pauseClose;
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "UI")
     private URL resume;
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "UI")
     private URL quit;
+
+    @ForceSerialize
+    @ConfigProperty(section = "UI")
+    private URL messageShow;
+
+    @ForceSerialize
+    @ConfigProperty(section = "UI")
+    private URL messageHide;
 
     private SoundConfig() {
         titleTheme = MusicComponent.class.getResource("MUS_Title.mp3");
@@ -62,6 +70,9 @@ public class SoundConfig {
         pauseClose = SoundConfig.class.getResource("SFX_Pause_Close.wav");
         resume = SoundConfig.class.getResource("SFX_Resume.wav");
         quit = SoundConfig.class.getResource("SFX_Quit_Fade.wav");
+        messageShow = SoundConfig.class.getResource("UI_message_show.wav");
+        messageHide = SoundConfig.class.getResource("UI_message_hide.wav");
+
     }
 
     /**
@@ -107,6 +118,8 @@ public class SoundConfig {
             case "SFX_Pause_Close" -> pauseClose;
             case "SFX_Resume" -> resume;
             case "SFX_Quit" -> quit;
+            case "UI_message_show" -> messageShow;
+            case "UI_message_hide" -> messageHide;
             default -> null;
         };
     }
