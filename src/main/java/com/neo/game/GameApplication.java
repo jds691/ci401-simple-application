@@ -2,6 +2,7 @@ package com.neo.game;
 
 import com.neo.game.audio.SoundConfig;
 import com.neo.game.input.InputAction;
+import com.neo.game.leaderboard.LeaderboardService;
 import com.neo.game.settings.KeyBindSettings;
 import com.neo.game.title.TitleControllerComponent;
 import com.neo.twig.AppConfig;
@@ -36,6 +37,8 @@ public class GameApplication {
         System.setProperty("prism.lcdtext", "false");
 
         Engine.start();
+
+        LeaderboardService.getInstance().shutdown();
     }
 
     private static AppConfig generateAppConfig() {

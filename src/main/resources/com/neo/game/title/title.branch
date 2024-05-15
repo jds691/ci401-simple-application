@@ -129,6 +129,24 @@
     ]
   },
   {
+    "name": "Leaderboard UI",
+    "components": [
+      {
+        "type": "com.neo.game.leaderboard.LeaderboardUIComponent",
+        "stylesheets": [
+          {
+            "class": "com.neo.game.GameApplication",
+            "resource": "menu-common.css"
+          },
+          {
+            "class": "com.neo.game.leaderboard.LeaderboardUIComponent",
+            "resource": "menu-leaderboard.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "location": {
       "class": "com.neo.game.message.MessageServiceComponent",
       "resource": "message-service.twig"

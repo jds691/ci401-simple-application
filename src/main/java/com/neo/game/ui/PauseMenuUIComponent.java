@@ -2,6 +2,7 @@ package com.neo.game.ui;
 
 import com.neo.game.GameManager;
 import com.neo.game.audio.SFXPlayer;
+import com.neo.game.leaderboard.LeaderboardService;
 import com.neo.game.message.Message;
 import com.neo.game.message.MessageOption;
 import com.neo.game.message.MessageServiceComponent;
@@ -107,9 +108,12 @@ public class PauseMenuUIComponent extends FXComponent {
     }
 
     private void onQuitToTitleButton(ActionEvent actionEvent) {
+        boolean leaderboardEnabled = LeaderboardService.getInstance().getSettings().isEnabled();
         MessageServiceComponent.getInstance().addToQueue(
                 new Message("Notice",
-                        "Are you sure you want to quit the current game? Your score will not be saved.",
+                        leaderboardEnabled ?
+                                "Are you sure you want to quit the current game? Your score will not be saved." :
+                                "Are you sure you want to quit the current game?",
                         new MessageOption(
                                 "Yes",
                                 (ignored) -> Engine.getSceneService().setScene(titleScene.get())

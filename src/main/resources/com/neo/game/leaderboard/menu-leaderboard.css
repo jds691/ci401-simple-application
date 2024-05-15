@@ -1,0 +1,12 @@
+#root {
+    -fx-background-color: rgb(243, 233, 229);
+    -fx-padding: 16px;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
+.title-label {
+    -fx-text-fill: black;
+}

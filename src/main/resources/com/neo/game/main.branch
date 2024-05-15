@@ -138,6 +138,14 @@
     ]
   },
   {
+    "name": "Leaderboard Listener",
+    "components": [
+      {
+        "type": "com.neo.game.leaderboard.LeaderboardGameListenerComponent"
+      }
+    ]
+  },
+  {
     "location": {
       "class": "com.neo.game.message.MessageServiceComponent",
       "resource": "message-service.twig"

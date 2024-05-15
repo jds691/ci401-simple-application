@@ -2,6 +2,7 @@ package com.neo.game.title;
 
 import com.neo.game.leaderboard.LeaderboardService;
 import com.neo.game.leaderboard.LeaderboardSettings;
+import com.neo.game.leaderboard.LeaderboardUIComponent;
 import com.neo.game.message.Message;
 import com.neo.game.message.MessageOption;
 import com.neo.game.message.MessageServiceComponent;
@@ -25,6 +26,15 @@ public class TitleControllerComponent extends FXComponent {
 
     @ForceSerialize
     private double iconSize;
+
+    private LeaderboardUIComponent leaderboardUI;
+
+    @Override
+    public void start() {
+        super.start();
+
+        leaderboardUI = Engine.getSceneService().getActiveScene().findRootNode("Leaderboard UI").getComponent(LeaderboardUIComponent.class);
+    }
 
     @Override
     public Parent generateFXScene() {
@@ -86,7 +96,9 @@ public class TitleControllerComponent extends FXComponent {
     }
 
     private void onLeaderboardButtonAction(ActionEvent actionEvent) {
-        if (!LeaderboardService.getInstance().isLeaderboardEnabled()) {
+        if (!LeaderboardService.getInstance().getSettings().hasSeenInitialMessage()) {
+            LeaderboardService.getInstance().playIntro(false);
+        } else if (!LeaderboardService.getInstance().getSettings().isEnabled()) {
             MessageServiceComponent.getInstance().addToQueue(
                     new Message("Notice",
                             "The leaderboard has not been enabled. Would you like to enable it?",
@@ -106,7 +118,7 @@ public class TitleControllerComponent extends FXComponent {
     }
 
     private void handleEnableLeaderboard(ActionEvent event) {
-        LeaderboardService.getInstance().setLeaderboardEnabled(true);
+        LeaderboardService.getInstance().getSettings().setIsEnabled(true);
         LeaderboardService.getInstance().saveSettings();
 
         MessageServiceComponent.getInstance().addToQueue(
@@ -121,7 +133,7 @@ public class TitleControllerComponent extends FXComponent {
     }
 
     private void showLeaderboard() {
-        Engine.quit();
+        leaderboardUI.setVisible(true);
     }
 
     private void onSettingsButtonAction(ActionEvent actionEvent) {

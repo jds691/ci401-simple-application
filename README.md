@@ -10,6 +10,19 @@ more robust and easy to use features for building a game.
 
 ## Building
 
+For security reasons the data required to login to the leaderboard database is excluded from the source code. 
+To fix this an allow the program to compile, create a file called LeaderboardConnectionData.java inside of
+src/main/java/com/neo/game/leaderboard with the following contents:
+```java
+package com.neo.game.leaderboard;
+
+public final class LeaderboardConnectionData {
+    public static final String URL = "";
+    public static final String USERNAME = "";
+    public static final String PASSWORD = "";
+}
+```
+
 Ensure that you have cloned and installed [Twig](https://github.com/jds691/Twig) to your local Maven repository.
 
 Install the project's dependencies via:

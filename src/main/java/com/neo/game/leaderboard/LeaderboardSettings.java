@@ -6,6 +6,10 @@ import com.neo.twig.config.ConfigProperty;
 
 @Config(name = "leaderboard")
 public class LeaderboardSettings {
+    @ConfigProperty(section = "Notice")
+    @ForceSerialize
+    private boolean hasSeenInitialMessage = true;
+
     @ConfigProperty(section = "Connection")
     @ForceSerialize
     private boolean enabled;
@@ -16,5 +20,13 @@ public class LeaderboardSettings {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void setHasSeenInitialMessage(boolean seenMessage) {
+        hasSeenInitialMessage = seenMessage;
+    }
+
+    public boolean hasSeenInitialMessage() {
+        return hasSeenInitialMessage;
     }
 }
