@@ -28,7 +28,8 @@ public class BoardRenderComponent extends RenderComponent {
     public float blockSize = 30;
     @ForceSerialize
     private ImageResource boardBackground;
-    private ImagePattern backgroundPattern;
+    @ForceSerialize
+    private double backgroundDarkness;
 
     @ForceSerialize
     private ImageResource[][] chipSprites;
@@ -65,7 +66,7 @@ public class BoardRenderComponent extends RenderComponent {
                     gameIsPaused = paused;
                 });
 
-        backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
+        //backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
         //if (Engine.getResourceService().getUseHotReload())
         //    boardBackground.getHotReloadRequestedEvent().addHandler(this::handleBackgroundReload);
     }
@@ -88,12 +89,20 @@ public class BoardRenderComponent extends RenderComponent {
         */
 
         context.save();
-        context.setFill(backgroundPattern);
-        context.fillRect(transform.x, transform.y, BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
+        context.drawImage(boardBackground.get(), transform.x, transform.y, BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
+        context.setFill(Color.BLACK);
+        context.setGlobalAlpha(backgroundDarkness);
+        context.fillRect(transform.x, transform.y,BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
+        context.setGlobalAlpha(1);
 
         for (int i = 0; i < BoardDataComponent.BOARD_HEIGHT; i++) {
             for (int j = 0; j < BoardDataComponent.BOARD_WIDTH; j++) {
                 Block state = dataComponent.getBoardState(j, i);
+
+                // Draw columns
+                context.setFill(Color.color((double) 238 / 255, (double) 124 / 255, (double) 91 / 255));
+                if (j != 0)
+                    context.fillRect(transform.x + (j * blockSize + j), transform.y, 1, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
 
                 if (debug_DrawCoords) {
                     context.setFill(Color.CYAN);
@@ -124,6 +133,11 @@ public class BoardRenderComponent extends RenderComponent {
             }
 
             context.setGlobalAlpha(1);
+
+            // Draw rows
+            context.setFill(Color.color((double) 238 / 255, (double) 124 / 255, (double) 91 / 255));
+            if (i != 0)
+                context.fillRect(transform.x, transform.y + (i * blockSize + i), BoardDataComponent.BOARD_WIDTH * blockSize + BoardDataComponent.BOARD_WIDTH, 1);
         }
 
         // Effects
@@ -194,10 +208,6 @@ public class BoardRenderComponent extends RenderComponent {
         if (progress >= 1) {
             currentEffect = Effect.NONE;
         }
-    }
-
-    private void handleBackgroundReload(Object ignored) {
-        backgroundPattern = new ImagePattern(boardBackground.get(), transform.x, transform.y, 30, 30, false);
     }
 
     /**
