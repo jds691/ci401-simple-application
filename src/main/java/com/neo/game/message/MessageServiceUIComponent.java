@@ -11,6 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
+/**
+ * Represents the UI used to draw UI messages
+ */
 public class MessageServiceUIComponent extends FXComponent {
     private Event<Object> onMessageComplete = new Event<>();
 
@@ -70,14 +73,29 @@ public class MessageServiceUIComponent extends FXComponent {
         return root;
     }
 
+    /**
+     * Sets the title of the message UI
+     *
+     * @param title Message title
+     */
     public void setTitle(String title) {
         titleLabel.setText(title.toLowerCase());
     }
 
+    /**
+     * Sets the text body of the message UI
+     *
+     * @param text Message body
+     */
     public void setText(String text) {
         messageLabel.setText(text);
     }
 
+    /**
+     * Sets the buttons/potential options the user can pick
+     *
+     * @param options Button options
+     */
     public void setButtons(MessageOption... options) {
         messageButtonsBox.getChildren().clear();
 
@@ -91,6 +109,11 @@ public class MessageServiceUIComponent extends FXComponent {
         }
     }
 
+    /**
+     * Gets an event that can be listened to for when the user has selected an option
+     *
+     * @return Event to listen to
+     */
     public Event<Object> getOnMessageCompleteEvent() {
         return onMessageComplete;
     }

@@ -7,6 +7,9 @@ import com.neo.game.message.MessageServiceComponent;
 import com.neo.twig.Engine;
 import com.neo.twig.scene.NodeComponent;
 
+/**
+ * Used to listen for when a game session ends so the score can be uploaded to the leaderboard
+ */
 public class LeaderboardGameListenerComponent extends NodeComponent {
     LeaderboardService leaderboard;
 

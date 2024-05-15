@@ -80,6 +80,11 @@ public class KeyBindSettings {
         };
     }
 
+    /**
+     * Gets a settings category that can be configured by {@link SettingsUIComponent}
+     *
+     * @return Preconfigured category
+     */
     public SettingCategory getSettingsCategory() {
         SettingCategory category = new SettingCategory();
         category.setName("Keybindings");
@@ -136,6 +141,9 @@ public class KeyBindSettings {
         return category;
     }
 
+    /**
+     * Saves the current settings for the user
+     */
     public void save() {
         ConfigManager.saveConfig(this);
     }

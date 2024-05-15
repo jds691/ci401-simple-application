@@ -17,6 +17,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a number of pre-defined {@link SettingCategory} objects
+ */
 public class SettingsUIComponent extends FXComponent {
     private SettingCategory[] categories;
     private ArrayList<Button> tabButtons = new ArrayList<>();

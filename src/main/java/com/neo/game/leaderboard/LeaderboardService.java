@@ -11,6 +11,9 @@ import com.neo.twig.config.ConfigScope;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Source of truth for connecting to, uploading and retrieving data from the leaderboard database
+ */
 public class LeaderboardService {
     private static final Message CHANGE_IN_SETTINGS = new Message(
             "Notice",
@@ -69,6 +72,11 @@ public class LeaderboardService {
         settings.setPreviousUsername(settings.getUsername());
     }
 
+    /**
+     * Gets the singleton instance of this object
+     *
+     * @return Singleton instance
+     */
     public static LeaderboardService getInstance() {
         if (instance == null) {
             instance = new LeaderboardService();
@@ -77,6 +85,9 @@ public class LeaderboardService {
         return instance;
     }
 
+    /**
+     * Attempts to load the SQL driver and initialise the server connection
+     */
     private void initialiseConnection() {
         if (canLoadDriver && !driverLoaded) {
             loadSQLDriver();
@@ -101,6 +112,11 @@ public class LeaderboardService {
         }
     }
 
+    /**
+     * Validates and uploads the score to the database, automatically fetching other relevant information
+     *
+     * @param score Score to upload
+     */
     public void uploadScore(int score) {
         if (score == 0)
             return;
@@ -116,7 +132,7 @@ public class LeaderboardService {
 
         try {
             PreparedStatement statement;
-            int lastScore = checkUserEntryExists(settings.getUsername());
+            int lastScore = checkUserEntryExists(settings.getUserIdentifier());
             if (lastScore == -1) {
                 String statementText =
                         "INSERT INTO scores " +
@@ -149,6 +165,11 @@ public class LeaderboardService {
         }
     }
 
+    /**
+     * Attempts to select all scores from the database and parse them into usable objects
+     *
+     * @return All scores, or null
+     */
     public LeaderboardScore[] getAllScores() {
         if (!canLoadDriver)
             return null;
@@ -182,13 +203,13 @@ public class LeaderboardService {
         }
     }
 
-    private int checkUserEntryExists(String username) {
+    private int checkUserEntryExists(String userIdentifier) {
         int score = -1;
 
         try {
-            String statementText = "SELECT scores.score FROM scores WHERE username = ?";
+            String statementText = "SELECT scores.score FROM scores WHERE userIdentifier = ?";
             PreparedStatement statement = serverConnection.prepareStatement(statementText);
-            statement.setString(1, username);
+            statement.setString(1, userIdentifier);
 
             ResultSet results = statement.executeQuery();
             if (results.next()) {
@@ -201,6 +222,9 @@ public class LeaderboardService {
         return score;
     }
 
+    /**
+     * Checks if the local username matches the database username. If not, it updates it
+     */
     public void updateUsernameIfRequired() {
         if (!canLoadDriver || !settings.isEnabled())
             return;
@@ -242,16 +266,29 @@ public class LeaderboardService {
         }
     }
 
+    /**
+     * Shows a UI message explaining the leaderboard service
+     *
+     * @param isInGame Is this intro being shown from a game screen?
+     */
     public void playIntro(boolean isInGame) {
         MessageServiceComponent.getInstance().addToQueue(isInGame ? LEADERBOARD_INTRO_GAME : LEADERBOARD_INTRO);
         settings.setHasSeenInitialMessage(true);
         settings.save();
     }
 
+    /**
+     * Gets the current user settings
+     *
+     * @return User settings
+     */
     public LeaderboardSettings getSettings() {
         return settings;
     }
 
+    /**
+     * Safely closes all relevant SQL connections
+     */
     public void shutdown() {
         if (serverConnection == null)
             return;

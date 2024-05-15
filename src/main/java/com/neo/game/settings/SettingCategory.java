@@ -8,12 +8,20 @@ import jdk.jshell.spi.ExecutionControl;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Represents a collection of settings
+ */
 public class SettingCategory extends Setting<Setting[]> {
     private SettingsCategorySaver saver;
     private ArrayList<Setting> settings = new ArrayList<>();
 
     private boolean suppressTitleDisplay = false;
 
+    /**
+     * Settings to add to this category
+     *
+     * @param settings Settings to add
+     */
     public void addChildren(Setting... settings) {
         Collections.addAll(this.settings, settings);
     }

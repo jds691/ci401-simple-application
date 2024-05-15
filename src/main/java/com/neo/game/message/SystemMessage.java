@@ -2,6 +2,9 @@ package com.neo.game.message;
 
 import com.neo.twig.Engine;
 
+/**
+ * A variety of common system messages that can be presented
+ */
 public class SystemMessage {
     public static final Message QUIT_TO_DESKTOP = new Message(
             "Notice",

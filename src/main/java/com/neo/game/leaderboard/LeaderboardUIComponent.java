@@ -14,6 +14,9 @@ import javafx.scene.layout.BorderPane;
 
 import java.util.Arrays;
 
+/**
+ * Represents the user interface for the leaderboard score tables
+ */
 public class LeaderboardUIComponent extends FXComponent {
     private LeaderboardService leaderboard;
     private ObservableList<LeaderboardScore> scores = FXCollections.observableArrayList();
