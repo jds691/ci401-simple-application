@@ -160,7 +160,7 @@ public class LeaderboardService {
             return null;
 
         String statementText =
-                "SELECT (username, score, versionInfo) FROM scores ORDER BY score";
+                "SELECT username, score, versionInfo FROM scores ORDER BY score";
         try {
             PreparedStatement statement = serverConnection.prepareStatement(statementText);
             ResultSet results = statement.executeQuery();
