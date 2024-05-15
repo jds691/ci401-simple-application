@@ -12,7 +12,7 @@ import java.util.UUID;
 public class LeaderboardSettings {
     @ConfigProperty(section = "Notice")
     @ForceSerialize
-    private boolean hasSeenInitialMessage = true;
+    private boolean hasSeenInitialMessage;
 
     @ConfigProperty(section = "Connection")
     @ForceSerialize
