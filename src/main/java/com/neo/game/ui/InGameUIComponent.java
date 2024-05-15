@@ -162,6 +162,9 @@ public class InGameUIComponent extends FXComponent {
 
                 currentScore = currentScoreFinal;
 
+                currentScoreAnimated = 0;
+                currentDeltaScoreAnimated = 0;
+
                 currentScore += currentDeltaScore;
                 deltaFadeOutAnimation.play();
             }
@@ -181,6 +184,9 @@ public class InGameUIComponent extends FXComponent {
             currentScore = currentScoreFinal;
 
             currentTextCounter = 0;
+
+            currentScoreAnimated = 0;
+            currentDeltaScoreAnimated = 0;
 
             deltaScoreLabel.setTranslateY(0);
             deltaScoreLabel.setScaleX(0);
