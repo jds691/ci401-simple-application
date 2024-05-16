@@ -108,6 +108,21 @@ public class LeaderboardService {
             canLoadDriver = false;
             initialisedConnection = false;
             logger.logError("Failed to initialise the leaderboard connection...");
+
+            MessageServiceComponent.getInstance().addToQueue(
+                    new Message(
+                            "Notice",
+                            "A connection to the leaderboard service could not be established. The leaderboard has been disabled.",
+                            new MessageOption(
+                                    "OK",
+                                    (ignored) -> {
+                                        settings.setIsEnabled(false);
+                                        settings.save();
+                                    }
+                            )
+                    )
+            );
+
             e.printStackTrace();
         }
     }
@@ -263,6 +278,20 @@ public class LeaderboardService {
             driverLoaded = true;
         } catch (Exception ex) {
             canLoadDriver = false;
+
+            MessageServiceComponent.getInstance().addToQueue(
+                    new Message(
+                            "Notice",
+                            "The driver for the leaderboard service could not be loaded. The leaderboard has been disabled.",
+                            new MessageOption(
+                                    "OK",
+                                    (ignored) -> {
+                                        settings.setIsEnabled(false);
+                                        settings.save();
+                                    }
+                            )
+                    )
+            );
         }
     }
 
