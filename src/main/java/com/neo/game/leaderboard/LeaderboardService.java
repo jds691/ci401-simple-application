@@ -213,7 +213,7 @@ public class LeaderboardService {
 
             ResultSet results = statement.executeQuery();
             if (results.next()) {
-                score = results.getInt(0);
+                score = results.getInt(1);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
