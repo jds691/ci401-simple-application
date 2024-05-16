@@ -1,6 +1,7 @@
 package com.neo.game.ui;
 
 import com.neo.game.GameManager;
+import com.neo.game.audio.MusicComponent;
 import com.neo.game.audio.SFXPlayer;
 import com.neo.game.leaderboard.LeaderboardService;
 import com.neo.game.message.Message;
@@ -21,12 +22,13 @@ import javafx.scene.layout.VBox;
 
 public class PauseMenuUIComponent extends FXComponent {
     private final SFXPlayer pauseOpenSfx = new SFXPlayer("SFX_Pause_Open");
-    /*private final SFXPlayer pauseLoopSfx;*/
     private final SFXPlayer pauseCloseSfx = new SFXPlayer("SFX_Pause_Close");
     private final SFXPlayer resumeSfx = new SFXPlayer("SFX_Resume");
     private final SFXPlayer quitSfx = new SFXPlayer("SFX_Quit");
     private GameManager gameManager;
     private boolean isStarting = true;
+
+    private MusicComponent gameMusic;
 
     @ForceSerialize
     private URLResource gameScene;
@@ -46,6 +48,10 @@ public class PauseMenuUIComponent extends FXComponent {
                 .getComponent(GameManager.class);
 
         gameManager.getPauseDidChangeEvent().addHandler(this::setVisible);
+
+        gameMusic = sceneService.getActiveScene()
+                .findRootNode("Game Music")
+                .getComponent(MusicComponent.class);
 
         isStarting = false;
     }
@@ -132,8 +138,10 @@ public class PauseMenuUIComponent extends FXComponent {
 
         // Used to automatically handle SFX playback
         if (visible) {
+            gameMusic.pause();
             pauseOpenSfx.play();
         } else {
+            gameMusic.play();
             pauseCloseSfx.play();
         }
     }

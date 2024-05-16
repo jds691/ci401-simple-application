@@ -149,7 +149,7 @@ public class GameManager extends NodeComponent {
     public void signalGameEnd() {
         gameIsOver = true;
         gameMusic.stop();
-        gameOverMusic.resume();
+        gameOverMusic.play();
 
         gameDidEnd.emit(null);
     }

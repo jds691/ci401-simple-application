@@ -36,6 +36,7 @@ public class MusicComponent extends NodeComponent {
 
     @Override
     public void destroy() {
+        player.pause();
         player.release();
     }
 
@@ -43,7 +44,11 @@ public class MusicComponent extends NodeComponent {
         player.stop();
     }
 
-    public void resume() {
+    public void play() {
         player.play();
+    }
+
+    public void pause() {
+        player.pause();
     }
 }

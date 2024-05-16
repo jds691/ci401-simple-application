@@ -36,7 +36,7 @@ public class BoardDataComponent extends NodeComponent {
     private final String lineClearAudioKey = "SFX_lineClear";
     private final String blockPlaceAudioKey = "SFX_blockPlace";
     private final String blockRotateAudioKey = "SFX_blockRotate";
-    private final String blockRotateInvalidKey = "SFX_Quit";
+    private final String blockRotateInvalidKey = "SFX_blockRotate_invalid";
 
     private AudioPlayer lineClearSfx;
     private AudioPlayer blockPlaceSfx;

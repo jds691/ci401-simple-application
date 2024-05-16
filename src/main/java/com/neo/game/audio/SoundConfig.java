@@ -31,6 +31,9 @@ public class SoundConfig {
     @ForceSerialize
     @ConfigProperty(section = "Sound Effects")
     private URL blockRotate;
+    @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
+    private URL blockRotateInvalid;
 
     @ForceSerialize
     @ConfigProperty(section = "Sound Effects")
@@ -64,6 +67,7 @@ public class SoundConfig {
 
         blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
         blockRotate = SoundConfig.class.getResource("SFX_block_rotate.wav");
+        blockRotateInvalid = SoundConfig.class.getResource("SFX_block_rotate_invalid.wav");
         lineClear = SoundConfig.class.getResource("SFX_line_clear.wav");
 
         pauseOpen = SoundConfig.class.getResource("SFX_Pause_Open.wav");
@@ -113,6 +117,7 @@ public class SoundConfig {
         return switch (key) {
             case "SFX_blockPlace" -> blockPlace;
             case "SFX_blockRotate" -> blockRotate;
+            case "SFX_blockRotate_invalid" -> blockRotateInvalid;
             case "SFX_lineClear" -> lineClear;
             case "SFX_Pause_Open" -> pauseOpen;
             case "SFX_Pause_Close" -> pauseClose;
