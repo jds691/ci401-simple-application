@@ -9,12 +9,14 @@
 
 #tab-bar {
     -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 16px 16px 0 0;
     -fx-padding: 8px;
     -fx-spacing: 8px;
 }
 
 #bottom-bar {
     -fx-spacing: 8px;
+    -fx-padding: 8px 0 0 0;
 }
 
 .tab-entry {
@@ -31,6 +33,7 @@
 
 .title-label {
     -fx-text-fill: black;
+    -fx-padding: 0 0 8px 0;
 }
 
 .header-label {
@@ -45,6 +48,7 @@
 
 #content-root {
     -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 0 0 16px 16px;
     -fx-padding: 0 0 8px 0;
 }
 

@@ -34,6 +34,7 @@ public class SettingsUIComponent extends FXComponent {
 
     public SettingsUIComponent() {
         categories = new SettingCategory[] {
+                DisplaySettings.getInstance().getSettingsCategory(),
                 KeyBindSettings.getInstance().getSettingsCategory(),
                 LeaderboardService.getInstance().getSettings().getSettingsCategory()
         };

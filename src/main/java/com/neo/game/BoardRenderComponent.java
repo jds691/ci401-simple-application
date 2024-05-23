@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.settings.DisplaySettings;
 import com.neo.twig.Engine;
 import com.neo.twig.TransformComponent;
 import com.neo.twig.annotations.ForceSerialize;
@@ -100,9 +101,11 @@ public class BoardRenderComponent extends RenderComponent {
                 Block state = dataComponent.getBoardState(j, i);
 
                 // Draw columns
-                context.setFill(Color.color((double) 238 / 255, (double) 124 / 255, (double) 91 / 255));
-                if (j != 0)
-                    context.fillRect(transform.x + (j * blockSize + j), transform.y, 1, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
+                if (DisplaySettings.getInstance().getDisplayGridLines()) {
+                    context.setFill(Color.color((double) 238 / 255, (double) 124 / 255, (double) 91 / 255));
+                    if (j != 0)
+                        context.fillRect(transform.x + (j * blockSize + j), transform.y, 1, BoardDataComponent.BOARD_HEIGHT * blockSize + BoardDataComponent.BOARD_HEIGHT);
+                }
 
                 if (debug_DrawCoords) {
                     context.setFill(Color.CYAN);
@@ -133,6 +136,9 @@ public class BoardRenderComponent extends RenderComponent {
             }
 
             context.setGlobalAlpha(1);
+
+            if (!DisplaySettings.getInstance().getDisplayGridLines())
+                continue;
 
             // Draw rows
             context.setFill(Color.color((double) 238 / 255, (double) 124 / 255, (double) 91 / 255));

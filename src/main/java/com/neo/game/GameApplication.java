@@ -45,7 +45,7 @@ public class GameApplication {
         AppConfig app = new AppConfig();
 
         app.name = "Tetris";
-        app.version = "1.0-SNAPSHOT";
+        app.version = "1.1";
         app.initialScene = TitleControllerComponent.class.getResource("title.branch");
         app.icon = new Image(GameApplication.class.getResourceAsStream("icon.png"));
 

@@ -4,6 +4,7 @@ import com.neo.twig.ui.FXComponent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,6 +37,7 @@ public class LeaderboardUIComponent extends FXComponent {
 
         Button backButton = new Button("Back");
         backButton.setOnAction(this::handleBackButton);
+        BorderPane.setMargin(backButton, new Insets(8, 0, 0, 0));
 
         Label titleLabel = new Label("leaderboard");
         titleLabel.getStyleClass().add("title-label");
