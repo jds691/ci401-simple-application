@@ -10,6 +10,9 @@ more robust and easy to use features for building a game.
 
 ## Building
 
+> [!WARNING]  
+> This game cannot be packed into a .jar file due to engine limitations.
+
 For security reasons the data required to login to the leaderboard database is excluded from the source code. 
 To fix this and allow the program to compile, create a file called LeaderboardConnectionData.java inside of
 src/main/java/com/neo/game/leaderboard with the following contents:
@@ -36,3 +39,5 @@ To run the project you can use your IDE's built-in build and run tools. Alternat
 ```
 mvn javafx:run -f pom.xml
 ```
+
+This project was built using IntelliJ so your millage may vary with other IDEs.
