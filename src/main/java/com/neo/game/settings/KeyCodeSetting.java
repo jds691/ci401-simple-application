@@ -59,13 +59,18 @@ public class KeyCodeSetting extends EnumSetting<KeyCode> {
         stage.removeEventHandler(KeyEvent.KEY_PRESSED, handler);
     }
 
+    @Override
+    public void setValue(KeyCode value) {
+        super.setValue(value);
+        keyButton.setText(value.name());
+    }
+
     private class RebindHandler implements EventHandler<KeyEvent> {
         @Override
         public void handle(KeyEvent event) {
             KeyCode code = event.getCode();
             setValue(code);
 
-            keyButton.setText(code.name());
             MessageServiceComponent.getInstance().stopCurrentMessage();
 
             unhookEventHandler(null);

@@ -1,6 +1,7 @@
 package com.neo.game.settings;
 
 import com.neo.game.input.Input;
+import com.neo.game.input.InputAction;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.config.Config;
 import com.neo.twig.config.ConfigManager;
@@ -146,6 +147,8 @@ public class KeyBindSettings {
      */
     public void save() {
         ConfigManager.saveConfig(this);
+        InputAction.clearActionCache();
+        InputAction.initialiseActions();
     }
 
     private class KeyCodeSetter implements DynamicSetter<KeyCode> {

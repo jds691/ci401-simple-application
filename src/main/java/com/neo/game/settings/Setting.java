@@ -33,15 +33,14 @@ public abstract class Setting<T> {
     public void resetToDefault() {
         assert setter != null;
 
-        setter.set(defaultValue);
-        currentValue = defaultValue;
+        setValue(defaultValue);
+        save();
     }
 
     public void undoChanges() {
         assert setter != null;
 
-        setter.set(lastSavedValue);
-        currentValue = lastSavedValue;
+        setValue(lastSavedValue);
     }
 
     public void setValueGetter(DynamicGetter<T> getter) {

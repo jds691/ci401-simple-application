@@ -37,6 +37,10 @@ public class InputAction {
         return action;
     }
 
+    public static void clearActionCache() {
+        actionCache.clear();
+    }
+
     /**
      * Gets the stores the relevant engine code and services for action construction
      */
