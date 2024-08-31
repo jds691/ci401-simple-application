@@ -51,9 +51,9 @@ public class GameApplication {
 
         app.name = "Tetris";
         app.version = "1.1.1";
-        app.initialScene = new ResourcePath("title/title.branch");
+        app.initialScene = new ResourcePath("scenes/title.branch");
         //app.initialScene = TitleControllerComponent.class.getResource("title.branch");
-        app.icon = new ResourcePath("icon.png");
+        app.icon = new ResourcePath("sprites/icon.png");
 
         return app;
     }

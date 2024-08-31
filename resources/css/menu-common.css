@@ -1,9 +1,9 @@
 @font-face {
-    src: url('fonts/FOT-RowdyStd-EB.otf');
+    src: url('../fonts/FOT-RowdyStd-EB.otf');
 }
 
 @font-face {
-    src: url('fonts/SpAlterna-Regular.otf');
+    src: url('../fonts/SpAlterna-Regular.otf');
 }
 
 .button {

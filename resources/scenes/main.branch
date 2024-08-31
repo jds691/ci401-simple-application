@@ -1,7 +1,7 @@
 [
   {
     "location": {
-      "path": "board.twig"
+      "path": "prefabs/board.twig"
     }
   },
   {
@@ -41,35 +41,35 @@
         "type": "com.neo.game.ui.InGameUIComponent",
         "stylesheets": [
           {
-            "path": "menu-common.css"
+            "path": "css/menu-common.css"
           },
           {
-            "path": "menu-in-game.css"
+            "path": "css/menu-in-game.css"
           }
         ],
         "thumbnailSize": 75,
         "textCountDuration": 1000,
         "blockThumbnails": [
           {
-            "path": "thumb_bug_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_bug_block.png"
           },
           {
-            "path": "thumb_j_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_j_block.png"
           },
           {
-            "path": "thumb_i_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_i_block.png"
           },
           {
-            "path": "thumb_l_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_l_block.png"
           },
           {
-            "path": "thumb_t_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_t_block.png"
           },
           {
-            "path": "thumb_z_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_z_block.png"
           },
           {
-            "path": "thumb_s_block.png"
+            "path": "sprites/blocks/thumbnails/thumb_s_block.png"
           }
         ]
       }
@@ -81,17 +81,17 @@
       {
         "type": "com.neo.game.ui.GameOverUIComponent",
         "titleScene": {
-          "path": "title/title.branch"
+          "path": "scenes/title.branch"
         },
         "gameScene": {
-          "path": "main.branch"
+          "path": "scenes/main.branch"
         },
         "stylesheets": [
           {
-            "path": "menu-common.css"
+            "path": "css/menu-common.css"
           },
           {
-            "path": "menu-game-over.css"
+            "path": "css/menu-game-over.css"
           }
         ]
       }
@@ -103,17 +103,17 @@
       {
         "type": "com.neo.game.ui.PauseMenuUIComponent",
         "titleScene": {
-          "path": "title/title.branch"
+          "path": "scenes/title.branch"
         },
         "gameScene": {
-          "path": "main.branch"
+          "path": "scenes/main.branch"
         },
         "stylesheets": [
           {
-            "path": "menu-common.css"
+            "path": "css/menu-common.css"
           },
           {
-            "path": "menu-pause.css"
+            "path": "css/menu-pause.css"
           }
         ]
       }
@@ -129,7 +129,7 @@
   },
   {
     "location": {
-      "path": "message/message-service.twig"
+      "path": "prefabs/message-service.twig"
     }
   }
 ]
