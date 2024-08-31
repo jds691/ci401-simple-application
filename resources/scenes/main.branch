@@ -40,37 +40,19 @@
       {
         "type": "com.neo.game.ui.InGameUIComponent",
         "stylesheets": [
-          {
-            "path": "css/menu-common.css"
-          },
-          {
-            "path": "css/menu-in-game.css"
-          }
+          "css/menu-common.css",
+          "css/menu-in-game.css"
         ],
         "thumbnailSize": 75,
         "textCountDuration": 1000,
         "blockThumbnails": [
-          {
-            "path": "sprites/blocks/thumbnails/thumb_bug_block.png"
-          },
-          {
-            "path": "sprites/blocks/thumbnails/thumb_j_block.png"
-          },
-          {
-            "path": "sprites/blocks/thumbnails/thumb_i_block.png"
-          },
-          {
-            "path": "sprites/blocks/thumbnails/thumb_l_block.png"
-          },
-          {
-            "path": "sprites/blocks/thumbnails/thumb_t_block.png"
-          },
-          {
-            "path": "sprites/blocks/thumbnails/thumb_z_block.png"
-          },
-          {
-            "path": "sprites/blocks/thumbnails/thumb_s_block.png"
-          }
+          "sprites/blocks/thumbnails/thumb_bug_block.png",
+          "sprites/blocks/thumbnails/thumb_j_block.png",
+          "sprites/blocks/thumbnails/thumb_i_block.png",
+          "sprites/blocks/thumbnails/thumb_l_block.png",
+          "sprites/blocks/thumbnails/thumb_t_block.png",
+          "sprites/blocks/thumbnails/thumb_z_block.png",
+          "sprites/blocks/thumbnails/thumb_s_block.png"
         ]
       }
     ]
@@ -80,19 +62,11 @@
     "components": [
       {
         "type": "com.neo.game.ui.GameOverUIComponent",
-        "titleScene": {
-          "path": "scenes/title.branch"
-        },
-        "gameScene": {
-          "path": "scenes/main.branch"
-        },
+        "titleScene": "scenes/title.branch",
+        "gameScene": "scenes/main.branch",
         "stylesheets": [
-          {
-            "path": "css/menu-common.css"
-          },
-          {
-            "path": "css/menu-game-over.css"
-          }
+          "css/menu-common.css",
+          "css/menu-game-over.css"
         ]
       }
     ]
@@ -102,19 +76,11 @@
     "components": [
       {
         "type": "com.neo.game.ui.PauseMenuUIComponent",
-        "titleScene": {
-          "path": "scenes/title.branch"
-        },
-        "gameScene": {
-          "path": "scenes/main.branch"
-        },
+        "titleScene": "scenes/title.branch",
+        "gameScene": "scenes/main.branch",
         "stylesheets": [
-          {
-            "path": "css/menu-common.css"
-          },
-          {
-            "path": "css/menu-pause.css"
-          }
+          "css/menu-common.css",
+          "css/menu-pause.css"
         ]
       }
     ]

@@ -15,20 +15,12 @@
     "components": [
       {
         "type": "com.neo.game.title.TitleControllerComponent",
-        "gameScene": {
-          "path": "scenes/main.branch"
-        },
+        "gameScene": "scenes/main.branch",
         "iconSize": 200,
-        "gameIcon": {
-          "path": "sprites/icon.png"
-        },
+        "gameIcon": "sprites/icon.png",
         "stylesheets": [
-          {
-            "path": "css/menu-common.css"
-          },
-          {
-            "path": "css/menu-title.css"
-          }
+          "css/menu-common.css",
+          "css/menu-title.css"
         ]
       },
       {
@@ -37,70 +29,34 @@
         "chipSprites": [
           [],
           [
-            {
-              "path": "sprites/blocks/block_blue_0.png"
-            },
-            {
-              "path": "sprites/blocks/block_blue_1.png"
-            },
-            {
-              "path": "sprites/blocks/block_blue_2.png"
-            }
+            "sprites/blocks/block_blue_0.png",
+            "sprites/blocks/block_blue_1.png",
+            "sprites/blocks/block_blue_2.png"
           ],
           [
-            {
-              "path": "sprites/blocks/block_cyan_0.png"
-            },
-            {
-              "path": "sprites/blocks/block_cyan_1.png"
-            },
-            {
-              "path": "sprites/blocks/block_cyan_2.png"
-            }
+            "sprites/blocks/block_cyan_0.png",
+            "sprites/blocks/block_cyan_1.png",
+            "sprites/blocks/block_cyan_2.png"
           ],
           [
-            {
-              "path": "sprites/blocks/block_orange_0.png"
-            },
-            {
-              "path": "sprites/blocks/block_orange_1.png"
-            },
-            {
-              "path": "sprites/blocks/block_orange_2.png"
-            }
+            "sprites/blocks/block_orange_0.png",
+            "sprites/blocks/block_orange_1.png",
+            "sprites/blocks/block_orange_2.png"
           ],
           [
-            {
-              "path": "sprites/blocks/block_purple_0.png"
-            },
-            {
-              "path": "sprites/blocks/block_purple_1.png"
-            },
-            {
-              "path": "sprites/blocks/block_purple_2.png"
-            }
+            "sprites/blocks/block_purple_0.png",
+            "sprites/blocks/block_purple_1.png",
+            "sprites/blocks/block_purple_2.png"
           ],
           [
-            {
-              "path": "sprites/blocks/block_red_0.png"
-            },
-            {
-              "path": "sprites/blocks/block_red_1.png"
-            },
-            {
-              "path": "sprites/blocks/block_red_2.png"
-            }
+            "sprites/blocks/block_red_0.png",
+            "sprites/blocks/block_red_1.png",
+            "sprites/blocks/block_red_2.png"
           ],
           [
-            {
-              "path": "sprites/blocks/block_yellow_0.png"
-            },
-            {
-              "path": "sprites/blocks/block_yellow_1.png"
-            },
-            {
-              "path": "sprites/blocks/block_yellow_2.png"
-            }
+            "sprites/blocks/block_yellow_0.png",
+            "sprites/blocks/block_yellow_1.png",
+            "sprites/blocks/block_yellow_2.png"
           ]
         ]
       }
@@ -112,12 +68,8 @@
       {
         "type": "com.neo.game.leaderboard.LeaderboardUIComponent",
         "stylesheets": [
-          {
-            "path": "css/menu-common.css"
-          },
-          {
-            "path": "css/menu-leaderboard.css"
-          }
+          "css/menu-common.css",
+          "css/menu-leaderboard.css"
         ]
       }
     ]
@@ -128,12 +80,8 @@
       {
         "type": "com.neo.game.settings.SettingsUIComponent",
         "stylesheets": [
-          {
-            "path": "css/menu-common.css"
-          },
-          {
-            "path": "css/menu-settings.css"
-          }
+          "css/menu-common.css",
+          "css/menu-settings.css"
         ]
       }
     ]
