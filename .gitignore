@@ -39,3 +39,4 @@ build/
 
 src/main/java/com/neo/game/leaderboard/LeaderboardConnectionData.java
 /.idea/dataSources.xml
+/dependency-reduced-pom.xml

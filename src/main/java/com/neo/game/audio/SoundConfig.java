@@ -3,7 +3,9 @@ package com.neo.game.audio;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.config.Config;
 import com.neo.twig.config.ConfigProperty;
+import com.neo.twig.resources.ResourcePath;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -61,7 +63,7 @@ public class SoundConfig {
     private URL messageHide;
 
     private SoundConfig() {
-        titleTheme = MusicComponent.class.getResource("MUS_Title.mp3");
+        /*titleTheme = MusicComponent.class.getResource("MUS_Title.mp3");
         bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
         bgmGameOver = MusicComponent.class.getResource("MUS_Game_Over.mp3");
 
@@ -75,8 +77,27 @@ public class SoundConfig {
         resume = SoundConfig.class.getResource("SFX_Resume.wav");
         quit = SoundConfig.class.getResource("SFX_Quit_Fade.wav");
         messageShow = SoundConfig.class.getResource("UI_message_show.wav");
-        messageHide = SoundConfig.class.getResource("UI_message_hide.wav");
+        messageHide = SoundConfig.class.getResource("UI_message_hide.wav");*/
 
+        try {
+            titleTheme = ResourcePath.resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
+            bgmGame = ResourcePath.resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();
+            bgmGameOver = ResourcePath.resolveAssetPath("audio/MUS_Game_Over.mp3").toFile().toURL();
+
+            blockPlace = ResourcePath.resolveAssetPath("audio/SFX_block_place.wav").toFile().toURL();
+            blockRotate = ResourcePath.resolveAssetPath("audio/SFX_block_rotate.wav").toFile().toURL();
+            blockRotateInvalid = ResourcePath.resolveAssetPath("audio/SFX_block_rotate_invalid.wav").toFile().toURL();
+            lineClear = ResourcePath.resolveAssetPath("audio/SFX_line_clear.wav").toFile().toURL();
+
+            pauseOpen = ResourcePath.resolveAssetPath("audio/SFX_Pause_Open.wav").toFile().toURL();
+            pauseClose = ResourcePath.resolveAssetPath("audio/SFX_Pause_Close.wav").toFile().toURL();
+            resume = ResourcePath.resolveAssetPath("audio/SFX_Resume.wav").toFile().toURL();
+            quit = ResourcePath.resolveAssetPath("audio/SFX_Quit_Fade.wav").toFile().toURL();
+            messageShow = ResourcePath.resolveAssetPath("audio/UI_message_show.wav").toFile().toURL();
+            messageHide = ResourcePath.resolveAssetPath("audio/UI_message_hide.wav").toFile().toURL();
+        } catch (MalformedURLException ignored) {
+            //NOTE: This should not occur
+        }
     }
 
     /**

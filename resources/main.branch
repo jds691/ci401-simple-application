@@ -1,8 +1,7 @@
 [
   {
     "location": {
-      "class": "com.neo.game.BoardDataComponent",
-      "resource": "board.twig"
+      "path": "board.twig"
     }
   },
   {
@@ -42,44 +41,35 @@
         "type": "com.neo.game.ui.InGameUIComponent",
         "stylesheets": [
           {
-            "class": "com.neo.game.GameApplication",
-            "resource": "menu-common.css"
+            "path": "menu-common.css"
           },
           {
-            "class": "com.neo.game.GameApplication",
-            "resource": "menu-in-game.css"
+            "path": "menu-in-game.css"
           }
         ],
         "thumbnailSize": 75,
         "textCountDuration": 1000,
         "blockThumbnails": [
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_bug_block.png"
+            "path": "thumb_bug_block.png"
           },
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_j_block.png"
+            "path": "thumb_j_block.png"
           },
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_i_block.png"
+            "path": "thumb_i_block.png"
           },
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_l_block.png"
+            "path": "thumb_l_block.png"
           },
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_t_block.png"
+            "path": "thumb_t_block.png"
           },
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_z_block.png"
+            "path": "thumb_z_block.png"
           },
           {
-            "class": "com.neo.game.BoardRenderComponent",
-            "resource": "thumb_s_block.png"
+            "path": "thumb_s_block.png"
           }
         ]
       }
@@ -91,21 +81,17 @@
       {
         "type": "com.neo.game.ui.GameOverUIComponent",
         "titleScene": {
-          "class": "com.neo.game.title.TitleControllerComponent",
-          "resource": "title.branch"
+          "path": "title/title.branch"
         },
         "gameScene": {
-          "class": "com.neo.game.BoardDataComponent",
-          "resource": "main.branch"
+          "path": "main.branch"
         },
         "stylesheets": [
           {
-            "class": "com.neo.game.GameApplication",
-            "resource": "menu-common.css"
+            "path": "menu-common.css"
           },
           {
-            "class": "com.neo.game.GameApplication",
-            "resource": "menu-game-over.css"
+            "path": "menu-game-over.css"
           }
         ]
       }
@@ -117,21 +103,17 @@
       {
         "type": "com.neo.game.ui.PauseMenuUIComponent",
         "titleScene": {
-          "class": "com.neo.game.title.TitleControllerComponent",
-          "resource": "title.branch"
+          "path": "title/title.branch"
         },
         "gameScene": {
-          "class": "com.neo.game.BoardDataComponent",
-          "resource": "main.branch"
+          "path": "main.branch"
         },
         "stylesheets": [
           {
-            "class": "com.neo.game.GameApplication",
-            "resource": "menu-common.css"
+            "path": "menu-common.css"
           },
           {
-            "class": "com.neo.game.GameApplication",
-            "resource": "menu-pause.css"
+            "path": "menu-pause.css"
           }
         ]
       }
@@ -147,8 +129,7 @@
   },
   {
     "location": {
-      "class": "com.neo.game.message.MessageServiceComponent",
-      "resource": "message-service.twig"
+      "path": "message/message-service.twig"
     }
   }
 ]

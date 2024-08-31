@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "musicConfigKey": "titleTheme",
+        "autoplay": true,
+        "loop": true
+      }
+    ]
+  },
+  {
+    "name": "UI",
+    "components": [
+      {
+        "type": "com.neo.game.title.TitleControllerComponent",
+        "gameScene": {
+          "path": "main.branch"
+        },
+        "iconSize": 200,
+        "gameIcon": {
+          "path": "icon.png"
+        },
+        "stylesheets": [
+          {
+            "path": "menu-common.css"
+          },
+          {
+            "path": "menu-title.css"
+          }
+        ]
+      },
+      {
+        "type": "com.neo.game.title.TitleTetrisBlock",
+        "iconSize": 200,
+        "chipSprites": [
+          [],
+          [
+            {
+              "path": "block_blue_0.png"
+            },
+            {
+              "path": "block_blue_1.png"
+            },
+            {
+              "path": "block_blue_2.png"
+            }
+          ],
+          [
+            {
+              "path": "block_cyan_0.png"
+            },
+            {
+              "path": "block_cyan_1.png"
+            },
+            {
+              "path": "block_cyan_2.png"
+            }
+          ],
+          [
+            {
+              "path": "block_orange_0.png"
+            },
+            {
+              "path": "block_orange_1.png"
+            },
+            {
+              "path": "block_orange_2.png"
+            }
+          ],
+          [
+            {
+              "path": "block_purple_0.png"
+            },
+            {
+              "path": "block_purple_1.png"
+            },
+            {
+              "path": "block_purple_2.png"
+            }
+          ],
+          [
+            {
+              "path": "block_red_0.png"
+            },
+            {
+              "path": "block_red_1.png"
+            },
+            {
+              "path": "block_red_2.png"
+            }
+          ],
+          [
+            {
+              "path": "block_yellow_0.png"
+            },
+            {
+              "path": "block_yellow_1.png"
+            },
+            {
+              "path": "block_yellow_2.png"
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Leaderboard UI",
+    "components": [
+      {
+        "type": "com.neo.game.leaderboard.LeaderboardUIComponent",
+        "stylesheets": [
+          {
+            "path": "menu-common.css"
+          },
+          {
+            "path": "leaderboard/menu-leaderboard.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Settings UI",
+    "components": [
+      {
+        "type": "com.neo.game.settings.SettingsUIComponent",
+        "stylesheets": [
+          {
+            "path": "menu-common.css"
+          },
+          {
+            "path": "settings/menu-settings.css"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "location": {
+      "path": "message/message-service.twig"
+    }
+  }
+]
