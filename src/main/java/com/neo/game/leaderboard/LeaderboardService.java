@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * Source of truth for connecting to, uploading and retrieving data from the leaderboard database
  */
 public class LeaderboardService {
+    private static final int SQL_CONNECTION_TIMEOUT = 15;
     private static final Message CHANGE_IN_SETTINGS = new Message(
             "Notice",
             "Not a problem. If you change your mind, you can enable it in settings.",
@@ -276,6 +277,8 @@ public class LeaderboardService {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             driverLoaded = true;
+
+            DriverManager.setLoginTimeout(SQL_CONNECTION_TIMEOUT);
         } catch (Exception ex) {
             canLoadDriver = false;
 
