@@ -91,7 +91,7 @@ public class GameApplication {
 
         //TODO: THIS IS HARD CODED DO NOT SHIP
         File directory = new File("resources");
-        resources.resourceDirectory = directory.getAbsolutePath();
+        resources.rootDirectory = directory.getAbsolutePath();
 
         return resources;
     }
