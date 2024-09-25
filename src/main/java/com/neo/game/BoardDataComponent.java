@@ -98,24 +98,28 @@ public class BoardDataComponent extends NodeComponent {
         // Initialise required sounds
         try {
             lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
+            lineClearSfx.setAudioBus("Master/SFX");
         } catch (URISyntaxException e) {
             lineClearSfx = null;
         }
 
         try {
             blockPlaceSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockPlaceAudioKey).toURI());
+            blockPlaceSfx.setAudioBus("Master/SFX");
         } catch (URISyntaxException e) {
             blockPlaceSfx = null;
         }
 
         try {
             blockRotateSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockRotateAudioKey).toURI());
+            blockRotateSfx.setAudioBus("Master/SFX");
         } catch (URISyntaxException e) {
             blockRotateSfx = null;
         }
 
         try {
             blockRotateInvalidSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockRotateInvalidKey).toURI());
+            blockRotateInvalidSfx.setAudioBus("Master/SFX");
         } catch (URISyntaxException e) {
             blockRotateInvalidSfx = null;
         }

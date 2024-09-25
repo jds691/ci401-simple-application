@@ -23,6 +23,7 @@ public class MusicComponent extends NodeComponent {
     public void start() {
         try {
             player = Engine.getAudioService().createStreamPlayer(SoundConfig.getInstance().getMusicLocation(musicConfigKey).toURI());
+            player.setAudioBus("Master/Music");
 
             player.setLooping(loop);
         } catch (URISyntaxException e) {

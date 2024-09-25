@@ -3,6 +3,7 @@ package com.neo.game;
 import com.neo.game.audio.SoundConfig;
 import com.neo.game.input.InputAction;
 import com.neo.game.leaderboard.LeaderboardService;
+import com.neo.game.settings.AudioSettings;
 import com.neo.game.settings.KeyBindSettings;
 import com.neo.twig.AppConfig;
 import com.neo.twig.Engine;
@@ -14,11 +15,9 @@ import com.neo.twig.config.ConfigScope;
 import com.neo.twig.graphics.GraphicsConfig;
 import com.neo.twig.resources.ResourcePath;
 import com.neo.twig.resources.ResourcesConfig;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 public class GameApplication {
     public static void main(String[] args) {
@@ -38,6 +37,10 @@ public class GameApplication {
 
         ConfigManager.saveConfig(SoundConfig.getInstance(), ConfigScope.Engine);
         ConfigManager.loadConfig(SoundConfig.getInstance());
+
+        ConfigManager.saveConfig(AudioSettings.getInstance(), ConfigScope.Engine);
+        ConfigManager.loadConfig(AudioSettings.getInstance());
+        AudioSettings.getInstance().apply();
         // Force all fonts to be smoothed out engine wide
         System.setProperty("prism.lcdtext", "false");
 
@@ -50,9 +53,8 @@ public class GameApplication {
         AppConfig app = new AppConfig();
 
         app.name = "Tetris";
-        app.version = "1.1.1";
+        app.version = "1.2";
         app.initialScene = new ResourcePath("scenes/title.branch");
-        //app.initialScene = TitleControllerComponent.class.getResource("title.branch");
         app.icon = new ResourcePath("sprites/icon.png");
 
         return app;
@@ -89,7 +91,6 @@ public class GameApplication {
     private static ResourcesConfig generateResourcesConfig() {
         ResourcesConfig resources = new ResourcesConfig();
 
-        //TODO: THIS IS HARD CODED DO NOT SHIP
         File directory = new File("resources");
         resources.rootDirectory = directory.getAbsolutePath();
 

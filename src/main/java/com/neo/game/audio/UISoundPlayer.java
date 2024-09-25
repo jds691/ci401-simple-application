@@ -5,16 +5,13 @@ import com.neo.twig.audio.AudioPlayer;
 
 import java.net.URISyntaxException;
 
-/**
- * Handles SFX oneshot sounds and file retrieval based on SoundConfig.
- */
-public class SFXPlayer {
+public class UISoundPlayer {
     private final AudioPlayer player;
 
-    public SFXPlayer(String sfxKey) {
+    public UISoundPlayer(String uiKey) {
         try {
-            player = Engine.getAudioService().createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(sfxKey).toURI());
-            player.setAudioBus("Master/SFX");
+            player = Engine.getAudioService().createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(uiKey).toURI());
+            player.setAudioBus("Master/UI");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

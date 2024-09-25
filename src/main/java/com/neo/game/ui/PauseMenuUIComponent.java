@@ -2,7 +2,7 @@ package com.neo.game.ui;
 
 import com.neo.game.GameManager;
 import com.neo.game.audio.MusicComponent;
-import com.neo.game.audio.SFXPlayer;
+import com.neo.game.audio.UISoundPlayer;
 import com.neo.game.leaderboard.LeaderboardService;
 import com.neo.game.message.Message;
 import com.neo.game.message.MessageOption;
@@ -21,10 +21,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class PauseMenuUIComponent extends FXComponent {
-    private final SFXPlayer pauseOpenSfx = new SFXPlayer("SFX_Pause_Open");
-    private final SFXPlayer pauseCloseSfx = new SFXPlayer("SFX_Pause_Close");
-    private final SFXPlayer resumeSfx = new SFXPlayer("SFX_Resume");
-    private final SFXPlayer quitSfx = new SFXPlayer("SFX_Quit");
+    private final UISoundPlayer pauseOpenSfx = new UISoundPlayer("SFX_Pause_Open");
+    private final UISoundPlayer pauseCloseSfx = new UISoundPlayer("SFX_Pause_Close");
+    private final UISoundPlayer resumeSfx = new UISoundPlayer("SFX_Resume");
+    private final UISoundPlayer quitSfx = new UISoundPlayer("SFX_Quit");
     private GameManager gameManager;
     private boolean isStarting = true;
 

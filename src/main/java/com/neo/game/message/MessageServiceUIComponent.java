@@ -1,6 +1,6 @@
 package com.neo.game.message;
 
-import com.neo.game.audio.SFXPlayer;
+import com.neo.game.audio.UISoundPlayer;
 import com.neo.twig.events.Event;
 import com.neo.twig.ui.FXComponent;
 import javafx.event.ActionEvent;
@@ -9,7 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Represents the UI used to draw UI messages
@@ -26,8 +28,8 @@ public class MessageServiceUIComponent extends FXComponent {
     private String showSfxKey = "UI_message_show";
     private String hideSfxKey = "UI_message_hide";
 
-    private SFXPlayer showSfx;
-    private SFXPlayer hideSfx;
+    private UISoundPlayer showSfx;
+    private UISoundPlayer hideSfx;
 
     @Override
     public void start() {
@@ -36,8 +38,8 @@ public class MessageServiceUIComponent extends FXComponent {
         setVisible(false);
 
         // Initialise required sounds
-        showSfx = new SFXPlayer(showSfxKey);
-        hideSfx = new SFXPlayer(hideSfxKey);
+        showSfx = new UISoundPlayer(showSfxKey);
+        hideSfx = new UISoundPlayer(hideSfxKey);
     }
 
     @Override
