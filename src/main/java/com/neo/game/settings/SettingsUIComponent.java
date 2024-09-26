@@ -1,6 +1,5 @@
 package com.neo.game.settings;
 
-import com.neo.game.leaderboard.LeaderboardService;
 import com.neo.game.message.Message;
 import com.neo.game.message.MessageOption;
 import com.neo.game.message.MessageServiceComponent;
@@ -37,7 +36,7 @@ public class SettingsUIComponent extends FXComponent {
                 DisplaySettings.getInstance().getSettingsCategory(),
                 AudioSettings.getInstance().getSettingsCategory(),
                 KeyBindSettings.getInstance().getSettingsCategory(),
-                LeaderboardService.getInstance().getSettings().getSettingsCategory()
+                //LeaderboardService.getInstance().getSettings().getSettingsCategory()
         };
     }
 

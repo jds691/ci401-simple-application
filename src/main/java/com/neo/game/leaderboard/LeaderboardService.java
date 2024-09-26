@@ -4,9 +4,9 @@ import com.neo.game.message.Message;
 import com.neo.game.message.MessageOption;
 import com.neo.game.message.MessageServiceComponent;
 import com.neo.twig.Engine;
-import com.neo.twig.logger.Logger;
 import com.neo.twig.config.ConfigManager;
 import com.neo.twig.config.ConfigScope;
+import com.neo.twig.logger.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -86,6 +86,24 @@ public class LeaderboardService {
         return instance;
     }
 
+    public void initialiseLocalDB() throws SQLException {
+        initialiseConnection();
+
+        if (!canLoadDriver || !initialisedConnection)
+            return;
+
+        PreparedStatement statement;
+        String statementText =
+                "CREATE TABLE IF NOT EXISTS scores (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "username varchar(256)," +
+                        "score INTEGER," +
+                        "versionInfo varchar(256)" +
+                        ")";
+        statement = serverConnection.prepareStatement(statementText);
+        statement.execute();
+    }
+
     /**
      * Attempts to load the SQL driver and initialise the server connection
      */
@@ -99,9 +117,7 @@ public class LeaderboardService {
 
         try {
             serverConnection = DriverManager.getConnection(
-                    LeaderboardConnectionData.URL,
-                    LeaderboardConnectionData.USERNAME,
-                    LeaderboardConnectionData.PASSWORD
+                    LeaderboardConnectionData.URL
             );
             initialisedConnection = true;
 
@@ -132,8 +148,9 @@ public class LeaderboardService {
      * Validates and uploads the score to the database, automatically fetching other relevant information
      *
      * @param score Score to upload
+     * @param username Local username to attach to the score
      */
-    public void uploadScore(int score) {
+    public void uploadScore(int score, String username) {
         if (score == 0)
             return;
 
@@ -149,31 +166,16 @@ public class LeaderboardService {
         try {
             PreparedStatement statement;
             int lastScore = checkUserEntryExists(settings.getUserIdentifier());
-            if (lastScore == -1) {
-                String statementText =
-                        "INSERT INTO scores " +
-                        "(username, score, versionInfo, userIdentifier) " +
-                        "VALUES(?, ?, ?, ?)";
-                statement = serverConnection.prepareStatement(statementText);
-                statement.setString(1, settings.getUsername());
-                statement.setInt(2, score);
-                statement.setString(3, Engine.getConfig().appConfig().version);
-                statement.setString(4, settings.getUserIdentifier());
-                statement.execute();
-            } else if (score >= lastScore) {
-                String statementText =
-                        "UPDATE scores " +
-                        "SET scores.score = ?, scores.versionInfo = ?" +
-                        "WHERE userIdentifier = ?";
-                statement = serverConnection.prepareStatement(statementText);
-                statement.setInt(1, score);
-                statement.setString(2, Engine.getConfig().appConfig().version);
-                statement.setString(3, settings.getUserIdentifier());
-                int recordsAffected = statement.executeUpdate();
 
-                if (recordsAffected > 1)
-                    logger.logWarning(String.format("More records affected (%d) by update than expected (1)", recordsAffected));
-            }
+            String statementText =
+                    "INSERT INTO scores " +
+                            "(username, score, versionInfo) " +
+                            "VALUES(?, ?, ?)";
+            statement = serverConnection.prepareStatement(statementText);
+            statement.setString(1, username);
+            statement.setInt(2, score);
+            statement.setString(3, Engine.getConfig().appConfig().version);
+            statement.execute();
 
             logger.logInfo("Uploaded score to server");
         } catch (SQLException e) {
@@ -220,7 +222,8 @@ public class LeaderboardService {
     }
 
     private int checkUserEntryExists(String userIdentifier) {
-        int score = -1;
+        return -1;
+        /*int score = -1;
 
         try {
             String statementText = "SELECT scores.score FROM scores WHERE userIdentifier = ?";
@@ -235,7 +238,7 @@ public class LeaderboardService {
             throw new RuntimeException(e);
         }
 
-        return score;
+        return score;*/
     }
 
     /**
@@ -274,7 +277,8 @@ public class LeaderboardService {
     }
 
     private void loadSQLDriver() {
-        try {
+        driverLoaded = true;
+        /*try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             driverLoaded = true;
 
@@ -295,7 +299,7 @@ public class LeaderboardService {
                             )
                     )
             );
-        }
+        }*/
     }
 
     /**

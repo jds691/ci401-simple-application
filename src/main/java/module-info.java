@@ -4,9 +4,10 @@ module com.neo.game {
 
     requires com.neo.twig;
     requires json.simple;
-    requires mysql.connector.j;
+    requires org.xerial.sqlitejdbc;
     requires java.sql;
     requires jdk.jshell;
+    requires java.desktop;
 
     opens com.neo.game to javafx.fxml, com.neo.twig;
     opens com.neo.game.audio to com.neo.twig;
