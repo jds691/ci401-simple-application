@@ -37,9 +37,9 @@ build/
 ### Mac OS ###
 .DS_Store
 
-src/main/java/com/neo/game/leaderboard/LeaderboardConnectionData.java
 /.idea/dataSources.xml
 /dependency-reduced-pom.xml
 
 ### Twig folders ###
 /config
+/local-scores.db

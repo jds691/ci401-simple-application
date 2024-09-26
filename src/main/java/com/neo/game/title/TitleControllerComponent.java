@@ -1,10 +1,8 @@
 package com.neo.game.title;
 
+import com.neo.game.leaderboard.LeaderboardScore;
 import com.neo.game.leaderboard.LeaderboardService;
-import com.neo.game.leaderboard.LeaderboardSettings;
 import com.neo.game.leaderboard.LeaderboardUIComponent;
-import com.neo.game.message.Message;
-import com.neo.game.message.MessageOption;
 import com.neo.game.message.MessageServiceComponent;
 import com.neo.game.message.SystemMessage;
 import com.neo.game.settings.SettingsUIComponent;
@@ -49,6 +47,24 @@ public class TitleControllerComponent extends FXComponent {
         BorderPane bottom = new BorderPane();
         bottom.setId("ui-bottom");
 
+        BorderPane top = new BorderPane();
+        top.setId("ui-top");
+
+        VBox scoreInfo = new VBox();
+        scoreInfo.setAlignment(Pos.CENTER);
+        Label topScoreTitle = new Label("Top Score:");
+        topScoreTitle.getStyleClass().add("version-label");
+
+        LeaderboardScore topScore = LeaderboardService.getInstance().getAllScores()[0];
+
+        Label topScoreInfo = new Label(String.format("%s - %s", topScore.getUserName(), topScore.getScore()));
+        topScoreInfo.getStyleClass().add("version-label");
+
+        scoreInfo.getChildren().addAll(
+                topScoreTitle,
+                topScoreInfo
+        );
+
         VBox buttonContainer = new VBox();
 
         Button playButton = new Button("Play");
@@ -85,7 +101,9 @@ public class TitleControllerComponent extends FXComponent {
 
         bottom.setLeft(gameVersion);
         bottom.setRight(buttonContainer);
+        top.setRight(scoreInfo);
         root.setBottom(bottom);
+        root.setTop(top);
         BorderPane.setAlignment(titleCenter, Pos.CENTER);
         root.setCenter(titleCenter);
 
@@ -97,40 +115,7 @@ public class TitleControllerComponent extends FXComponent {
     }
 
     private void onLeaderboardButtonAction(ActionEvent actionEvent) {
-        if (!LeaderboardService.getInstance().getSettings().hasSeenInitialMessage()) {
-            LeaderboardService.getInstance().playIntro(false);
-        } else if (!LeaderboardService.getInstance().getSettings().isEnabled()) {
-            MessageServiceComponent.getInstance().addToQueue(
-                    new Message("Notice",
-                            "The leaderboard has not been enabled. Would you like to enable it?",
-                            new MessageOption(
-                                    "Yes",
-                                    this::handleEnableLeaderboard
-                            ),
-                            new MessageOption(
-                                    "No",
-                                    null
-                            )
-                    )
-            );
-        } else {
-            showLeaderboard();
-        }
-    }
-
-    private void handleEnableLeaderboard(ActionEvent event) {
-        LeaderboardService.getInstance().getSettings().setIsEnabled(true);
-        LeaderboardService.getInstance().getSettings().save();
-
-        MessageServiceComponent.getInstance().addToQueue(
-                new Message("Notice",
-                        "The leaderboard has been enabled.",
-                        new MessageOption(
-                                "OK",
-                                this::onLeaderboardButtonAction
-                        )
-                )
-        );
+        showLeaderboard();
     }
 
     private void showLeaderboard() {
