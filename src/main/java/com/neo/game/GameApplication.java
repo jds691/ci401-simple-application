@@ -44,6 +44,7 @@ public class GameApplication {
         // Force all fonts to be smoothed out engine wide
         System.setProperty("prism.lcdtext", "false");
 
+        LeaderboardService.getInstance().getSettings().setIsEnabled(true);
         Engine.start();
 
         LeaderboardService.getInstance().shutdown();
@@ -54,7 +55,7 @@ public class GameApplication {
 
         app.name = "Tetris";
         app.version = "1.2";
-        app.initialScene = new ResourcePath("scenes/title.branch");
+        app.initialScene = new ResourcePath("scenes/boot.branch");
         app.icon = new ResourcePath("sprites/icon.png");
 
         return app;

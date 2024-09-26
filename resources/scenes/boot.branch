@@ -1,0 +1,16 @@
+[
+  {
+    "location": {
+      "path": "prefabs/message-service.twig"
+    }
+  },
+  {
+    "name": "Local DB Initialiser",
+    "components": [
+      {
+        "type": "com.neo.game.title.LocalDBInitialiserComponent",
+        "titleScene": "scenes/title.branch"
+      }
+    ]
+  }
+]

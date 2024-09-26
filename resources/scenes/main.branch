@@ -58,12 +58,11 @@
     ]
   },
   {
-    "name": "Game Over Screen",
+    "name": "Game Over Screen - Open Day",
     "components": [
       {
-        "type": "com.neo.game.ui.GameOverUIComponent",
+        "type": "com.neo.game.ui.OpenDayLeaderboardRegisterComponent",
         "titleScene": "scenes/title.branch",
-        "gameScene": "scenes/main.branch",
         "stylesheets": [
           "css/menu-common.css",
           "css/menu-game-over.css"
@@ -82,14 +81,6 @@
           "css/menu-common.css",
           "css/menu-pause.css"
         ]
-      }
-    ]
-  },
-  {
-    "name": "Leaderboard Listener",
-    "components": [
-      {
-        "type": "com.neo.game.leaderboard.LeaderboardGameListenerComponent"
       }
     ]
   },
