@@ -55,9 +55,16 @@ public class TitleControllerComponent extends FXComponent {
         Label topScoreTitle = new Label("Top Score:");
         topScoreTitle.getStyleClass().add("version-label");
 
-        LeaderboardScore topScore = LeaderboardService.getInstance().getAllScores()[0];
+        LeaderboardScore[] scores = LeaderboardService.getInstance().getAllScores();
+        Label topScoreInfo;
 
-        Label topScoreInfo = new Label(String.format("%s - %s", topScore.getUserName(), topScore.getScore()));
+        if (scores.length > 0) {
+            LeaderboardScore topScore = scores[0];
+            topScoreInfo = new Label(String.format("%s - %s", topScore.getUserName(), topScore.getScore()));
+        } else {
+            topScoreInfo = new Label("None");
+        }
+
         topScoreInfo.getStyleClass().add("version-label");
 
         scoreInfo.getChildren().addAll(
