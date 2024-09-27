@@ -24,7 +24,7 @@ public class GameManager extends NodeComponent {
     private BlockFormation storedBlock;
 
     private boolean gameIsOver;
-    private final Event<Object> gameDidEnd = new Event<>();
+    private final Event<EndReason> gameDidEnd = new Event<>();
 
     private final Event<Boolean> pauseDidChange = new Event<>();
     private final Event<ArrayList<Block.Color>> blockQueueDidChange = new Event<>();
@@ -83,7 +83,7 @@ public class GameManager extends NodeComponent {
      *
      * @return Event with no args
      */
-    public Event<Object> getGameDidEndEvent() {
+    public Event<EndReason> getGameDidEndEvent() {
         return gameDidEnd;
     }
 
@@ -173,11 +173,15 @@ public class GameManager extends NodeComponent {
      * Requests the manager to end the game
      */
     public void signalGameEnd() {
+        signalGameEnd(EndReason.BOARD_FULL);
+    }
+
+    public void signalGameEnd(EndReason reason) {
         gameIsOver = true;
         gameMusic.stop();
         gameOverMusic.play();
 
-        gameDidEnd.emit(null);
+        gameDidEnd.emit(reason);
     }
 
     /**
@@ -197,5 +201,10 @@ public class GameManager extends NodeComponent {
      */
     public int getCurrentScore() {
         return currentScore;
+    }
+
+    public enum EndReason {
+        BOARD_FULL,
+        TIME
     }
 }
