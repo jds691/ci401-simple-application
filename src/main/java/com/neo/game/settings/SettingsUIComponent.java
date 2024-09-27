@@ -238,6 +238,7 @@ public class SettingsUIComponent extends FXComponent {
         if (currentTab != -1)
             categories[currentTab].undoChanges();
 
+        handleCategoryChange();
         categories[currentTab].save();
     }
 
@@ -265,6 +266,7 @@ public class SettingsUIComponent extends FXComponent {
         if (currentTab != -1)
             categories[currentTab].resetToDefault();
 
+        handleCategoryChange();
         categories[currentTab].save();
     }
 
