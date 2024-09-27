@@ -1,5 +1,6 @@
 package com.neo.game;
 
+import com.neo.game.audio.SFXPlayer;
 import com.neo.game.audio.SoundConfig;
 import com.neo.game.input.Input;
 import com.neo.game.input.InputAction;
@@ -38,10 +39,10 @@ public class BoardDataComponent extends NodeComponent {
     private final String blockRotateAudioKey = "SFX_blockRotate";
     private final String blockRotateInvalidKey = "SFX_blockRotate_invalid";
 
-    private AudioPlayer lineClearSfx;
-    private AudioPlayer blockPlaceSfx;
-    private AudioPlayer blockRotateSfx;
-    private AudioPlayer blockRotateInvalidSfx;
+    private SFXPlayer lineClearSfx;
+    private SFXPlayer blockPlaceSfx;
+    private SFXPlayer blockRotateSfx;
+    private SFXPlayer blockRotateInvalidSfx;
 
     private GameManager gameManager;
 
@@ -96,33 +97,10 @@ public class BoardDataComponent extends NodeComponent {
         });
 
         // Initialise required sounds
-        try {
-            lineClearSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(lineClearAudioKey).toURI());
-            lineClearSfx.setAudioBus("Master/SFX");
-        } catch (URISyntaxException e) {
-            lineClearSfx = null;
-        }
-
-        try {
-            blockPlaceSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockPlaceAudioKey).toURI());
-            blockPlaceSfx.setAudioBus("Master/SFX");
-        } catch (URISyntaxException e) {
-            blockPlaceSfx = null;
-        }
-
-        try {
-            blockRotateSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockRotateAudioKey).toURI());
-            blockRotateSfx.setAudioBus("Master/SFX");
-        } catch (URISyntaxException e) {
-            blockRotateSfx = null;
-        }
-
-        try {
-            blockRotateInvalidSfx = audioService.createOneshotPlayer(SoundConfig.getInstance().getSFXLocation(blockRotateInvalidKey).toURI());
-            blockRotateInvalidSfx.setAudioBus("Master/SFX");
-        } catch (URISyntaxException e) {
-            blockRotateInvalidSfx = null;
-        }
+        lineClearSfx = new SFXPlayer(lineClearAudioKey);
+        blockPlaceSfx = new SFXPlayer(blockPlaceAudioKey);
+        blockRotateSfx = new SFXPlayer(blockRotateAudioKey);
+        blockRotateInvalidSfx = new SFXPlayer(blockRotateInvalidKey);
 
         // Initialise initial board state
         boardState = new Block[BOARD_HEIGHT][BOARD_WIDTH];
@@ -366,6 +344,9 @@ public class BoardDataComponent extends NodeComponent {
                     rotationValid = false;
                     break;
                 }
+
+                //TODO: Check that block isn't a block that is currently in the matric
+                //TODO: Move block if there is valid space, but the rotation would otherwise put it off screen
 
                 // Occupancy checks
                 if (boardState[newY][newX].color != Block.Color.None && !movingCoordinates.contains(new Pair<>(newX, newY))) {

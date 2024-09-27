@@ -18,27 +18,24 @@ public class SoundConfig {
     @ForceSerialize
     @ConfigProperty(section = "Music")
     private URL titleTheme;
-
     @ForceSerialize
     @ConfigProperty(section = "Music")
     private URL bgmGame;
-
     @ForceSerialize
     @ConfigProperty(section = "Music")
     private URL bgmGameOver;
 
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "SFX")
     private URL blockPlace;
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "SFX")
     private URL blockRotate;
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "SFX")
     private URL blockRotateInvalid;
-
     @ForceSerialize
-    @ConfigProperty(section = "Sound Effects")
+    @ConfigProperty(section = "SFX")
     private URL lineClear;
 
     @ForceSerialize
@@ -57,28 +54,11 @@ public class SoundConfig {
     @ForceSerialize
     @ConfigProperty(section = "UI")
     private URL messageShow;
-
     @ForceSerialize
     @ConfigProperty(section = "UI")
     private URL messageHide;
 
     private SoundConfig() {
-        /*titleTheme = MusicComponent.class.getResource("MUS_Title.mp3");
-        bgmGame = MusicComponent.class.getResource("MUS_Game.mp3");
-        bgmGameOver = MusicComponent.class.getResource("MUS_Game_Over.mp3");
-
-        blockPlace = SoundConfig.class.getResource("SFX_block_place.wav");
-        blockRotate = SoundConfig.class.getResource("SFX_block_rotate.wav");
-        blockRotateInvalid = SoundConfig.class.getResource("SFX_block_rotate_invalid.wav");
-        lineClear = SoundConfig.class.getResource("SFX_line_clear.wav");
-
-        pauseOpen = SoundConfig.class.getResource("SFX_Pause_Open.wav");
-        pauseClose = SoundConfig.class.getResource("SFX_Pause_Close.wav");
-        resume = SoundConfig.class.getResource("SFX_Resume.wav");
-        quit = SoundConfig.class.getResource("SFX_Quit_Fade.wav");
-        messageShow = SoundConfig.class.getResource("UI_message_show.wav");
-        messageHide = SoundConfig.class.getResource("UI_message_hide.wav");*/
-
         try {
             titleTheme = ResourcePath.resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
             bgmGame = ResourcePath.resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();

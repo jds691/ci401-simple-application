@@ -37,7 +37,8 @@ public class Block {
         Orange,
         Purple,
         Red,
-        Yellow
+        Yellow,
+        Green
     }
 
     /**

@@ -138,6 +138,7 @@ public class GameManager extends NodeComponent {
      * @return Random block formation
      */
     public BlockFormation requestRandomBlockFormation() {
+        //TODO: https://www.reddit.com/r/Tetris/comments/6o6tvv/what_is_the_block_algorithm_for_classic_tetris/
         int index = ThreadLocalRandom.current().nextInt(0, BlockFormation.ALL.length);
 
         return BlockFormation.ALL[index];
