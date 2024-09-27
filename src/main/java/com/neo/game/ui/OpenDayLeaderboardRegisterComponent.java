@@ -28,6 +28,7 @@ public class OpenDayLeaderboardRegisterComponent extends FXComponent {
     @ForceSerialize
     private URLResource titleScene;
 
+    private Label titleLabel;
     private Label scoreLabel;
     private TextField usernameTextField;
 
@@ -42,9 +43,15 @@ public class OpenDayLeaderboardRegisterComponent extends FXComponent {
                 .findRootNode("Game Context")
                 .getComponent(GameManager.class);
 
-        gameManager.getGameDidEndEvent().addHandler((ignored) -> {
+        gameManager.getGameDidEndEvent().addHandler((reason) -> {
             currentScore = gameManager.getCurrentScore();
             scoreLabel.setText("Final Score: " + scoreFormat.format(gameManager.getCurrentScore()));
+
+            switch (reason) {
+                case BOARD_FULL -> titleLabel.setText("game over");
+                case TIME -> titleLabel.setText("time!");
+            }
+
             setVisible(true);
         });
     }
@@ -60,8 +67,8 @@ public class OpenDayLeaderboardRegisterComponent extends FXComponent {
         BorderPane.setAlignment(root, Pos.CENTER);
         root.setCenter(verticalContainer);
 
-        Label gameOverLabel = new Label("game over");
-        gameOverLabel.getStyleClass().add("title-label");
+        titleLabel = new Label("game over");
+        titleLabel.getStyleClass().add("title-label");
 
         scoreLabel = new Label("Final Score: 0000000000");
 
@@ -75,7 +82,7 @@ public class OpenDayLeaderboardRegisterComponent extends FXComponent {
         skipButton.setOnAction(this::onSkipButton);
 
         verticalContainer.getChildren().addAll(
-                gameOverLabel,
+                titleLabel,
                 scoreLabel,
 
                 usernameLabel,
