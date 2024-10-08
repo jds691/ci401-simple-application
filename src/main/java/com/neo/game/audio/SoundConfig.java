@@ -24,6 +24,9 @@ public class SoundConfig {
     @ForceSerialize
     @ConfigProperty(section = "Music")
     private URL bgmGameOver;
+    @ForceSerialize
+    @ConfigProperty(section = "Music")
+    private URL bgmTimeUp;
 
     @ForceSerialize
     @ConfigProperty(section = "SFX")
@@ -63,6 +66,7 @@ public class SoundConfig {
             titleTheme = ResourcePath.resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
             bgmGame = ResourcePath.resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();
             bgmGameOver = ResourcePath.resolveAssetPath("audio/MUS_Game_Over.mp3").toFile().toURL();
+            bgmTimeUp = ResourcePath.resolveAssetPath("audio/MUS_time_up.mp3").toFile().toURL();
 
             blockPlace = ResourcePath.resolveAssetPath("audio/SFX_block_place.wav").toFile().toURL();
             blockRotate = ResourcePath.resolveAssetPath("audio/SFX_block_rotate.wav").toFile().toURL();
@@ -104,6 +108,7 @@ public class SoundConfig {
             case "titleTheme" -> titleTheme;
             case "BGM_Game" -> bgmGame;
             case "BGM_Game_Over" -> bgmGameOver;
+            case "BGM_Time_Up" -> bgmTimeUp;
             default -> null;
         };
     }

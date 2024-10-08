@@ -32,6 +32,7 @@ public class GameManager extends NodeComponent {
     private SceneService sceneService;
     private MusicComponent gameMusic;
     private MusicComponent gameOverMusic;
+    private MusicComponent timesUpMusic;
 
     @Override
     public void start() {
@@ -51,6 +52,10 @@ public class GameManager extends NodeComponent {
 
         gameOverMusic = sceneService.getActiveScene()
                 .findRootNode("Game Over Music")
+                .getComponent(MusicComponent.class);
+
+        timesUpMusic = sceneService.getActiveScene()
+                .findRootNode("Time Up Music")
                 .getComponent(MusicComponent.class);
     }
 
@@ -179,7 +184,13 @@ public class GameManager extends NodeComponent {
     public void signalGameEnd(EndReason reason) {
         gameIsOver = true;
         gameMusic.stop();
-        gameOverMusic.play();
+
+        switch (reason) {
+            case BOARD_FULL:
+                gameOverMusic.play();
+            case TIME:
+                timesUpMusic.play();
+        }
 
         gameDidEnd.emit(reason);
     }
