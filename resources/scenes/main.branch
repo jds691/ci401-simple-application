@@ -52,8 +52,8 @@
           "sprites/blocks/thumbnails/thumb_l_block.png",
           "sprites/blocks/thumbnails/thumb_t_block.png",
           "sprites/blocks/thumbnails/thumb_z_block.png",
-          "sprites/blocks/thumbnails/thumb_s_block.png",
-          "sprites/invalid.png"
+          "sprites/invalid.png",
+          "sprites/blocks/thumbnails/thumb_o_block.png"
         ]
       }
     ]
