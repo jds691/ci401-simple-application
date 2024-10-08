@@ -59,6 +59,19 @@
     ]
   },
   {
+    "name": "Timer UI",
+    "components": [
+      {
+        "type": "com.neo.game.ui.TimerUIComponent",
+        "time": 180000,
+        "stylesheets": [
+          "css/menu-common.css",
+          "css/hud-timer.css"
+        ]
+      }
+    ]
+  },
+  {
     "name": "Game Over Screen - Open Day",
     "components": [
       {
