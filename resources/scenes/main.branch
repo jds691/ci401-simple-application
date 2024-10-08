@@ -35,6 +35,17 @@
     ]
   },
   {
+    "name": "Time Up Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "autoplay": false,
+        "loop": true,
+        "musicConfigKey": "BGM_Time_Up"
+      }
+    ]
+  },
+  {
     "name": "Game UI",
     "components": [
       {
@@ -63,7 +74,7 @@
     "components": [
       {
         "type": "com.neo.game.ui.TimerUIComponent",
-        "time": 180000,
+        "time": 10000,
         "stylesheets": [
           "css/menu-common.css",
           "css/hud-timer.css"
