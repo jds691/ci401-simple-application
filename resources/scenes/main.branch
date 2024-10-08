@@ -24,6 +24,17 @@
     ]
   },
   {
+    "name": "Countdown Music",
+    "components": [
+      {
+        "type": "com.neo.game.audio.MusicComponent",
+        "autoplay": false,
+        "loop": false,
+        "musicConfigKey": "BGM_Countdown"
+      }
+    ]
+  },
+  {
     "name": "Game Over Music",
     "components": [
       {
@@ -74,7 +85,7 @@
     "components": [
       {
         "type": "com.neo.game.ui.TimerUIComponent",
-        "time": 10000,
+        "time": 180000,
         "stylesheets": [
           "css/menu-common.css",
           "css/hud-timer.css"

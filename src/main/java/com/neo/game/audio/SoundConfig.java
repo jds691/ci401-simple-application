@@ -23,22 +23,26 @@ public class SoundConfig {
     private URL bgmGame;
     @ForceSerialize
     @ConfigProperty(section = "Music")
+    private URL bgmCountdown;
+
+    @ForceSerialize
+    @ConfigProperty(section = "Music")
     private URL bgmGameOver;
     @ForceSerialize
     @ConfigProperty(section = "Music")
     private URL bgmTimeUp;
 
     @ForceSerialize
-    @ConfigProperty(section = "SFX")
+    @ConfigProperty(section = "Sound Effects")
     private URL blockPlace;
     @ForceSerialize
-    @ConfigProperty(section = "SFX")
+    @ConfigProperty(section = "Sound Effects")
     private URL blockRotate;
     @ForceSerialize
-    @ConfigProperty(section = "SFX")
+    @ConfigProperty(section = "Sound Effects")
     private URL blockRotateInvalid;
     @ForceSerialize
-    @ConfigProperty(section = "SFX")
+    @ConfigProperty(section = "Sound Effects")
     private URL lineClear;
 
     @ForceSerialize
@@ -65,6 +69,7 @@ public class SoundConfig {
         try {
             titleTheme = ResourcePath.resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
             bgmGame = ResourcePath.resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();
+            bgmCountdown = ResourcePath.resolveAssetPath("audio/MUS_Countdown.mp3").toFile().toURL();
             bgmGameOver = ResourcePath.resolveAssetPath("audio/MUS_Game_Over.mp3").toFile().toURL();
             bgmTimeUp = ResourcePath.resolveAssetPath("audio/MUS_time_up.mp3").toFile().toURL();
 

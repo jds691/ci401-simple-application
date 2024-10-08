@@ -19,7 +19,9 @@ public class TimerUIComponent extends FXComponent {
     private GameManager gameManager;
     private boolean gamePaused = false;
 
+    private static final float CRITICAL_TIME = 61000;
     private boolean hasSeenCritical = false;
+    private boolean musicTransistionQueued = false;
 
     @Override
     public void start() {
@@ -65,7 +67,12 @@ public class TimerUIComponent extends FXComponent {
 
         timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
 
-        if (!hasSeenCritical && time <= 60000) {
+        if (!musicTransistionQueued && time <= CRITICAL_TIME + 3000) {
+            gameManager.beginMusicTransition();
+            musicTransistionQueued = true;
+        }
+
+        if (!hasSeenCritical && time <= CRITICAL_TIME) {
             timeLabel.getStyleClass().add("critical");
 
             //TODO: Show Splatoon 1 minute left texture animated
