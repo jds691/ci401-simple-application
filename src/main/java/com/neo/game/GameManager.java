@@ -71,17 +71,6 @@ public class GameManager extends NodeComponent {
         if (!gameIsOver && InputAction.get(Input.PAUSE).wasActivatedThisFrame()) {
             // Invoke pause event
             setIsPaused(!isPaused);
-
-            if (isPaused) {
-                countdownMusic.pause();
-                gameMusic.pause();
-            } else {
-                if (isInCountdown && !musicTransitionActive) {
-                    countdownMusic.play();
-                } else {
-                    gameMusic.play();
-                }
-            }
         }
 
         if (!isPaused && musicTransitionActive) {
@@ -108,6 +97,17 @@ public class GameManager extends NodeComponent {
     public void setIsPaused(boolean paused) {
         isPaused = paused;
         pauseDidChange.emit(isPaused);
+
+        if (isPaused) {
+            countdownMusic.pause();
+            gameMusic.pause();
+        } else {
+            if (isInCountdown && !musicTransitionActive) {
+                countdownMusic.play();
+            } else {
+                gameMusic.play();
+            }
+        }
     }
 
     /**
@@ -195,8 +195,10 @@ public class GameManager extends NodeComponent {
             case BOARD_FULL:
                 countdownMusic.stop();
                 gameOverMusic.play();
+                break;
             case TIME:
                 timesUpMusic.play();
+                break;
         }
 
         gameDidEnd.emit(reason);
