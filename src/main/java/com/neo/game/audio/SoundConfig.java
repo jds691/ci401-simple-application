@@ -119,6 +119,7 @@ public class SoundConfig {
         return switch (key) {
             case "titleTheme" -> titleTheme;
             case "BGM_Game" -> bgmGame;
+            case "BGM_Countdown" -> bgmCountdown;
             case "BGM_Game_Over" -> bgmGameOver;
             case "BGM_Time_Up" -> bgmTimeUp;
             default -> null;

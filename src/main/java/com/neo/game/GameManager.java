@@ -76,6 +76,28 @@ public class GameManager extends NodeComponent {
         if (!gameIsOver && InputAction.get(Input.PAUSE).wasActivatedThisFrame()) {
             // Invoke pause event
             setIsPaused(!isPaused);
+
+            if (isPaused) {
+                countdownMusic.pause();
+                gameMusic.pause();
+            } else {
+                if (isInCountdown && !musicTransitionActive) {
+                    countdownMusic.play();
+                } else {
+                    gameMusic.play();
+                }
+            }
+        }
+
+        if (!isPaused && musicTransitionActive) {
+            musicTransitionProgress += deltaTime;
+            double progress = Math.clamp(musicTransitionProgress / MUSIC_FADE_LENGTH, 0, 1);
+
+            gameMusic.setVolume((float) (1 - progress));
+            if (progress >= 1) {
+                countdownMusic.play();
+                musicTransitionActive = false;
+            }
         }
 
         if (!isPaused && musicTransitionActive) {

@@ -98,7 +98,7 @@
     "components": [
       {
         "type": "com.neo.game.ui.TimerUIComponent",
-        "time": 10000,
+        "time": 180000,
         "stylesheets": [
           "css/menu-common.css",
           "css/hud-timer.css"
