@@ -46,6 +46,7 @@ public class TimerUIComponent extends FXComponent {
         gameManager
                 .getGameDidEndEvent()
                 .addHandler((reason) -> {
+                    gamePaused = true;
                     if (reason == GameManager.EndReason.TIME) {
                         timeLabel.setText("00:00");
                     }

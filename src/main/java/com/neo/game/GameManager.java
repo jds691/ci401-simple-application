@@ -76,17 +76,6 @@ public class GameManager extends NodeComponent {
         if (!gameIsOver && InputAction.get(Input.PAUSE).wasActivatedThisFrame()) {
             // Invoke pause event
             setIsPaused(!isPaused);
-
-            if (isPaused) {
-                countdownMusic.pause();
-                gameMusic.pause();
-            } else {
-                if (isInCountdown && !musicTransitionActive) {
-                    countdownMusic.play();
-                } else {
-                    gameMusic.play();
-                }
-            }
         }
 
         if (!isPaused && musicTransitionActive) {
