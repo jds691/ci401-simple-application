@@ -52,4 +52,12 @@ public class MusicComponent extends NodeComponent {
     public void pause() {
         player.pause();
     }
+
+    public float getVolume() {
+        return player.getVolume();
+    }
+
+    public void setVolume(float volume) {
+        player.setVolume(volume);
+    }
 }

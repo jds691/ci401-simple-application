@@ -22,6 +22,9 @@ public class SoundConfig {
     @ForceSerialize
     @ConfigProperty(section = "Music")
     private URL bgmGame;
+    @ForceSerialize
+    @ConfigProperty(section = "Music")
+    private URL bgmCountdown;
 
     @ForceSerialize
     @ConfigProperty(section = "Music")
@@ -85,6 +88,7 @@ public class SoundConfig {
         try {
             titleTheme = ResourcePath.resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
             bgmGame = ResourcePath.resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();
+            bgmCountdown = ResourcePath.resolveAssetPath("audio/MUS_Countdown.mp3").toFile().toURL();
             bgmGameOver = ResourcePath.resolveAssetPath("audio/MUS_Game_Over.mp3").toFile().toURL();
             bgmTimeUp = ResourcePath.resolveAssetPath("audio/MUS_time_up.mp3").toFile().toURL();
 
@@ -127,6 +131,7 @@ public class SoundConfig {
         return switch (key) {
             case "titleTheme" -> titleTheme;
             case "BGM_Game" -> bgmGame;
+            case "BGM_Countdown" -> bgmCountdown;
             case "BGM_Game_Over" -> bgmGameOver;
             case "BGM_Time_Up" -> bgmTimeUp;
             default -> null;
