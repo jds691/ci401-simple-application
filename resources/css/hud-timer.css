@@ -1,0 +1,12 @@
+.time-label {
+    -fx-border-color: #EE7C5B;
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 0 0 25px 25px;
+    -fx-border-radius: 0 0 25px 25px;
+    -fx-border-width: 0 2px 2px 2px;
+    -fx-padding: 8px 20px 10px 20px;
+}
+
+.critical {
+    -fx-text-fill: rgb(251, 125, 115);
+}
