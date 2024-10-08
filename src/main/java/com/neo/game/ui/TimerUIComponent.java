@@ -34,6 +34,7 @@ public class TimerUIComponent extends FXComponent {
                 .getPauseDidChangeEvent()
                 .addHandler((paused) -> {
                     gamePaused = paused;
+                    timeLabel.setText("00:00");
                 });
     }
 
