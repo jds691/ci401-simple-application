@@ -1,19 +1,16 @@
 package com.neo.game;
 
 import com.neo.game.audio.SFXPlayer;
-import com.neo.game.audio.SoundConfig;
 import com.neo.game.input.Input;
 import com.neo.game.input.InputAction;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
-import com.neo.twig.audio.AudioPlayer;
 import com.neo.twig.audio.AudioService;
 import com.neo.twig.events.Event;
 import com.neo.twig.scene.NodeComponent;
 import com.neo.twig.scene.SceneService;
 import javafx.util.Pair;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -185,7 +182,7 @@ public class BoardDataComponent extends NodeComponent {
         // Generate a new block at the top mid-point, if needed
         if (needsNewBlockSpawn) {
             currentRotationState = RotationState.ZERO;
-            int midPoint = (BOARD_WIDTH / 2) - 1;
+            int midPoint = (BOARD_WIDTH / 2);
 
             int maxBlockLength = pendingBlock.pattern[0].length;
 
