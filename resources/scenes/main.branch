@@ -41,7 +41,7 @@
         "type": "com.neo.game.ui.InGameUIComponent",
         "stylesheets": [
           "css/menu-common.css",
-          "css/menu-in-game.css"
+          "css/hud-in-game.css"
         ],
         "thumbnailSize": 75,
         "textCountDuration": 1000,
