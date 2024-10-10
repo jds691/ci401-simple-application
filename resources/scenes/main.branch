@@ -41,7 +41,7 @@
         "type": "com.neo.game.ui.InGameUIComponent",
         "stylesheets": [
           "css/menu-common.css",
-          "css/menu-in-game.css"
+          "css/hud-in-game.css"
         ],
         "thumbnailSize": 75,
         "textCountDuration": 1000,
@@ -52,7 +52,8 @@
           "sprites/blocks/thumbnails/thumb_l_block.png",
           "sprites/blocks/thumbnails/thumb_t_block.png",
           "sprites/blocks/thumbnails/thumb_z_block.png",
-          "sprites/blocks/thumbnails/thumb_s_block.png"
+          "sprites/blocks/thumbnails/thumb_s_block.png",
+          "sprites/blocks/thumbnails/thumb_o_block.png"
         ]
       }
     ]

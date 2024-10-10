@@ -57,6 +57,11 @@
             "sprites/blocks/block_yellow_0.png",
             "sprites/blocks/block_yellow_1.png",
             "sprites/blocks/block_yellow_2.png"
+          ],
+          [
+            "sprites/blocks/block_green_0.png",
+            "sprites/blocks/block_green_1.png",
+            "sprites/blocks/block_green_2.png"
           ]
         ]
       }

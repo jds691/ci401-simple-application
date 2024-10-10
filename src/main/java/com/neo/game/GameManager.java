@@ -10,11 +10,14 @@ import com.neo.twig.scene.SceneService;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameManager extends NodeComponent {
     private static final int BLOCKS_TO_QUEUE = 6;
     private final ArrayDeque<BlockFormation> blockQueue = new ArrayDeque<>();
+    private static final int MAX_PATTERN_REPEATS = 3;
+    private final int[] blockPatternHistory = new int[MAX_PATTERN_REPEATS];
     private int currentScore;
     private final Event<Integer> currentScoreDidChange = new Event<>();
 
@@ -33,6 +36,8 @@ public class GameManager extends NodeComponent {
     @Override
     public void start() {
         super.start();
+
+        Arrays.fill(blockPatternHistory, -1);
 
         for (int i = 0; i < BLOCKS_TO_QUEUE; i++) {
             blockQueue.add(requestRandomBlockFormation());
@@ -138,7 +143,28 @@ public class GameManager extends NodeComponent {
      * @return Random block formation
      */
     public BlockFormation requestRandomBlockFormation() {
-        int index = ThreadLocalRandom.current().nextInt(0, BlockFormation.ALL.length);
+        int index;
+
+        do {
+            index = ThreadLocalRandom.current().nextInt(0, BlockFormation.ALL.length);
+
+            boolean valid = false;
+            for (Integer historicIndex : blockPatternHistory) {
+                if (index != historicIndex) {
+                    valid = true;
+                    break;
+                }
+            }
+
+            if (valid)
+                break;
+
+        } while (true);
+
+        for (int i = 0; i < MAX_PATTERN_REPEATS - 1; i++) {
+            blockPatternHistory[i] = blockPatternHistory[i + 1];
+        }
+        blockPatternHistory[0] = index;
 
         return BlockFormation.ALL[index];
     }

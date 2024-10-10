@@ -69,12 +69,13 @@ public class BlockFormation {
             Block.Color.Red
     );
 
-    /*public static final BlockFormation O_BLOCK = new BlockFormation(
+    public static final BlockFormation O_BLOCK = new BlockFormation(
             new boolean[][] {
-
+                    {true, true},
+                    {true, true}
             },
-            Block.Color.Yellow
-    );*/
+            Block.Color.Green
+    );
     /**
      * Represents all preset Tetromino formations
      */
@@ -84,7 +85,8 @@ public class BlockFormation {
             L_BLOCK,
             S_BLOCK,
             T_BLOCK,
-            Z_BLOCK
+            Z_BLOCK,
+            O_BLOCK
     };
     boolean[][] pattern;
     Block.Color color;
