@@ -76,7 +76,11 @@ public class TimerUIComponent extends FXComponent {
         if (!hasSeenCritical && time <= CRITICAL_TIME) {
             timeLabel.getStyleClass().add("critical");
 
-            //TODO: Show Splatoon 1 minute left texture animated
+            Engine.getSceneService()
+                    .getActiveScene()
+                    .findRootNode("Critical Overlay")
+                    .getComponent(MinuteRemainingOverlayComponent.class)
+                    .setEnabled(true);
 
             hasSeenCritical = true;
         }
