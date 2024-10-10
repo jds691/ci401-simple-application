@@ -182,7 +182,7 @@ public class BoardDataComponent extends NodeComponent {
         // Generate a new block at the top mid-point, if needed
         if (needsNewBlockSpawn) {
             currentRotationState = RotationState.ZERO;
-            int midPoint = (BOARD_WIDTH / 2);
+            int midPoint = BOARD_WIDTH / 2;
 
             int maxBlockLength = pendingBlock.pattern[0].length;
 
@@ -194,11 +194,14 @@ public class BoardDataComponent extends NodeComponent {
 
             Block.Color startColour = Block.Color.Blue;
             for (int i = 0; i < maxBlockLength; i++) {
+                // If the board is full, break out of the loop for placing blocks on board
+                if (boardFull)
+                    break;
+
                 for (int j = 0; j < pendingBlock.pattern.length; j++) {
                     boolean blockExists = pendingBlock.pattern[j][i];
 
                     // Block is occupied
-                    //TODO: Check ALL coordinates before placing blocks
                     if (boardState[j][startingPoint + i].color != Block.Color.None && !boardState[j][startingPoint + i].isMoving) {
                         boardFull = true;
                         break;
@@ -330,20 +333,23 @@ public class BoardDataComponent extends NodeComponent {
                 int newX = x + startX;
                 int newY = y + startY;
 
+                boolean offScreenHorizontal = newX > BOARD_WIDTH - 1 || newX < 0;
+                boolean offScreenVertical = newY > BOARD_HEIGHT - 1 || newY < 0;
+
                 // Off screen checks
-                if (
-                        newX > BOARD_WIDTH - 1 ||
-                                newX < 0 ||
-                                newY > BOARD_HEIGHT - 1 ||
-                                newY < 0
-                ) {
+                if (offScreenHorizontal) {
+                    //TODO: Attempt to recalculate valid boundaries, if possible
+
+                    // The rotation is invalid and should be ignored
+                    rotationValid = false;
+                    break;
+                } else if (offScreenVertical) {
+                    //TODO: Attempt to recalculate valid boundaries, if possible
+
                     // The rotation is invalid and should be ignored
                     rotationValid = false;
                     break;
                 }
-
-                //TODO: Check that block isn't a block that is currently in the matric
-                //TODO: Move block if there is valid space, but the rotation would otherwise put it off screen
 
                 // Occupancy checks
                 if (boardState[newY][newX].color != Block.Color.None && !movingCoordinates.contains(new Pair<>(newX, newY))) {
