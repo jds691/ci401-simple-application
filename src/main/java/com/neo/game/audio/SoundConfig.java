@@ -3,10 +3,11 @@ package com.neo.game.audio;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.config.Config;
 import com.neo.twig.config.ConfigProperty;
-import com.neo.twig.resources.ResourcePath;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static com.neo.twig.resources.ResourcePath.resolveAssetPath;
 
 /**
  * A configuration class that allows all the sounds used in the game to be remapped to other files.
@@ -48,6 +49,10 @@ public class SoundConfig {
     private URL lineClear;
 
     @ForceSerialize
+    @ConfigProperty(section = "Sound Effects")
+    private URL timeUp;
+
+    @ForceSerialize
     @ConfigProperty(section = "UI")
     private URL pauseOpen;
     @ForceSerialize
@@ -86,23 +91,25 @@ public class SoundConfig {
         messageHide = SoundConfig.class.getResource("UI_message_hide.wav");*/
 
         try {
-            titleTheme = ResourcePath.resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
-            bgmGame = ResourcePath.resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();
-            bgmCountdown = ResourcePath.resolveAssetPath("audio/MUS_Countdown.mp3").toFile().toURL();
-            bgmGameOver = ResourcePath.resolveAssetPath("audio/MUS_Game_Over.mp3").toFile().toURL();
-            bgmTimeUp = ResourcePath.resolveAssetPath("audio/MUS_time_up.mp3").toFile().toURL();
+            titleTheme = resolveAssetPath("audio/MUS_Title.mp3").toFile().toURL();
+            bgmGame = resolveAssetPath("audio/MUS_Game.mp3").toFile().toURL();
+            bgmCountdown = resolveAssetPath("audio/MUS_Countdown.mp3").toFile().toURL();
+            bgmGameOver = resolveAssetPath("audio/MUS_Game_Over.mp3").toFile().toURL();
+            bgmTimeUp = resolveAssetPath("audio/MUS_time_up.mp3").toFile().toURL();
 
-            blockPlace = ResourcePath.resolveAssetPath("audio/SFX_block_place.wav").toFile().toURL();
-            blockRotate = ResourcePath.resolveAssetPath("audio/SFX_block_rotate.wav").toFile().toURL();
-            blockRotateInvalid = ResourcePath.resolveAssetPath("audio/SFX_block_rotate_invalid.wav").toFile().toURL();
-            lineClear = ResourcePath.resolveAssetPath("audio/SFX_line_clear.wav").toFile().toURL();
+            blockPlace = resolveAssetPath("audio/SFX_block_place.wav").toFile().toURL();
+            blockRotate = resolveAssetPath("audio/SFX_block_rotate.wav").toFile().toURL();
+            blockRotateInvalid = resolveAssetPath("audio/SFX_block_rotate_invalid.wav").toFile().toURL();
+            lineClear = resolveAssetPath("audio/SFX_line_clear.wav").toFile().toURL();
 
-            pauseOpen = ResourcePath.resolveAssetPath("audio/SFX_Pause_Open.wav").toFile().toURL();
-            pauseClose = ResourcePath.resolveAssetPath("audio/SFX_Pause_Close.wav").toFile().toURL();
-            resume = ResourcePath.resolveAssetPath("audio/SFX_Resume.wav").toFile().toURL();
-            quit = ResourcePath.resolveAssetPath("audio/SFX_Quit_Fade.wav").toFile().toURL();
-            messageShow = ResourcePath.resolveAssetPath("audio/UI_message_show.wav").toFile().toURL();
-            messageHide = ResourcePath.resolveAssetPath("audio/UI_message_hide.wav").toFile().toURL();
+            timeUp = resolveAssetPath("audio/SFX_Time_Up.wav").toFile().toURL();
+
+            pauseOpen = resolveAssetPath("audio/SFX_Pause_Open.wav").toFile().toURL();
+            pauseClose = resolveAssetPath("audio/SFX_Pause_Close.wav").toFile().toURL();
+            resume = resolveAssetPath("audio/SFX_Resume.wav").toFile().toURL();
+            quit = resolveAssetPath("audio/SFX_Quit_Fade.wav").toFile().toURL();
+            messageShow = resolveAssetPath("audio/UI_message_show.wav").toFile().toURL();
+            messageHide = resolveAssetPath("audio/UI_message_hide.wav").toFile().toURL();
         } catch (MalformedURLException ignored) {
             //NOTE: This should not occur
         }
@@ -154,6 +161,7 @@ public class SoundConfig {
             case "SFX_Pause_Close" -> pauseClose;
             case "SFX_Resume" -> resume;
             case "SFX_Quit" -> quit;
+            case "SFX_Time_Up" -> timeUp;
             case "UI_message_show" -> messageShow;
             case "UI_message_hide" -> messageHide;
             default -> null;
