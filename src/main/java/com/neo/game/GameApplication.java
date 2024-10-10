@@ -44,6 +44,7 @@ public class GameApplication {
         // Force all fonts to be smoothed out engine wide
         System.setProperty("prism.lcdtext", "false");
 
+        LeaderboardService.getInstance().getSettings().setIsEnabled(true);
         Engine.start();
 
         LeaderboardService.getInstance().shutdown();
