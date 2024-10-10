@@ -1,6 +1,7 @@
 package com.neo.game.ui;
 
 import com.neo.game.GameManager;
+import com.neo.game.audio.SFXPlayer;
 import com.neo.twig.Engine;
 import com.neo.twig.annotations.ForceSerialize;
 import com.neo.twig.ui.FXComponent;
@@ -23,9 +24,13 @@ public class TimerUIComponent extends FXComponent {
     private boolean hasSeenCritical = false;
     private boolean musicTransistionQueued = false;
 
+    private SFXPlayer timeUpSFX;
+
     @Override
     public void start() {
         super.start();
+
+        timeUpSFX = new SFXPlayer("SFX_Time_Up");
 
         gameManager = Engine.getSceneService()
                 .getActiveScene()
@@ -43,6 +48,7 @@ public class TimerUIComponent extends FXComponent {
                 .addHandler((reason) -> {
                     gamePaused = true;
                     if (reason == GameManager.EndReason.TIME) {
+                        timeUpSFX.play();
                         timeLabel.setText("00:00");
                     }
                 });
