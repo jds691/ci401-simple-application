@@ -112,12 +112,22 @@ public class PauseMenuUIComponent extends FXComponent {
                                 "Are you sure you want to quit the current game?",
                         new MessageOption(
                                 "Yes",
-                                (ignored) -> Engine.getSceneService().setScene(titleScene.get())
+                                (ignored) -> showThankYouForPlayingMessage()
                         ),
                         new MessageOption(
                                 "No",
                                 null
                         )
+                )
+        );
+    }
+
+    private void showThankYouForPlayingMessage() {
+        MessageServiceComponent.getInstance().addToQueue(
+                new Message(
+                        "Thank You",
+                        "Thank you for playing! Please consider joining the IO society!",
+                        new MessageOption("Quit to Title Screen", (ignored) -> Engine.getSceneService().setScene(titleScene.get()))
                 )
         );
     }
