@@ -19,8 +19,8 @@ public class BlockFormation {
      */
     public static final BlockFormation J_BLOCK = new BlockFormation(
             new boolean[][]{
-                    {false, false, false, true},
-                    {true, true, true, true}
+                    {false, false, true},
+                    {true, true, true}
             },
             Block.Color.Blue
     );
@@ -30,8 +30,8 @@ public class BlockFormation {
      */
     public static final BlockFormation L_BLOCK = new BlockFormation(
             new boolean[][]{
-                    {true, false, false, false},
-                    {true, true, true, true}
+                    {true, false, false},
+                    {true, true, true}
             },
             Block.Color.Orange
     );
