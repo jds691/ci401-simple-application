@@ -28,13 +28,13 @@ Ensure that you have cloned and installed [Twig](https://github.com/jds691/Twig)
 Install the project's dependencies via:
 
 ```
-mvn -U clean install
+./mvnw -U clean install
 ```
 
 To run the project you can use your IDE's built-in build and run tools. Alternatively you can run:
 
 ```
-mvn javafx:run -f pom.xml
+./mvnw javafx:run -f pom.xml
 ```
 
 This project was built using IntelliJ so your millage may vary with other IDEs.
@@ -44,7 +44,7 @@ This project was built using IntelliJ so your millage may vary with other IDEs.
 The game uses the [Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/) to build the .jar. This occurs in the package phase.
 
 ```
-mvn package
+./mvnw package
 ```
 
 Running the above command will produce a game-{version}.jar and a copy of the resources folder in the target directory.
